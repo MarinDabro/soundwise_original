@@ -1,12 +1,11 @@
 import React, { useEffect, useContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { spotify } from './spotify';
-
 import { GetTokenFromResponse } from './spotify';
-/* import MainContextProvider from "./context/MainContextProvider.js" */
 import MainContext from './context/MainContext.js';
 import Nav from './components/nav/Nav';
 import Home from './routes/home/Home';
+import UserHome from './user_playList/UserPlayList';
 import Search from './routes/search/Search';
 import Library from './routes/library/Library';
 import Playlist from './routes/playlist/Playlist';
@@ -15,22 +14,22 @@ import Songs from './routes/songs/Songs';
 import classes from './App.module.css';
 
 function App() {
-  const [{ token }, DISPATCH] = useContext(MainContext);
+  const [{token} , DISPATCH] = useContext(MainContext);
 
   useEffect(() => {
-    async function getData(){
+    async function getData() {
       const hash = GetTokenFromResponse();
       window.location.hash = '';
-  
+
       let _token = hash.access_token;
-  
+
       if (_token) {
         spotify.setAccessToken(_token);
         DISPATCH({
           type: 'SET_TOKEN',
           token: _token,
         });
-  
+
         spotify.getMe().then(user => {
           console.log(user);
           DISPATCH({
@@ -38,35 +37,33 @@ function App() {
             user,
           });
         });
-        let playListId = 'hi';
-        
-      await  spotify.getUserPlaylists().then(response => {
+        let playListId = '';
+
+        await spotify.getUserPlaylists().then(response => {
           console.log(response);
           console.log(response.items[0].id);
-           playListId = response.items[0].id
-   
+          playListId = response.items[0].id;
+
           DISPATCH({
             type: 'SET_PLAYLISTS',
             playList: response,
           });
         });
-  
-        spotify.getPlaylistTracks(playListId)
-        .then(response => {
+
+        spotify.getPlaylistTracks(playListId).then(response => {
           console.log(playListId);
           console.log(response);
           DISPATCH({
             type: 'SET_PLAYLIST_TRACKS',
-            playlistTracks: response
-          })
-        })
+            playlistTracks: response,
+          });
+        });
       }
     }
-   getData()
+    getData();
   }, []);
 
   return (
-    /*  <MainContextProvider> */
     <div className={classes.main}>
       <Nav />
       <Routes>
@@ -78,8 +75,8 @@ function App() {
         {/* <Route path="login" element={<Login />} /> */}
       </Routes>
       <Login />
+      <UserHome/>
     </div>
-    /*   </MainContextProvider> */
   );
 }
 
