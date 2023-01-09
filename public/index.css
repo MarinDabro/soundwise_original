@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Tourney:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap'); /* ===> This is for the description  */
+/* font-family: 'Kanit', sans-serif;
+
+ */
+@import url('https://fonts.googleapis.com/css2?family=Volkhov:wght@400;700&display=swap');
+/* font-family: 'Volkhov', serif; ===> This is the headline 
+ */
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-green: #00af91;
+  --color-orange: #f58634;
+  --color-backGround: #180a0a;
+  --color-gold: #ffcc29;
+}
