@@ -1,5 +1,7 @@
 export const initialState = {
   token: '',
+  playLists: [],
+  playListTracks: [],
   user: null,
   login: false,
 };
@@ -18,6 +20,18 @@ export const mainReducer = (state, action) => {
         ...state,
         user: action.user,
       };
+    }
+    case 'SET_PLAYLISTS':{
+      return{
+        ...state,
+        playLists: action.playLists
+      }
+    }
+    case 'SET_PLAYLIST_TRACKS': {
+      return{
+        ...state,
+        playListTracks: action.playListTracks
+      }
     }
 
     default: {

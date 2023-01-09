@@ -1,9 +1,9 @@
 import React, { useReducer } from 'react';
 import MainContext from './MainContext.js';
-import { initialState, mainReducer } from './Reducer.js';
+import {initialState, mainReducer} from './Reducer.js'
 
 function MainContextProvider({ children }) {
-  const [STATE, DISPATCH] = useReducer(initialState, mainReducer);
+  const [STATE, DISPATCH] = useReducer(mainReducer, initialState);
 
   return (
     <MainContext.Provider value={[STATE, DISPATCH]}>

@@ -18,27 +18,52 @@ function App() {
   const [{ token }, DISPATCH] = useContext(MainContext);
 
   useEffect(() => {
-    const hash = GetTokenFromResponse();
-    window.location.hash = "";
-
-    let _token = hash.access_token;
-
-    if (_token) {
-      spotify.setAccessToken(_token);
-      DISPATCH({
-        type: 'SET_TOKEN',
-        token: _token,
-      });
-
-      spotify.getMe().then(user => {
-        console.log(user);
+    async function getData(){
+      const hash = GetTokenFromResponse();
+      window.location.hash = '';
+  
+      let _token = hash.access_token;
+  
+      if (_token) {
+        spotify.setAccessToken(_token);
         DISPATCH({
-          type: 'SET_USER',
-          user,
+          type: 'SET_TOKEN',
+          token: _token,
         });
-      });
+  
+        spotify.getMe().then(user => {
+          console.log(user);
+          DISPATCH({
+            type: 'SET_USER',
+            user,
+          });
+        });
+        let playListId = 'hi';
+        
+      await  spotify.getUserPlaylists().then(response => {
+          console.log(response);
+          console.log(response.items[0].id);
+           playListId = response.items[0].id
+   
+          DISPATCH({
+            type: 'SET_PLAYLISTS',
+            playList: response,
+          });
+        });
+  
+        spotify.getPlaylistTracks(playListId)
+        .then(response => {
+          console.log(playListId);
+          console.log(response);
+          DISPATCH({
+            type: 'SET_PLAYLIST_TRACKS',
+            playlistTracks: response
+          })
+        })
+      }
     }
-  }, [token]);
+   getData()
+  }, []);
 
   return (
     /*  <MainContextProvider> */
