@@ -2,6 +2,8 @@ export const initialState = {
   token: '',
   playLists: [],
   playListTracks: [],
+  newRelease: [],
+  album: {},
   user: null,
   login: false,
 };
@@ -31,6 +33,18 @@ export const mainReducer = (state, action) => {
       return{
         ...state,
         playListTracks: action.playListTracks
+      }
+    }
+    case 'SET_NEW_RELEASE': {
+      return{
+        ...state,
+        newRelease: action.newRelease
+      }
+    }
+    case 'SET_ALBUM':{
+      return{
+        ...state,
+        album: action.album,
       }
     }
 

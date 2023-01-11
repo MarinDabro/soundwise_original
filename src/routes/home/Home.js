@@ -24,11 +24,11 @@ export default function Home(props) {
         setToken(r.access_token);
         console.log(r.access_token);
       });
-  }, []);
+  }, [SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET]);
 
   return (
     <div className={classes.main}>
-      <NewRelease token={token} />
+     {token !== '' && <NewRelease token={token} /> } 
     </div>
   );
 }

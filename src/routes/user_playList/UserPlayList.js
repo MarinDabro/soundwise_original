@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import { spotify } from '../spotify';
-import { GetTokenFromResponse } from '../spotify';
-import MainContext from '../context/MainContext';
-export default function UserHome() {
+import { spotify } from '../../spotify';
+import { GetTokenFromResponse } from '../../spotify';
+import MainContext from '../../context/MainContext';
+
+export default function UserPlayList() {
   const [STATE, DISPATCH] = useContext(MainContext);
 
   useEffect(() => {
@@ -45,5 +46,5 @@ export default function UserHome() {
     getData();
   }, []);
 
-  return <div>Play List</div>;
+  return <div>Play List...</div>;
 }
