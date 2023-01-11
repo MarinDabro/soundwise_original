@@ -1,16 +1,16 @@
 import React, { useEffect, useContext } from 'react';
 import classes from './NewRelease.module.css';
 import MainContext from '../../context/MainContext';
-import { useLayoutEffect } from 'react';
+
 
 export default function NewRelease(props) {
   const token = `${props.token}`;
   const [STATE, DISPATCH] = useContext(MainContext);
   const { newRelease, user } = STATE;
   console.log(newRelease);
-  /*    console.log(newRelease.albums.items[0].name); */
+     /* console.log(newRelease.albums.items[0].name);  */
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     async function getNewRelease() {
       await fetch('https://api.spotify.com/v1/browse/new-releases', {
         method: 'GET',
@@ -29,13 +29,13 @@ export default function NewRelease(props) {
         });
     }
     getNewRelease();
-  }, [ token]);
+  }, [ ]);
 
 
   return(
     <div>
 
-      {newRelease === [] ? <div>There is no data</div> : <div>{newRelease.albums.items[0].name}</div>}
+      {newRelease  &&  <div>{newRelease.albums.items[0].name}</div>}
     </div>
   )
 }

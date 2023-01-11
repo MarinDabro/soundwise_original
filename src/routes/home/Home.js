@@ -22,9 +22,9 @@ export default function Home(props) {
       .then(r => r.json())
       .then(r => {
         setToken(r.access_token);
-        console.log(r.access_token);
+       
       });
-  }, [SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET]);
+  }, []);
 
   return (
     <div className={classes.main}>

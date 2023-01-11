@@ -2,7 +2,7 @@ export const initialState = {
   token: '',
   playLists: [],
   playListTracks: [],
-  newRelease: [],
+  newRelease: null,
   album: {},
   user: null,
   login: false,
