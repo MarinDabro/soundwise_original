@@ -1,7 +1,7 @@
-import React, { useEffect, useContext } from 'react';
-import classes from './NewRelease.module.css';
-import MainContext from '../../context/MainContext';
-import { useLayoutEffect } from 'react';
+import React, { useEffect, useContext } from "react";
+import classes from "./NewRelease.module.css";
+import MainContext from "../../context/MainContext";
+import { useLayoutEffect } from "react";
 
 export default function NewRelease(props) {
   const token = `${props.token}`;
@@ -12,30 +12,24 @@ export default function NewRelease(props) {
 
   useLayoutEffect(() => {
     async function getNewRelease() {
-      await fetch('https://api.spotify.com/v1/browse/new-releases', {
-        method: 'GET',
-        accept: 'application/json',
+      await fetch("https://api.spotify.com/v1/browse/new-releases", {
+        method: "GET",
+        accept: "application/json",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       })
         .then(res => res.json())
         .then(res => {
           DISPATCH({
-            type: 'SET_NEW_RELEASE',
+            type: "SET_NEW_RELEASE",
             newRelease: res,
           });
         });
     }
     getNewRelease();
-  }, [ token]);
+  }, [token]);
 
-
-  return(
-    <div>
-
-      {newRelease === [] ? <div>There is no data</div> : <div>{newRelease.albums.items[0].name}</div>}
-    </div>
-  )
+  return <div>{newRelease && <div>{newRelease.albums?.items}</div>}</div>;
 }
