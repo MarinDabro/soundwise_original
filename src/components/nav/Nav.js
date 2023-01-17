@@ -19,7 +19,8 @@ export default function Nav() {
     <Resizable
       style={{ border: "1px solid black" }}
       minHeight="100vh"
-      minWidth="13vw"
+      /* set minWidth to be wider */
+      minWidth="15vw"
       maxWidth="25vw"
       size={{ width: state.width, height: state.height }}
       onResizeStop={(e, direction, ref, d) => {
