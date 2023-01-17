@@ -14,7 +14,8 @@ import Songs from './routes/songs/Songs';
 import classes from './App.module.css';
 
 function App() {
-  const [{ token }, DISPATCH] = useContext(MainContext);
+  const [{ token, user }, DISPATCH] = useContext(MainContext);
+
 
   useEffect(() => {
     async function getData() {
@@ -74,7 +75,7 @@ function App() {
         {/* <Route path="login" element={<Login />} /> */}
       </Routes>
       <Login />
-      <UserHome />
+      {user ? <UserHome /> : <div></div>}
     </div>
   );
 }

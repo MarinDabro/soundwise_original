@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useEffect,useContext } from 'react';
 
 import NewRelease from '../newRelease/NewRelease';
+import FeaturedPlaylists from '../featured-playlists/FeaturedPlaylists';
 import classes from './Home.module.css';
+import MainContext from '../../context/MainContext';
 
 export default function Home(props) {
-  const [token, setToken] = useState('');
+  /* const [token, setToken] = useState(''); */
+   const [STATE, DISPATCH] = useContext(MainContext); 
+   const {token} = STATE
   const SPOTIFY_CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
   const SPOTIFY_CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
   useEffect(() => {
@@ -21,7 +25,12 @@ export default function Home(props) {
     })
       .then(r => r.json())
       .then(r => {
-        setToken(r.access_token);
+        /* setToken(r.access_token); */
+        DISPATCH({
+          type: 'SET_TOKEN',
+          token: r.access_token,
+        })
+        
        
       });
   }, []);
@@ -29,6 +38,7 @@ export default function Home(props) {
   return (
     <div className={classes.main}>
      {token !== '' && <NewRelease token={token} /> } 
+     {token !== '' && <FeaturedPlaylists token={token} /> } 
     </div>
   );
 }
