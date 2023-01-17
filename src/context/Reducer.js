@@ -1,9 +1,11 @@
 export const initialState = {
   token: '',
-  playLists: [],
+  playLists: null,
+  featuredPlaylists: null,
   playListTracks: [],
   newRelease: null,
-  album: {},
+  albums: [],
+  search: null,
   user: null,
   login: false,
 };
@@ -41,12 +43,28 @@ export const mainReducer = (state, action) => {
         newRelease: action.newRelease
       }
     }
-    case 'SET_ALBUM':{
+    case 'SET_ALBUMS':{
       return{
         ...state,
-        album: action.album,
+        albums: action.albums,
       }
     }
+
+    case 'SET_FEATURED_PLAYLISTS':{
+      return{
+        ...state,
+        featuredPlaylists: action.featuredPlaylists
+      }
+    }
+
+    case 'SET_SEARCH':{
+      return{
+        ...state,
+        search: action.search
+      }
+    }
+
+   
 
     default: {
       return state;

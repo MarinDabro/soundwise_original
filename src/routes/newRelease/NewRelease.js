@@ -1,18 +1,17 @@
 import React, { useEffect, useContext } from 'react';
-import classes from './NewRelease.module.css';
+import classes from '../MusicBox.module.css';
 import MainContext from '../../context/MainContext';
 
-
 export default function NewRelease(props) {
-  const token = `${props.token}`;
+  
   const [STATE, DISPATCH] = useContext(MainContext);
-  const { newRelease, user } = STATE;
-  console.log(newRelease);
-     /* console.log(newRelease.albums.items[0].name);  */
+  const { newRelease,  token } = STATE;
+
+
 
   useEffect(() => {
     async function getNewRelease() {
-      await fetch('https://api.spotify.com/v1/browse/new-releases', {
+      await fetch('https://api.spotify.com/v1/browse/new-releases?&limit=12', {
         method: 'GET',
         accept: 'application/json',
         headers: {
@@ -29,13 +28,34 @@ export default function NewRelease(props) {
         });
     }
     getNewRelease();
-  }, [ ]);
+  }, []);
 
+  return (
+    <div className={classes.main}>
+      <h2>New Releases</h2>
+      {newRelease && (
+        <div className={classes.albumContainer}>
+          {newRelease.albums.items.map((album, index) => {
+            return (
+              <div key={index}  className={classes.albumBox}>
+                <div className={classes.albumImage}>
+                  <img src={album.images[1].url} alt="artist image" />
+                </div>
+                <div className={classes.albumName}>
+                 {album.name}
+                </div> 
+                <div className={classes.artistName}>
+                BY:  { album.artists[0].name}
+                </div>
+              </div>
+            );
+          })}
+        
+        </div>
+      )}
 
-  return(
-    <div>
+      <h2>Featured Playlists</h2>
 
-      {newRelease  &&  <div>{newRelease.albums.items[0].name}</div>}
     </div>
-  )
+  );
 }

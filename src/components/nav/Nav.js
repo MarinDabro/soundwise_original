@@ -37,36 +37,39 @@ export default function Nav() {
 
         <nav className={classes.navLinks}>
           <div>
+           
+            <NavLink className={({isActive}) => isActive ? `${classes.active}`: `${classes.link}`} to="/">
             <FontAwesomeIcon className={classes.awesome} icon={faHouse} />
-            <NavLink className={classes.active} to="/">
               Home
             </NavLink>
           </div>
           <div>
+            
+            <NavLink className={({isActive}) => isActive ? `${classes.active}`: `${classes.link}`} to="search">
             <FontAwesomeIcon
               className={classes.awesome}
               icon={faMagnifyingGlass}
             />
-            <NavLink className={classes.active} to="search">
               Search
             </NavLink>
           </div>
           <div>
+           
+            <NavLink  className={({isActive}) => isActive ? `${classes.active}`: `${classes.link}`} to="library">
             <FontAwesomeIcon className={classes.awesome} icon={faBookOpen} />
-            <NavLink className={classes.active} to="library">
               Library
             </NavLink>
           </div>
 
           <div>
+            <NavLink className={({isActive}) => isActive ? `${classes.active}`: `${classes.link}`}to="playlist">
             <FontAwesomeIcon className={classes.awesome} icon={faPlus} />
-            <NavLink className={classes.active} to="playlist">
               Create Playlist
             </NavLink>
           </div>
           <div>
+            <NavLink className={({isActive}) => isActive ? `${classes.active}`: `${classes.link}`}to="songs">
             <FontAwesomeIcon className={classes.awesome} icon={faHeart} />
-            <NavLink className={classes.active} to="songs">
               Liked Songs
             </NavLink>
           </div>

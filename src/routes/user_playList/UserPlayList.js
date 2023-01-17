@@ -5,7 +5,8 @@ import MainContext from '../../context/MainContext';
 
 export default function UserPlayList() {
   const [STATE, DISPATCH] = useContext(MainContext);
-
+ const {user} = STATE
+ 
   useEffect(() => {
     async function getData() {
       const hash = GetTokenFromResponse();
