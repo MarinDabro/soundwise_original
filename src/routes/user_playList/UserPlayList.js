@@ -10,7 +10,7 @@ export default function UserPlayList() {
     async function getData() {
       const hash = GetTokenFromResponse();
       window.location.hash = '';
-      console.log(hash);
+      
       let _token = hash.access_token;
 
       if (_token) {
