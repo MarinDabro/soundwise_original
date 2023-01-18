@@ -20,7 +20,7 @@ export default function Nav() {
       style={{ border: "1px solid black" }}
       minHeight="100vh"
       /* set minWidth to be wider */
-      minWidth="15vw"
+      minWidth="13vw"
       maxWidth="25vw"
       size={{ width: state.width, height: state.height }}
       onResizeStop={(e, direction, ref, d) => {
