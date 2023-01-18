@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import classes from "./Search.module.css";
 import MainContext from "../../context/MainContext";
 import style from "../MusicBox.module.css";
+import "font-awesome/css/font-awesome.min.css";
 
 export default function Search() {
   const [STATE, DISPATCH] = useContext(MainContext);
@@ -50,8 +51,8 @@ export default function Search() {
     <div className={classes.main}>
       <div className={classes.searchBar}>
         <input
-          placeholder="Search for Artist"
-          type="input"
+          placeholder="&#xF002;"
+          type="text"
           onChange={e => setSearchInput(e.target.value)}
         />
         <button onClick={getSearch}>Search</button>

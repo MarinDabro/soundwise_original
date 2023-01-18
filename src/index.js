@@ -1,8 +1,8 @@
-import React from 'react';
-import App from './App.js';
-import reactDOM from 'react-dom';
-import MainContextProvider from './context/MainContextProvider.js';
-import { HashRouter } from 'react-router-dom';
+import React from "react";
+import App from "./App.js";
+import reactDOM from "react-dom";
+import MainContextProvider from "./context/MainContextProvider.js";
+import { HashRouter } from "react-router-dom";
 
 reactDOM.render(
   <HashRouter>
@@ -10,5 +10,5 @@ reactDOM.render(
       <App />
     </MainContextProvider>
   </HashRouter>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
