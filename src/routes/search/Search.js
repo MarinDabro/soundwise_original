@@ -76,6 +76,15 @@ export default function Search() {
     if (searchInput !== "") getSearch();
   }, [searchInput]);
 
+  const getCatPlaylist = async id => {
+    await fetch(
+      `https://api.spotify.com/v1/browse/categories/${id}/playlists`,
+      searchParams
+    )
+      .then(res => res.json())
+      .then(res => console.log(res));
+  };
+
   return (
     <div className={classes.main}>
       <div className={classes.searchBar}>
@@ -108,7 +117,7 @@ export default function Search() {
           <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
             {browseAll.categories?.items.map((cat, idx) => {
               return (
-                <div key={idx}>
+                <div key={idx} onClick={() => getCatPlaylist(cat.id)}>
                   <div>
                     <img
                       src={cat.icons[0].url}
