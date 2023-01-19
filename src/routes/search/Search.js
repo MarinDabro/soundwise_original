@@ -40,7 +40,9 @@ export default function Search() {
       .then(res => res.json())
       .then(res => {
         /*         console.log(res.artists.items[0].id);
-         */ return res.artists?.items[0].id; // add "?" to avoid the error of no artist
+         */
+        console.log(res);
+        return res.artists?.items[0].id; // add "?" to avoid the error of no artist
       });
 
     const resAlbums = await fetch(
@@ -48,12 +50,12 @@ export default function Search() {
       searchParams
     )
       .then(res => res.json())
-      .then(res =>
+      .then(res => {
         DISPATCH({
           type: "SET_ALBUMS",
           albums: res.items,
-        })
-      );
+        });
+      });
 
     /* ===> Get artist */
     /*  await fetch(`https://api.spotify.com/v1/artists/${artistID}`, searchParams)
@@ -85,7 +87,22 @@ export default function Search() {
       </div>
       <div className={style.albumContainer}>
         {searchInput ? (
-          <h3>Albums</h3>
+          <div>
+            <h3>Albums</h3>
+            {albums.map((album, index) => {
+              return (
+                <div key={index} className={style.albumBox}>
+                  <div className={style.albumImage}>
+                    <img src={album.images[0].url} alt="/playlist images" />
+                  </div>
+                  <div className={style.albumName}>{album.name}</div>
+                  <div className={style.artistName}>
+                    {album.artists[0].name}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         ) : (
           //if no searchInput then show all categories
           <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
@@ -104,17 +121,6 @@ export default function Search() {
             })}
           </div>
         )}
-        {albums.map((album, index) => {
-          return (
-            <div key={index} className={style.albumBox}>
-              <div className={style.albumImage}>
-                <img src={album.images[0].url} alt="/playlist images" />
-              </div>
-              <div className={style.albumName}>{album.name}</div>
-              <div className={style.artistName}>{album.artists[0].name}</div>
-            </div>
-          );
-        })}
       </div>
     </div>
   );
