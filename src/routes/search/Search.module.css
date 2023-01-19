@@ -1,19 +1,17 @@
-.main{
-    background-color: var(--color-backGround);
-    position: relative
+.main {
+  background-color: var(--color-backGround);
+  position: relative;
 }
-.main h3{
-    color:white
+.main h3 {
+  color: white;
 }
-.main input{
-    padding: .7rem;
-    width: 20rem;
-    font-family: 'Roboto Condensed', FontAwesome, sans-serif;
-    font-size: 1.1rem;
-    text-align: left;
-    margin: 1.5rem 3rem;
-    border: 1px solid black;
-    border-radius: 2rem;
-
+.main input {
+  padding: 0.7rem;
+  width: 20rem;
+  font-family: "Roboto Condensed", FontAwesome, sans-serif;
+  font-size: 1.1rem;
+  text-align: left;
+  margin: 1.5rem 3rem;
+  border: 1px solid black;
+  border-radius: 2rem;
 }
-
