@@ -1,36 +1,38 @@
-import React, { useState, useEffect, useContext } from "react";
-import "font-awesome/css/font-awesome.min.css";
-import classes from "./Search.module.css";
-import MainContext from "../../context/MainContext";
-import style from "../MusicBox.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect, useContext } from 'react';
+import 'font-awesome/css/font-awesome.min.css';
+import classes from './Search.module.css';
+import MainContext from '../../context/MainContext';
+import style from '../MusicBox.module.css';
 
 export default function Search() {
   const [STATE, DISPATCH] = useContext(MainContext);
   const { albums, token } = STATE;
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
   const [browseAll, setBrowseAll] = useState({});
   /*  console.log(albums); */
   console.log(browseAll);
-  // ===> Need the id to get the artist
+  console.log(albums);
 
+  /* ===> category background color */
+  const randomColor = () => {
+     const backgroundColor = Math.floor(Math.random() * 16777215).toString(16)
+     return '#' + backgroundColor
+    
+  }
   //make searchParams to global variable
   const searchParams = {
-    method: "GET",
-    accept: "application/json",
+    method: 'GET',
+    accept: 'application/json',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
   };
 
-  //use useEffect to load the categories
-  useEffect(() => {
-    fetch(`https://api.spotify.com/v1/browse/categories?limit=30`, searchParams)
-      .then(res => res.json())
-      .then(res => setBrowseAll(res));
-  }, []);
+   //using useEffect to refresh new input value
+   useEffect(() => {
+    if (searchInput !== '') getSearch();
+  }, [searchInput]);
 
   async function getSearch() {
     const artistID = await fetch(
@@ -44,35 +46,57 @@ export default function Search() {
       });
 
     const resAlbums = await fetch(
-      `https://api.spotify.com/v1/artists/${artistID}/albums?include_groups=album&market=DE&limit=50`,
+      `https://api.spotify.com/v1/artists/${artistID}/albums/?include_groups=album&market=DE&limit=50`,
       searchParams
     )
       .then(res => res.json())
       .then(res =>
         DISPATCH({
-          type: "SET_ALBUMS",
+          type: 'SET_ALBUMS',
           albums: res.items,
         })
       );
 
+      
     /* ===> Get artist */
     /*  await fetch(`https://api.spotify.com/v1/artists/${artistID}`, searchParams)
       .then(res => res.json()
       .then(res => console.log(res))) */
+  }
 
-    /* ===> Browse all api */
-    /*     const getBrowseAll = await fetch(
-      `https://api.spotify.com/v1/browse/categories?limit=30`,
+   //use useEffect to load the categories
+   useEffect(() => {
+    fetch(`https://api.spotify.com/v1/recommendations?limit=20&market=US&seed_genres=alt-rock`, searchParams)
+      .then(res => res.json())
+      .then(res => console.log(res));
+  }, []); 
+  
+   useEffect(() => {
+    fetch(`https://api.spotify.com/v1/recommendations/available-genre-seeds`, searchParams)
+      .then(res => res.json())
+      .then(res => console.log(res));
+  }, []); 
+
+  /* ===> Trying the categories api */
+   const categoriesPlaylist = async () => {
+    await fetch(
+      `https://api.spotify.com/v1/browse/categories?limit=49`,
       searchParams
     )
       .then(res => res.json())
-      .then(res => setBrowseAll(res)); */
-  }
+      .then(res => setBrowseAll(res));
+  }; 
 
-  //using useEffect to refresh new input value
-  useEffect(() => {
-    if (searchInput !== "") getSearch();
-  }, [searchInput]);
+  useEffect(() =>{
+    categoriesPlaylist()
+  },[])
+ 
+   useEffect(() => {
+    fetch(`https://api.spotify.com/v1/albums/43q6qDcaoGAZBRAO8TVsCz`, searchParams)
+    .then(res => res.json())
+    .then(res => console.log(res))
+  })
+ 
 
   return (
     <div className={classes.main}>
@@ -83,38 +107,47 @@ export default function Search() {
           onChange={e => setSearchInput(e.target.value)}
         />
       </div>
-      <div className={style.albumContainer}>
+      <div >
         {searchInput ? (
-          <h3>Albums</h3>
-        ) : (
-          //if no searchInput then show all categories
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
-            {browseAll.categories?.items.map((cat, idx) => {
+          <div className={style.albumContainer}>
+            <h3>Albums</h3>
+            {albums.map((album, index) => {
               return (
-                <div key={idx}>
+                <div key={index} className={style.albumBox}>
+                  <div className={style.albumImage}>
+                    <img src={album.images[0].url} alt="/playlist images" />
+                  </div>
+                  <div className={style.albumName}>{album.name}</div>
+                  <div className={style.artistName}>
+                    {album.artists[0].name}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) :  (
+          //if no searchInput then show all categories
+          <div className={style.albumContainer} >
+            {browseAll.categories?.items.map((cat, idx) => {
+              
+              return (
+                <div style={{backgroundColor: randomColor()}} className={classes.categoryBox} key={idx}>
                   <div>
-                    <img
-                      src={cat.icons[0].url}
-                      alt="/categories images"
-                      width="150px"
-                    />
+                    <h3>{cat.name}</h3>
+                    <a href={cat.href[0]}>
+                      {' '}
+                      <img
+                        src={cat.icons[0].url}
+                        alt="/categories images"
+                        width="150px"
+                      />
+                    </a>
                   </div>
                 </div>
               );
             })}
           </div>
         )}
-        {albums.map((album, index) => {
-          return (
-            <div key={index} className={style.albumBox}>
-              <div className={style.albumImage}>
-                <img src={album.images[0].url} alt="/playlist images" />
-              </div>
-              <div className={style.albumName}>{album.name}</div>
-              <div className={style.artistName}>{album.artists[0].name}</div>
-            </div>
-          );
-        })}
       </div>
     </div>
   );

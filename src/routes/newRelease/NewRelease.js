@@ -5,7 +5,7 @@ import MainContext from "../../context/MainContext";
 export default function NewRelease(props) {
   const [STATE, DISPATCH] = useContext(MainContext);
   const { newRelease, token } = STATE;
-
+console.log(newRelease);
   useEffect(() => {
     async function getNewRelease() {
       await fetch("https://api.spotify.com/v1/browse/new-releases?&limit=12", {

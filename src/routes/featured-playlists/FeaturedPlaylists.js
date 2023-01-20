@@ -7,7 +7,7 @@ export default function FeaturedPlaylists() {
 
   const [STATE, DISPATCH] = useContext(MainContext);
   const { featuredPlaylists, token } = STATE;
-  
+  console.log(featuredPlaylists);
 
   useEffect(() => {
     async function getFeaturedPlaylists() {
