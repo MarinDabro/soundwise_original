@@ -8,6 +8,7 @@ export const initialState = {
   search: null,
   user: null,
   login: false,
+  catPlaylist: false,
 };
 
 export const mainReducer = (state, action) => {
@@ -61,6 +62,13 @@ export const mainReducer = (state, action) => {
       return {
         ...state,
         search: action.search,
+      };
+    }
+
+    case "SET_CAT_PLAYLIST": {
+      return {
+        ...state,
+        catPlaylist: action.catPlaylist,
       };
     }
 
