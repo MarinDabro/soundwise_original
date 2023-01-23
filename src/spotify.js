@@ -1,6 +1,8 @@
+
 import { useContext } from "react";
 import MainContext from "./context/MainContext.js";
 import SpotifyWebApi from "spotify-web-api-js";
+
 
 // ===> user authentication
 const authEndpoint = "https://accounts.spotify.com/authorize";
@@ -42,3 +44,19 @@ export function useToken() {
 }
 
 export const spotify = new SpotifyWebApi();
+
+//===> Use Token
+
+export const UseToken = () => {
+  const [STATE, DISPATCH] = useContext(MainContext);
+  const { token } = STATE;
+
+  return {
+    method: 'GET',
+    accept: 'application/json',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};

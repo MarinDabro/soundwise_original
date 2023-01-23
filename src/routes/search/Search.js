@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useContext } from "react";
 import "font-awesome/css/font-awesome.min.css";
 import classes from "./Search.module.css";
@@ -5,6 +6,7 @@ import MainContext from "../../context/MainContext";
 import style from "../MusicBox.module.css";
 import { useToken } from "../../spotify.js";
 import CategoryList from "../category-list/CategoryList";
+
 
 export default function Search() {
   const [STATE, DISPATCH] = useContext(MainContext);
@@ -35,12 +37,27 @@ export default function Search() {
   /* ===> category background color */
   const randomColor = () => {
     const backgroundColor = Math.floor(Math.random() * 16777215).toString(16);
-    return "#" + backgroundColor;
+
+ 
+
+    return '#' + backgroundColor;
+  };
+  //make searchParams to global variable
+  const searchParams = {
+    method: 'GET',
+    accept: 'application/json',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+
   };
 
   //using useEffect to refresh new input value
   useEffect(() => {
-    if (searchInput !== "") getSearch();
+
+    if (searchInput !== '') getSearch();
+
   }, [searchInput]);
 
   async function getSearch() {
@@ -65,6 +82,7 @@ export default function Search() {
         });
       });
   }
+
 
   return (
     <div>
@@ -151,14 +169,17 @@ export default function Search() {
 
     // ===> Get artist 
  await fetch(`https://api.spotify.com/v1/artists/${artistID}`, searchParams)
+
       .then(res => res.json()
       .then(res => console.log(res))) 
 
-        //use useEffect to load the categories
-     useEffect(() => {
+
+  //use useEffect to load the categories
+  useEffect(() => {
     fetch(
       `https://api.spotify.com/v1/recommendations?limit=20&market=US&seed_genres=alt-rock`,
-      useToken
+      searchParams
+
     )
       .then(res => res.json())
       .then(res => console.log(res));
@@ -167,6 +188,7 @@ export default function Search() {
   useEffect(() => {
     fetch(
       `https://api.spotify.com/v1/recommendations/available-genre-seeds`,
+
       useToken
     )
       .then(res => res.json())
@@ -191,3 +213,4 @@ export default function Search() {
   }; 
 
 */
+
