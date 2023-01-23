@@ -36,7 +36,7 @@ console.log(newRelease);
             return (
               <div key={index} className={classes.albumBox}>
                 <div className={classes.albumImage}>
-                  <img src={album.images[1].url} alt="artist image" />
+                  <img src={album.images[1].url} alt="/artist_image" />
                 </div>
                 <div className={classes.albumName}>{album.name}</div>
                 <div className={classes.artistName}>
