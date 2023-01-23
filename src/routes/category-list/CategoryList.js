@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import { useToken } from '../../spotify.js';
+import DisplayContext from '../../context/DisplayContext.js';
 import classes from './CategoryList.module.css';
 import style from '../MusicBox.module.css';
-import CategoryTracks from './CategoryTracks.js';
-export default function CategoryList({ catId, catName }) {
+import { NavLink, Outlet } from 'react-router-dom';
+export default function CategoryList() {
   const searchParams = useToken();
-  const [playlist, setPlaylist] = useState(null);
-  const [trackId, setTrackId] = useState('');
-  const [trackName, setTrackName] = useState('');
 
-  console.log(playlist);
+  const [display, dispatch] = useContext(DisplayContext);
+  const { playLists, catId, catName, playlistImage } = display;
+
+  console.log(playLists);
 
   const getCatPlaylist = async () => {
     await fetch(
@@ -18,7 +19,12 @@ export default function CategoryList({ catId, catName }) {
       searchParams
     )
       .then(res => res.json())
-      .then(res => setPlaylist(res));
+      .then(res =>
+        dispatch({
+          type: 'SET_PLAYLISTS',
+          playLists: res,
+        })
+      );
   };
   useEffect(() => {
     getCatPlaylist();
@@ -27,16 +33,27 @@ export default function CategoryList({ catId, catName }) {
   return (
     <div className={style.main}>
       <div>
-        {playlist && (
+        {playLists && (
           <div>
             <h2 className={classes.header}> {catName} </h2>
             <div className={style.albumContainer}>
-              {playlist.playlists.items.map((playlist, index) => {
+              {playLists.playlists.items.map((playlist, index) => {
                 return (
-                  <div
+                  <NavLink
+                    to="/activePlaylist"
                     onClick={() => {
-                      setTrackId(playlist.id);
-                      setTrackName(playlist.name);
+                      dispatch({
+                        type: 'SET_TRACK_ID',
+                        trackId: playlist.id,
+                      });
+                      dispatch({
+                        type: 'SET_TRACK_NAME',
+                        trackName: playlist.name,
+                      });
+                      dispatch({
+                        type: 'SET_ACTIVE_PLAYLIST',
+                       activePlaylist: playlist
+                      })
                     }}
                     key={index}
                     className={style.albumBox}
@@ -51,7 +68,7 @@ export default function CategoryList({ catId, catName }) {
                       {playlist.description}
                     </div>
                     <div className={style.artistName}>{playlist.name}</div>
-                  </div>
+                  </NavLink>
                 );
               })}
             </div>
@@ -59,14 +76,7 @@ export default function CategoryList({ catId, catName }) {
         )}
       </div>
       <div>
-        {trackId && (
-          <CategoryTracks
-            catId={catId}
-            catName={catName}
-            trackId={trackId}
-            trackName={trackName}
-          />
-        )}
+        <Outlet />
       </div>
     </div>
   );

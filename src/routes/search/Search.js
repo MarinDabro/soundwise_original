@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "font-awesome/css/font-awesome.min.css";
 import classes from "./Search.module.css";
 import MainContext from "../../context/MainContext";
+import DisplayContext from "../../context/DisplayContext";
 import style from "../MusicBox.module.css";
 import { useToken } from "../../spotify.js";
 import SearchNav from './SearchNav.js'
@@ -11,12 +12,12 @@ import CategoryList from "../category-list/CategoryList";
 
 export default function Search() {
   const [STATE, DISPATCH] = useContext(MainContext);
+  const [display, dispatch] = useContext(DisplayContext);
   const { albums, token, catPlaylist } = STATE;
+  const {catId, catName} = display
   const [searchInput, setSearchInput] = useState("");
   const [browseAll, setBrowseAll] = useState({});
-  const [catName, setCatName] = useState("");
-  const [catId, setCatId] = useState("");
-  const [activeCat, setActiveCat] = useState('')
+  const [activeCat, setActiveCat] = useState('all')
 
   //get the return params from useToken function
   const searchParams = useToken();
@@ -87,7 +88,7 @@ export default function Search() {
   return (
     <div>
       {catPlaylist ? (
-        <CategoryList catId={catId} catName={catName} />
+        <CategoryList />
       ) : (
         <div className={classes.main}>
           <div className={classes.searchBar}>
@@ -100,8 +101,9 @@ export default function Search() {
           {searchInput && <SearchNav activeCat={activeCat} setActiveCat={setActiveCat} />}
           <div>
             {searchInput ? (
-              <div className={style.albumContainer}>
+              <div>
                 <h3>Albums</h3>
+              <div className={style.albumContainer}>
                 {albums.map((album, index) => {
                   return (
                     <div key={index} className={style.albumBox}>
@@ -116,6 +118,7 @@ export default function Search() {
                   );
                 })}
               </div>
+              </div>
             ) : (
               //if no searchInput then show all categories
               <div className={style.albumContainer}>
@@ -127,8 +130,16 @@ export default function Search() {
                       key={idx}
                       //change category status to "true" to get to category playlist page and set cat_id and cat_name to send to playlist page
                       onClick={() => {
-                        setCatId(cat.id);
-                        setCatName(cat.name);
+                        dispatch({
+                          type: 'SET_CAT_NAME',
+                          catName: cat.name
+                        })
+                        dispatch({
+                          type: 'SET_CAT_ID',
+                          catId: cat.id
+                        })
+                       /*  setCatId(cat.id);
+                        setCatName(cat.name); */
                         DISPATCH({
                           type: "SET_CAT_PLAYLIST",
                           catPlaylist: true,
