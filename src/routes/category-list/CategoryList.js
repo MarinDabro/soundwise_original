@@ -1,13 +1,17 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { useToken } from "../../spotify.js";
-import classes from "./CategoryList.module.css";
-import style from "../MusicBox.module.css";
-import CategoryTracks from "./CategoryTracks.js";
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { useToken } from '../../spotify.js';
+import classes from './CategoryList.module.css';
+import style from '../MusicBox.module.css';
+import CategoryTracks from './CategoryTracks.js';
 export default function CategoryList({ catId, catName }) {
   const searchParams = useToken();
   const [playlist, setPlaylist] = useState(null);
-console.log(playlist);
+  const [trackId, setTrackId] = useState('');
+  const [trackName, setTrackName] = useState('');
+
+  console.log(playlist);
+
   const getCatPlaylist = async () => {
     await fetch(
       `https://api.spotify.com/v1/browse/categories/${catId}/playlists`,
@@ -22,25 +26,48 @@ console.log(playlist);
 
   return (
     <div className={style.main}>
-      {playlist && (
-        <div>
-          <h3> {catName} </h3>
-          <div className={style.albumContainer}>
-            {playlist.playlists.items.map((playlist, index) => {
-              return (
-                <div key={index} className={style.albumBox}>
-                  <div className={style.albumImage}>
-                    <img src={playlist.images[0].url} alt="/ playlist_image" />
+      <div>
+        {playlist && (
+          <div>
+            <h2 className={classes.header}> {catName} </h2>
+            <div className={style.albumContainer}>
+              {playlist.playlists.items.map((playlist, index) => {
+                return (
+                  <div
+                    onClick={() => {
+                      setTrackId(playlist.id);
+                      setTrackName(playlist.name);
+                    }}
+                    key={index}
+                    className={style.albumBox}
+                  >
+                    <div className={style.albumImage}>
+                      <img
+                        src={playlist.images[0].url}
+                        alt="/ playlist_image"
+                      />
+                    </div>
+                    <div className={style.albumName}>
+                      {playlist.description}
+                    </div>
+                    <div className={style.artistName}>{playlist.name}</div>
                   </div>
-                  <div className={style.albumName}>{playlist.description}</div>
-                  <div className={style.artistName}>{playlist.name}</div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
-  <CategoryTracks/>
+        )}
+      </div>
+      <div>
+        {trackId && (
+          <CategoryTracks
+            catId={catId}
+            catName={catName}
+            trackId={trackId}
+            trackName={trackName}
+          />
+        )}
+      </div>
     </div>
   );
 }

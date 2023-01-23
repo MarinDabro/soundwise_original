@@ -51,16 +51,7 @@ export default function Search() {
   }
 
 console.log(randomColor())
-  //make searchParams to global variable
-  const searchParams = {
-    method: 'GET',
-    accept: 'application/json',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-
-  };
+ 
  
 
   //using useEffect to refresh new input value
@@ -81,7 +72,7 @@ console.log(randomColor())
       });
 
     await fetch(
-      `https://api.spotify.com/v1/artists/${artistID}/albums/?include_groups=album&market=DE&limit=50`,
+      `https://api.spotify.com/v1/artists/${artistID}/albums/?include_groups=album&market=US&limit=50`,
       searchParams
     )
       .then(res => res.json())
