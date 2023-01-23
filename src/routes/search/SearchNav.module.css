@@ -1,0 +1,27 @@
+.searchNav {
+  display: flex;
+  justify-content: flex-start;
+  gap: 2rem
+}
+
+.searchNav button {
+  color: white;
+  font-size: .9rem;
+  background-color: #222;
+  padding: .5rem .8rem;
+  border-radius: 17px;
+  cursor: pointer
+}
+
+.searchNav button:hover {
+  background-color: black;
+}
+
+.searchNav .active {
+    background-color: white;
+    color: black
+}
+
+.searchNav .active:hover {
+    background-color: white;
+}

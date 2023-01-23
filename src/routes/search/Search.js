@@ -5,6 +5,7 @@ import classes from "./Search.module.css";
 import MainContext from "../../context/MainContext";
 import style from "../MusicBox.module.css";
 import { useToken } from "../../spotify.js";
+import SearchNav from './SearchNav.js'
 import CategoryList from "../category-list/CategoryList";
 
 
@@ -15,13 +16,15 @@ export default function Search() {
   const [browseAll, setBrowseAll] = useState({});
   const [catName, setCatName] = useState("");
   const [catId, setCatId] = useState("");
+  const [activeCat, setActiveCat] = useState('')
 
   //get the return params from useToken function
   const searchParams = useToken();
 
   /*  console.log(albums); 
   console.log(browseAll);
-*/
+  */
+
 
   /* ===> Trying the categories api */
   function categoriesPlaylist() {
@@ -49,19 +52,6 @@ export default function Search() {
      return `#${toHex(r)}${toHex(g)}${toHex(b)}`
 
   }
-
-console.log(randomColor())
-  //make searchParams to global variable
-  const searchParams = {
-    method: 'GET',
-    accept: 'application/json',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-
-  };
- 
 
   //using useEffect to refresh new input value
   useEffect(() => {
@@ -107,6 +97,7 @@ console.log(randomColor())
               onChange={e => setSearchInput(e.target.value)}
             />
           </div>
+          {searchInput && <SearchNav activeCat={activeCat} setActiveCat={setActiveCat} />}
           <div>
             {searchInput ? (
               <div className={style.albumContainer}>
