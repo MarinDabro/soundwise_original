@@ -1,5 +1,6 @@
 import SpotifyWebApi from 'spotify-web-api-js';
-
+import { useContext } from 'react';
+import MainContext from './context/MainContext';
 // ===> user authentication
 const authEndpoint = 'https://accounts.spotify.com/authorize';
 
@@ -9,7 +10,6 @@ const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const redirectUrl = 'http://localhost:3000';
 
 export const GetTokenFromResponse = () => {
-  
   return window.location.hash
 
     .substring(1)
@@ -26,3 +26,19 @@ export const GetTokenFromResponse = () => {
 export const loginUrl = `${authEndpoint}?client_id=${CLIENT_ID}&redirect_uri=${redirectUrl}&response_type=token`;
 
 export const spotify = new SpotifyWebApi();
+
+//===> Use Token
+
+export const UseToken = () => {
+  const [STATE, DISPATCH] = useContext(MainContext);
+  const { token } = STATE;
+
+  return {
+    method: 'GET',
+    accept: 'application/json',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};

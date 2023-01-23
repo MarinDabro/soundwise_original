@@ -3,7 +3,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import classes from './Search.module.css';
 import MainContext from '../../context/MainContext';
 import style from '../MusicBox.module.css';
-
+import { UseToken } from '../../spotify.js';
 export default function Search() {
   const [STATE, DISPATCH] = useContext(MainContext);
   const { albums, token } = STATE;
@@ -15,10 +15,9 @@ export default function Search() {
 
   /* ===> category background color */
   const randomColor = () => {
-     const backgroundColor = Math.floor(Math.random() * 16777215).toString(16)
-     return '#' + backgroundColor
-    
-  }
+    const backgroundColor = Math.floor(Math.random() * 16777215).toString(16);
+    return '#' + backgroundColor;
+  };
   //make searchParams to global variable
   const searchParams = {
     method: 'GET',
@@ -29,8 +28,8 @@ export default function Search() {
     },
   };
 
-   //using useEffect to refresh new input value
-   useEffect(() => {
+  //using useEffect to refresh new input value
+  useEffect(() => {
     if (searchInput !== '') getSearch();
   }, [searchInput]);
 
@@ -57,46 +56,54 @@ export default function Search() {
         })
       );
 
-      
     /* ===> Get artist */
     /*  await fetch(`https://api.spotify.com/v1/artists/${artistID}`, searchParams)
       .then(res => res.json()
       .then(res => console.log(res))) */
   }
 
-   //use useEffect to load the categories
-   useEffect(() => {
-    fetch(`https://api.spotify.com/v1/recommendations?limit=20&market=US&seed_genres=alt-rock`, searchParams)
-      .then(res => res.json())
-      .then(res => console.log(res));
-  }, []); 
-  
-   useEffect(() => {
-    fetch(`https://api.spotify.com/v1/recommendations/available-genre-seeds`, searchParams)
-      .then(res => res.json())
-      .then(res => console.log(res));
-  }, []); 
-
-  /* ===> Trying the categories api */
-   const categoriesPlaylist = async () => {
-    await fetch(
-      `https://api.spotify.com/v1/browse/categories?limit=49`,
+  //use useEffect to load the categories
+  useEffect(() => {
+    fetch(
+      `https://api.spotify.com/v1/recommendations?limit=20&market=US&seed_genres=alt-rock`,
       searchParams
     )
       .then(res => res.json())
-      .then(res => setBrowseAll(res));
-  }; 
+      .then(res => console.log(res));
+  }, []);
 
-  useEffect(() =>{
-    categoriesPlaylist()
-  },[])
- 
-   useEffect(() => {
-    fetch(`https://api.spotify.com/v1/albums/43q6qDcaoGAZBRAO8TVsCz`, searchParams)
-    .then(res => res.json())
-    .then(res => console.log(res))
-  })
- 
+  useEffect(() => {
+    fetch(
+      `https://api.spotify.com/v1/recommendations/available-genre-seeds`,
+      searchParams
+    )
+      .then(res => res.json())
+      .then(res => console.log(res));
+  }, []);
+
+  /* ===> Trying the categories api */
+  const catToken = UseToken()
+  const categoriesPlaylist = async () => {
+    await fetch(
+      `https://api.spotify.com/v1/browse/categories?limit=49`,
+    /* searchParams */catToken
+    )
+      .then(res => res.json())
+      .then(res => setBrowseAll(res));
+  };
+
+  useEffect(() => {
+    categoriesPlaylist();
+  }, []);
+
+  useEffect(() => {
+    fetch(
+      `https://api.spotify.com/v1/albums/43q6qDcaoGAZBRAO8TVsCz`,
+      searchParams
+    )
+      .then(res => res.json())
+      .then(res => console.log(res));
+  });
 
   return (
     <div className={classes.main}>
@@ -107,7 +114,7 @@ export default function Search() {
           onChange={e => setSearchInput(e.target.value)}
         />
       </div>
-      <div >
+      <div>
         {searchInput ? (
           <div className={style.albumContainer}>
             <h3>Albums</h3>
@@ -125,13 +132,16 @@ export default function Search() {
               );
             })}
           </div>
-        ) :  (
+        ) : (
           //if no searchInput then show all categories
-          <div className={style.albumContainer} >
+          <div className={style.albumContainer}>
             {browseAll.categories?.items.map((cat, idx) => {
-              
               return (
-                <div style={{backgroundColor: randomColor()}} className={classes.categoryBox} key={idx}>
+                <div
+                  style={{ backgroundColor: randomColor() }}
+                  className={classes.categoryBox}
+                  key={idx}
+                >
                   <div>
                     <h3>{cat.name}</h3>
                     <a href={cat.href[0]}>
