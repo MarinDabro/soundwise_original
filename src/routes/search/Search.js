@@ -42,16 +42,7 @@ export default function Search() {
 
     return '#' + backgroundColor;
   };
-  //make searchParams to global variable
-  const searchParams = {
-    method: 'GET',
-    accept: 'application/json',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-
-  };
+ 
 
   //using useEffect to refresh new input value
   useEffect(() => {

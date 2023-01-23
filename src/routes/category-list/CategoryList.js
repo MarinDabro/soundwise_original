@@ -3,11 +3,11 @@ import { useEffect } from "react";
 import { useToken } from "../../spotify.js";
 import classes from "./CategoryList.module.css";
 import style from "../MusicBox.module.css";
-
+import CategoryTracks from "./CategoryTracks.js";
 export default function CategoryList({ catId, catName }) {
   const searchParams = useToken();
   const [playlist, setPlaylist] = useState(null);
-
+console.log(playlist);
   const getCatPlaylist = async () => {
     await fetch(
       `https://api.spotify.com/v1/browse/categories/${catId}/playlists`,
@@ -40,6 +40,7 @@ export default function CategoryList({ catId, catName }) {
           </div>
         </div>
       )}
+  <CategoryTracks/>
     </div>
   );
 }
