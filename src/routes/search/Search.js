@@ -71,7 +71,7 @@ export default function Search() {
       });
 
     await fetch(
-      `https://api.spotify.com/v1/artists/${artistID}/albums/?include_groups=album&market=DE&limit=50`,
+      `https://api.spotify.com/v1/artists/${artistID}/albums/?include_groups=album&market=US&limit=50`,
       searchParams
     )
       .then(res => res.json())
