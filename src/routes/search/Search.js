@@ -13,12 +13,22 @@ export default function Search() {
   console.log(browseAll);
   console.log(albums);
 
-  /* ===> category background color */
-  const randomColor = () => {
-     const backgroundColor = Math.floor(Math.random() * 16777215).toString(16)
-     return '#' + backgroundColor
-    
+
+  const toHex = (c) => {
+  const hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+ const randomColor = () => {
+    const r = Math.floor(Math.random() * (200 - 50) + 50)
+    const g = Math.floor(Math.random() * (200 - 50) + 50)
+    const b = Math.floor(Math.random() * (200 - 50) + 50)
+     // const backgroundColor = Math.floor(Math.random() * 16777215).toString(16)
+     return `#${toHex(r)}${toHex(g)}${toHex(b)}`
+
   }
+
+console.log(randomColor())
   //make searchParams to global variable
   const searchParams = {
     method: 'GET',
