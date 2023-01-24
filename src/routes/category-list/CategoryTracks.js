@@ -7,39 +7,12 @@ import classes from "./CategoryTracks.module.css";
 import { NavLink, Outlet } from "react-router-dom";
 
 import { prominent } from "color.js";
-/* 
-  const img =
-    "https://live.staticflickr.com/65535/50237066832_72c7290c5c_c.jpg";
-  useEffect(() => {
-    const fetchColor = async () => {
-      prominent(favicon, { format: "hex", amount: 5 }).then(color => {
-        setColors(color);
-      });
-    };
-    fetchColor();
-  }, []);
-  console.log(img);
-
-  return (
-    <dir>
-      {colors && (
-        <div style={{ backgroundColor: colors[0] }}>
-          <img src={img} alt="/" />
-          <img src={favicon} alt="/" />
-        </div>
-      )}
-    </dir>
-  );
-} */
 
 export default function CategoryTracks(props) {
   const [display, dispatch] = useContext(DisplayContext);
   const { tracks, activePlaylist } = display;
   const [colors, setColors] = useState(null);
-
-  //get the total time of album
-  let timeCounter = 0;
-  let durationTime = 0;
+  const [duration, setDuration] = useState("");
 
   //store the colors from album cover
   useEffect(() => {
@@ -53,14 +26,7 @@ export default function CategoryTracks(props) {
     };
     fetchColor();
   }, []);
-  console.log(colors);
 
-  /*  console.log(playLists);
-  console.log(tracks);
-  console.log(catName);
-  console.log(catId);
-  console.log(trackId);
-  console.log(trackName); */
   const trackId = activePlaylist.id;
   const trackName = activePlaylist.name;
 
@@ -69,12 +35,22 @@ export default function CategoryTracks(props) {
   const getCatTracks = async () => {
     await fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
       .then(res => res.json())
-      .then(res =>
+      .then(res => {
+        //get the total time of album
+        let timeCounter = 0;
+        //count the duration time of the track
+        res.tracks.items.map(track => {
+          timeCounter += track.track.duration_ms;
+          const durationTime = msToTime(timeCounter);
+          setDuration(durationTime);
+          return durationTime;
+        });
+
         dispatch({
           type: "SET_TRACKS",
           tracks: res,
-        })
-      );
+        });
+      });
   };
   useEffect(() => {
     if (trackId) {
@@ -114,16 +90,12 @@ export default function CategoryTracks(props) {
               <h2>{trackName}</h2>
               <p>{activePlaylist.description}</p>
               <p>{tracks.followers.total} likes </p>
-              <p>{durationTime}</p>
+              <p>{duration}</p>
               <NavLink to="/profile">Spotify</NavLink>
             </div>
           </div>
           <div>
             {tracks?.tracks?.items.map((track, index) => {
-              //count the duration time of the track
-              timeCounter += track.track.duration_ms;
-              durationTime = msToTime(timeCounter);
-
               return (
                 <div className={classes.trackInfo} key={index}>
                   <div>{track.track.name}</div>
