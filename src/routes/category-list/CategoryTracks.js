@@ -37,6 +37,10 @@ export default function CategoryTracks(props) {
   const { tracks, activePlaylist } = display;
   const [colors, setColors] = useState(null);
 
+  //get the total time of album
+  let timeCounter = 0;
+  let durationTime = 0;
+
   //store the colors from album cover
   useEffect(() => {
     const fetchColor = async () => {
@@ -81,6 +85,21 @@ export default function CategoryTracks(props) {
     }
   }, []);
 
+  //convert duration time to hours and minutes
+  function msToTime(ms) {
+    var d, h, m, s;
+    s = Math.floor(ms / 1000);
+    m = Math.floor(s / 60);
+    s = s % 60;
+    h = Math.floor(m / 60);
+    m = m % 60;
+    d = Math.floor(h / 24);
+    h = h % 24;
+    h += d * 24;
+    const duration = h + "h" + m + "m" + s + "s";
+    return duration;
+  }
+
   return (
     <div className={classes.main}>
       {tracks && colors && (
@@ -94,12 +113,17 @@ export default function CategoryTracks(props) {
             <div>
               <h2>{trackName}</h2>
               <p>{activePlaylist.description}</p>
-              <p>{tracks.followers.total}</p>
+              <p>{tracks.followers.total} likes </p>
+              <p>{durationTime}</p>
               <NavLink to="/profile">Spotify</NavLink>
             </div>
           </div>
           <div>
             {tracks?.tracks?.items.map((track, index) => {
+              //count the duration time of the track
+              timeCounter += track.track.duration_ms;
+              durationTime = msToTime(timeCounter);
+
               return (
                 <div className={classes.trackInfo} key={index}>
                   <div>{track.track.name}</div>
