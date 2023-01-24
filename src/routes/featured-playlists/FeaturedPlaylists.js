@@ -5,8 +5,8 @@ import MainContext from "../../context/MainContext";
 export default function FeaturedPlaylists() {
   const [STATE, DISPATCH] = useContext(MainContext);
   const { featuredPlaylists, token } = STATE;
-  console.log(featuredPlaylists);
-
+  /*   console.log(featuredPlaylists);
+   */
   useEffect(() => {
     async function getFeaturedPlaylists() {
       await fetch(
