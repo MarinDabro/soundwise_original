@@ -56,7 +56,7 @@ export default function CategoryTracks(props) {
             <div>
               <h2>{trackName}</h2>
               <p>{activePlaylist.description}</p>
-              <NavLink to='/profile'>Spotify</NavLink>
+              <NavLink className={classes.profileLink} to='/profile'>Spotify</NavLink>
             </div>
           </div>
           <div>
