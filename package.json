@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "color.js": "^1.2.0",
     "font-awesome": "^4.7.0",
     "re-resizable": "^6.9.9",
     "react": "^17.0.2",
