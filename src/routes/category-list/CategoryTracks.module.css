@@ -12,14 +12,15 @@
     padding: 2rem;
     color: white;
     background-color: blue;
+    font-family: 'Roboto Condensed', sans-serif;
     
 }
 
-.header h2{
+.header h2 {
     font-size: 6.5rem;
-    font-family: 'Roboto Condensed', sans-serif;
     letter-spacing: 1;
     margin-left: 1rem;
+   
 }
 
 .header img{
@@ -27,6 +28,16 @@
     height: 15rem;
 }
 
-.trackInfo{
-    color: white
+.profileLink{
+    text-decoration: none;
+    color: white;
 }
+
+.profileLink:hover{
+    text-decoration: underline;
+}
+
+ /* .trackInfo{
+    color: white
+
+}  */

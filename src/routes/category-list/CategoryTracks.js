@@ -8,37 +8,49 @@ import { NavLink, Outlet } from "react-router-dom";
 
 import { prominent } from "color.js";
 
-export default function CategoryTracks(props) {
+export default function CategoryTracks() {
   const [display, dispatch] = useContext(DisplayContext);
   const { tracks, activePlaylist } = display;
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState("");
 
-  //store the colors from album cover
-  useEffect(() => {
-    const fetchColor = async () => {
-      prominent(activePlaylist.images[0].url, {
-        format: "hex",
-        amount: 5,
-      }).then(color => {
-        setColors(color);
-      });
-    };
-    fetchColor();
-  }, []);
-
   const trackId = activePlaylist.id;
   const trackName = activePlaylist.name;
 
+  //search params for fetching data
   const searchParams = useToken();
+
+  //store the colors of album cover
+  const fetchColor = async () => {
+    prominent(activePlaylist.images[0].url, {
+      format: "hex",
+      amount: 5,
+    }).then(color => {
+      setColors(color);
+    });
+  };
+
+  //convert duration time to hours and minutes
+  function msToTime(ms) {
+    let d, h, m, s;
+    s = Math.floor(ms / 1000);
+    m = Math.floor(s / 60);
+    s = s % 60;
+    h = Math.floor(m / 60);
+    m = m % 60;
+    d = Math.floor(h / 24);
+    h = h % 24;
+    h += d * 24;
+    const duration = h + "h" + m + "m" + s + "s";
+    return duration;
+  }
 
   const getCatTracks = async () => {
     await fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
       .then(res => res.json())
       .then(res => {
-        //get the total time of album
+        //counting total tracks duration time
         let timeCounter = 0;
-        //count the duration time of the track
         res.tracks.items.map(track => {
           timeCounter += track.track.duration_ms;
           const durationTime = msToTime(timeCounter);
@@ -52,29 +64,13 @@ export default function CategoryTracks(props) {
         });
       });
   };
+
   useEffect(() => {
     if (trackId) {
       getCatTracks();
-      fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
-        .then(res => res.json())
-        .then(res => console.log(res));
+      fetchColor();
     }
   }, []);
-
-  //convert duration time to hours and minutes
-  function msToTime(ms) {
-    var d, h, m, s;
-    s = Math.floor(ms / 1000);
-    m = Math.floor(s / 60);
-    s = s % 60;
-    h = Math.floor(m / 60);
-    m = m % 60;
-    d = Math.floor(h / 24);
-    h = h % 24;
-    h += d * 24;
-    const duration = h + "h" + m + "m" + s + "s";
-    return duration;
-  }
 
   return (
     <div className={classes.main}>
@@ -89,6 +85,10 @@ export default function CategoryTracks(props) {
             <div>
               <h2>{trackName}</h2>
               <p>{activePlaylist.description}</p>
+              <NavLink className={classes.profileLink} to="/profile">
+                Spotify
+              </NavLink>
+
               <p>{tracks.followers.total} likes </p>
               <p>{duration}</p>
               <NavLink to="/profile">Spotify</NavLink>
