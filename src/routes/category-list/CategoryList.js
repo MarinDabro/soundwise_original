@@ -1,17 +1,15 @@
-import React, { useContext } from 'react';
-import { useEffect } from 'react';
-import { useToken } from '../../spotify.js';
-import DisplayContext from '../../context/DisplayContext.js';
-import classes from './CategoryList.module.css';
-import style from '../MusicBox.module.css';
-import { NavLink, Outlet } from 'react-router-dom';
+import React, { useContext } from "react";
+import { useEffect } from "react";
+import { useToken } from "../../spotify.js";
+import DisplayContext from "../../context/DisplayContext.js";
+import classes from "./CategoryList.module.css";
+import style from "../MusicBox.module.css";
+import { NavLink, Outlet } from "react-router-dom";
 export default function CategoryList() {
   const searchParams = useToken();
 
   const [display, dispatch] = useContext(DisplayContext);
-  const { playLists, catId, catName, playlistImage } = display;
-
-  console.log(playLists);
+  const { playLists, catId, catName } = display;
 
   const getCatPlaylist = async () => {
     await fetch(
@@ -21,7 +19,7 @@ export default function CategoryList() {
       .then(res => res.json())
       .then(res =>
         dispatch({
-          type: 'SET_PLAYLISTS',
+          type: "SET_PLAYLISTS",
           playLists: res,
         })
       );
@@ -43,17 +41,9 @@ export default function CategoryList() {
                     to="/activePlaylist"
                     onClick={() => {
                       dispatch({
-                        type: 'SET_TRACK_ID',
-                        trackId: playlist.id,
+                        type: "SET_ACTIVE_PLAYLIST",
+                        activePlaylist: playlist,
                       });
-                      dispatch({
-                        type: 'SET_TRACK_NAME',
-                        trackName: playlist.name,
-                      });
-                      dispatch({
-                        type: 'SET_ACTIVE_PLAYLIST',
-                       activePlaylist: playlist
-                      })
                     }}
                     key={index}
                     className={style.albumBox}
