@@ -1,13 +1,17 @@
-import React, { useContext } from "react";
-import { useEffect, useState } from "react";
-import { useToken } from "../../spotify.js";
-import DisplayContext from "../../context/DisplayContext.js";
-import style from "../MusicBox.module.css";
-import classes from "./CategoryTracks.module.css";
-import { NavLink, Outlet } from "react-router-dom";
+import React, { useContext } from 'react';
+import { useEffect, useState } from 'react';
+import { useToken } from '../../spotify.js';
+import DisplayContext from '../../context/DisplayContext.js';
+import style from '../MusicBox.module.css';
+import classes from './CategoryTracks.module.css';
+import { NavLink, Outlet } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faClock
+} from "@fortawesome/free-solid-svg-icons";
 
-import { prominent } from "color.js";
-
+import { prominent } from 'color.js';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function CategoryTracks(props) {
   const [display, dispatch] = useContext(DisplayContext);
@@ -22,7 +26,7 @@ export default function CategoryTracks(props) {
   useEffect(() => {
     const fetchColor = async () => {
       prominent(activePlaylist.images[0].url, {
-        format: "hex",
+        format: 'hex',
         amount: 5,
       }).then(color => {
         setColors(color);
@@ -32,7 +36,6 @@ export default function CategoryTracks(props) {
   }, []);
   console.log(colors);
 
-  
   const trackId = activePlaylist.id;
   const trackName = activePlaylist.name;
 
@@ -43,7 +46,7 @@ export default function CategoryTracks(props) {
       .then(res => res.json())
       .then(res =>
         dispatch({
-          type: "SET_TRACKS",
+          type: 'SET_TRACKS',
           tracks: res,
         })
       );
@@ -68,7 +71,7 @@ export default function CategoryTracks(props) {
     d = Math.floor(h / 24);
     h = h % 24;
     h += d * 24;
-    const duration = h + "h" + m + "m" + s + "s";
+    const duration = h + 'h' + m + 'm' + s + 's';
     return duration;
   }
 
@@ -79,29 +82,66 @@ export default function CategoryTracks(props) {
           <div className={classes.headerNav}>The top nav</div>
           <div
             className={classes.header}
-            style={{ backgroundColor: colors[4] }} //set background color to album cover colors set
+            style={{
+              /* backgroundColor: colors[3] , */ backgroundImage: `linear-gradient(to bottom left, ${colors[3]},  ${colors[4]})`,
+            }} //set background color to album cover colors set
           >
             <img src={activePlaylist.images[0].url} alt="track_image" />
             <div>
               <h2>{trackName}</h2>
-              <p>{activePlaylist.description}</p>
-              <NavLink className={classes.profileLink} to='/profile'>Spotify</NavLink>
-
-              <p>{tracks.followers.total} likes </p>
-              <p>{durationTime}</p>
-              <NavLink to="/profile">Spotify</NavLink>
-
+              <div className={classes.headerInfo}>
+                <p>{activePlaylist.description}</p>
+                <div>
+                  <NavLink className={classes.profileLink} to="/profile">
+                    Spotify
+                  </NavLink>
+                  <span></span>
+                  <p>{tracks.followers.total} likes </p>
+                  <span></span>
+                  <p>about {durationTime}</p>
+                </div>
+              </div>
             </div>
           </div>
           <div>
+            <div className={classes.mainContainer}>
+              <div className={classes['song-info']}>
+                <div>#</div>
+                <div>TITLE</div>
+              </div>
+              <div className={classes['song-info']}>ALBUM</div>
+              <div className={classes['song-info']}>RELEASE DATE</div>
+              <div className={classes['song-info']}>
+              <FontAwesomeIcon icon={faClock} />
+              </div>
+            </div>
             {tracks?.tracks?.items.map((track, index) => {
-              //count the duration time of the track
-              timeCounter += track.track.duration_ms;
-              durationTime = msToTime(timeCounter);
-
               return (
-                <div className={classes.trackInfo} key={index}>
-                  <div>{track.track.name}</div>
+                <div className={classes['playlist-container']}>
+                  <div className={classes.playlistInfo} key={index}>
+                    <div className={classes.trackImg}>
+                      <div>{index + 1}</div>
+                      {
+                        <img
+                          src={track.track.album.images[2].url}
+                          alt="playlist_image"
+                        />
+                      }
+                    </div>
+                    <div className={classes.trackInfo}>
+                      <div>{track.track.name}</div>
+                      <div> {track.track.artists[0].name} </div>
+                    </div>
+                  </div>
+                  <div className={classes['album-info']}>
+                    <div>{track.track.album.name}</div>
+                  </div>
+                  <div className={classes['album-date']}>
+                    {track.track.album.release_date}
+                  </div>{' '}
+                  <div className={classes['track-duration']}>
+                    {track.track.album.duration_ms}
+                  </div>
                 </div>
               );
             })}
