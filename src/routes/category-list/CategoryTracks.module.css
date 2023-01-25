@@ -1,125 +1,128 @@
-.main{
-    width: 100%;
-    color: white;
+.main {
+  width: 100%;
+  color: white;
 }
 
-
-.header{
-    width: 100%;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    padding: 2rem;
-    color: white;
-    background-color: blue;
-    font-family: 'Roboto Condensed', sans-serif;
-    
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 2rem;
+  color: white;
+  background-color: blue;
+  font-family: "Roboto Condensed", sans-serif;
 }
 
 .header h2 {
-    font-size: 6.5rem;
-    letter-spacing: 1;
-    margin-left: 1rem;
-    margin-top: 3rem;
-   
+  letter-spacing: 1;
+  margin-left: 1rem;
+  margin-top: 3rem;
+  font-size: calc(3rem + 2vw);
 }
 
-.header img{
-    width: 15rem;
-    height: 15rem;
-    
+.header img {
+  width: 15rem;
+  height: 15rem;
 }
 
-.headerInfo{
-    margin: 1.5rem;
-    letter-spacing: 2;
+.headerInfo {
+  margin: 1.5rem;
+  letter-spacing: 2;
 }
 
-.headerInfo div{
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: row;
-    gap: .5rem;
-    align-items: center;
+.headerInfo div {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
 }
 
-.headerInfo div > span{
-    border-radius: 100%;
-    width: .2rem;
-    height: .2rem;
-    background-color: white;
-    border: 1px solid white;
+.headerInfo div > span {
+  border-radius: 100%;
+  width: 0.2rem;
+  height: 0.2rem;
+  background-color: white;
+  border: 1px solid white;
 }
 
-.profileLink{
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
+.profileLink {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
 }
 
-.profileLink:hover{
-    text-decoration: underline;
+.profileLink:hover {
+  text-decoration: underline;
 }
 
-.mainContainer{
-    display: flex;
-    justify-content: space-between; 
-   border-bottom: 1px solid gray;
-   align-items: center;
-   width: 90%;
-   margin: 3rem 0 0 1rem;
-   font-family: 'Roboto Condensed'
+.mainContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-family: Helvetica, sans-serif;
 }
 
-.playlist-container{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-family: 'Roboto Condensed'
-   
-}
-  .playlistInfo{
-    color: white;
-    margin: .5rem 2rem;
-   display: flex;
-   flex-direction: row;
-   gap: 1rem;
-   align-items: center;
-   font-family: 'Roboto Condensed'
-
-}  
-
-.trackImg{
-display: flex;
- flex-direction: row;
- align-items: center;
- gap: 1rem;
-}
-.trackImg img{
-    width: 3rem;
-    height: 3rem;
+.song-info,
+.playlist-container {
+  width: 95%;
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.trackInfo{
-
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-   
+.playlist-container:hover {
+  background-color: rgb(78, 76, 76);
+  border-radius: 5px;
 }
 
-/* test */
-.song-info{
-    display:flex;
-    flex-direction:row;
-    gap: 1rem;
-     margin: 1rem 0 .5rem 1rem
-    
+.active {
+  background-color: rgb(236, 232, 232);
 }
-.album-info{
-    display: flex;
-    justify-content: left;
-    text-align: left;
-    align-items: center;
-    
+
+.playlist-container {
+  margin-bottom: 0.5rem;
+}
+
+.song-info {
+  margin: 2rem 0;
+  border-bottom: 1px solid gray;
+}
+.song-title,
+.playlistInfo,
+.trackImg {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+}
+
+.trackImg img {
+  width: 3rem;
+  height: 3rem;
+}
+
+.trackInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.song-release {
+  width: 21.5%;
+}
+
+.playlistInfo,
+.album-info,
+.song-title,
+.song-album {
+  width: 35%;
+}
+
+.album-date {
+  width: 20%;
 }
