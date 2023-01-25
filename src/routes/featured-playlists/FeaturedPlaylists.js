@@ -37,16 +37,16 @@ export default function FeaturedPlaylists() {
         <div>
           <h3> {featuredPlaylists.message} </h3>
           <div className={classes.albumContainer}>
-            {featuredPlaylists.playlists.items.map((playlist, index) => {
+            {featuredPlaylists?.playlists?.items?.map((playlist, index) => {
               return (
                 <div key={index} className={classes.albumBox}>
                   <div className={classes.albumImage}>
-                    <img src={playlist.images[0].url} alt="/ playlist_image" />
+                    <img src={playlist?.images[0]?.url} alt="/ playlist_image" />
                   </div>
                   <div className={classes.albumName}>
-                    {playlist.description}
+                    {playlist?.description}
                   </div>
-                  <div className={classes.artistName}>{playlist.name}</div>
+                  <div className={classes.artistName}>{playlist?.name}</div>
                 </div>
               );
             })}
