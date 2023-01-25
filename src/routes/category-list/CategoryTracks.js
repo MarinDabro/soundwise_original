@@ -17,6 +17,7 @@ export default function CategoryTracks(props) {
   const { tracks, activePlaylist } = display;
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState('');
+  
 
   const trackId = activePlaylist?.id;
   const trackName = activePlaylist?.name;
@@ -94,8 +95,8 @@ export default function CategoryTracks(props) {
           <div
             className={classes.header}
             style={{
-              /* backgroundColor: colors[3] , */ backgroundImage: `linear-gradient(to bottom left, ${colors[3]},  ${colors[4]})`,
-            }} //set background color to album cover colors set
+              backgroundImage: `linear-gradient(to bottom left, ${colors[3]},  ${colors[4]})`,
+            }}
           >
             <img src={activePlaylist.images[0].url} alt="track_image" />
             <div>
@@ -129,7 +130,7 @@ export default function CategoryTracks(props) {
               </div>
               {tracks?.tracks?.items.map((track, index) => {
                 return (
-                  <div className={classes['playlist-container']} key={index}>
+                  <div activeClassName= {classes.active} className={classes['playlist-container']}  key={index}>
                     <div className={classes.playlistInfo} key={index}>
                       <div className={classes.trackImg}>
                         <div>{index + 1}</div>
