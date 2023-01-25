@@ -20,24 +20,107 @@
     font-size: 6.5rem;
     letter-spacing: 1;
     margin-left: 1rem;
+    margin-top: 3rem;
    
 }
 
 .header img{
     width: 15rem;
     height: 15rem;
+    
+}
+
+.headerInfo{
+    margin: 1.5rem;
+    letter-spacing: 2;
+}
+
+.headerInfo div{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    align-items: center;
+}
+
+.headerInfo div > span{
+    border-radius: 100%;
+    width: .2rem;
+    height: .2rem;
+    background-color: white;
+    border: 1px solid white;
 }
 
 .profileLink{
     text-decoration: none;
     color: white;
+    font-weight: bold;
 }
 
 .profileLink:hover{
     text-decoration: underline;
 }
 
- /* .trackInfo{
-    color: white
+.mainContainer{
+    display: flex;
+    justify-content: space-between; 
+   border-bottom: 1px solid gray;
+   align-items: center;
+   width: 90%;
+   margin: 3rem 0 0 1rem;
+   font-family: 'Roboto Condensed'
+}
 
-}  */
+.playlist-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Roboto Condensed'
+   
+}
+  .playlistInfo{
+    color: white;
+    margin: .5rem 2rem;
+   display: flex;
+   flex-direction: row;
+   gap: 1rem;
+   align-items: center;
+   font-family: 'Roboto Condensed'
+
+}  
+
+.trackImg{
+display: flex;
+ flex-direction: row;
+ align-items: center;
+ gap: 1rem;
+}
+.trackImg img{
+    width: 3rem;
+    height: 3rem;
+}
+
+.trackInfo{
+
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+   
+}
+
+/* test */
+.song-info{
+    display:flex;
+    flex-direction:row;
+    gap: 1rem;
+     margin: 1rem 0 .5rem 1rem
+    
+}
+.album-info{
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    text-align: left;
+    align-items: center;
+    
+}

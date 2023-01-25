@@ -5,6 +5,8 @@ import DisplayContext from "../../context/DisplayContext.js";
 import classes from "./CategoryList.module.css";
 import style from "../MusicBox.module.css";
 import { NavLink, Outlet } from "react-router-dom";
+
+
 export default function CategoryList() {
   const searchParams = useToken();
 
@@ -13,7 +15,7 @@ export default function CategoryList() {
 
   const getCatPlaylist = async () => {
     await fetch(
-      `https://api.spotify.com/v1/browse/categories/${catId}/playlists`,
+      `https://api.spotify.com/v1/browse/categories/${catId}/playlists?limit=50`,
       searchParams
     )
       .then(res => res.json())
