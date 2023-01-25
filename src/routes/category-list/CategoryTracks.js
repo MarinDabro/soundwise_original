@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { prominent } from 'color.js';
-import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function CategoryTracks(props) {
   const [display, dispatch] = useContext(DisplayContext);
