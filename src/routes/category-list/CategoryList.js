@@ -37,7 +37,7 @@ export default function CategoryList() {
           <div>
             <h2 className={classes.header}> {catName} </h2>
             <div className={style.albumContainer}>
-              {playLists.playlists.items.map((playlist, index) => {
+              {playLists?.playlists?.items?.map((playlist, index) => {
                 return (
                   <NavLink
                     to="/activePlaylist"

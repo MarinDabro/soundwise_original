@@ -1,3 +1,4 @@
+
 import React, { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { useToken } from '../../spotify.js';
@@ -7,7 +8,9 @@ import classes from './CategoryTracks.module.css';
 import { NavLink, Outlet } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
+
 import { prominent } from 'color.js';
+import Bouncer from '../../functions/bouncer.js'
 
 export default function CategoryTracks(props) {
   const [display, dispatch] = useContext(DisplayContext);
@@ -15,10 +18,11 @@ export default function CategoryTracks(props) {
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState('');
 
-  const trackId = activePlaylist.id;
-  const trackName = activePlaylist.name;
+  const trackId = activePlaylist?.id;
+  const trackName = activePlaylist?.name;
   //search params for fetching data
   const searchParams = useToken();
+
 
   //convert duration time to hours and minutes
   function msToTime(ms) {
@@ -42,13 +46,17 @@ export default function CategoryTracks(props) {
 
   //store the colors from album cover
   const fetchColor = async () => {
-    prominent(activePlaylist.images[0].url, {
-      format: 'hex',
+
+    prominent(activePlaylist?.images[0]?.url, {
+      format: "hex",
+
       amount: 5,
     }).then(color => {
       setColors(color);
     });
   };
+
+
 
   const getCatTracks = async () => {
     await fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
@@ -81,6 +89,7 @@ export default function CategoryTracks(props) {
     <div className={classes.main}>
       {tracks && colors && (
         <div>
+          <Bouncer dependencies={[activePlaylist]} />
           <div className={classes.headerNav}>The top nav</div>
           <div
             className={classes.header}
