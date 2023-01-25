@@ -33,8 +33,13 @@ export default function CategoryTracks(props) {
     d = Math.floor(h / 24);
     h = h % 24;
     h += d * 24;
-    const duration = h + "h" + m + "m" + s + "s";
-    return duration;
+    const duration = h + " h " + m + " min";
+
+    if (s < 10) {
+      s = "0" + s;
+    }
+    const trackTime = m + ":" + s;
+    return [duration, trackTime];
   }
 
   //store the colors from album cover
@@ -46,18 +51,6 @@ export default function CategoryTracks(props) {
       setColors(color);
     });
   };
-  fetchColor();
-
-  /*   const getCatTracks = async () => {
-    await fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
-      .then(res => res.json())
-      .then(res =>
-        dispatch({
-          type: 'SET_TRACKS',
-          tracks: res,
-        })
-      );
-  }; */
 
   const getCatTracks = async () => {
     await fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
@@ -68,7 +61,7 @@ export default function CategoryTracks(props) {
         res.tracks.items.map(track => {
           timeCounter += track.track.duration_ms;
           const durationTime = msToTime(timeCounter);
-          setDuration(durationTime);
+          setDuration(durationTime[0]);
           return durationTime;
         });
 
@@ -151,7 +144,7 @@ export default function CategoryTracks(props) {
                     {track.track.album.release_date}
                   </div>{" "}
                   <div className={classes["track-duration"]}>
-                    {track.track.album.duration_ms}
+                    {msToTime(track.track.duration_ms)[1]}
                   </div>
                 </div>
               );
