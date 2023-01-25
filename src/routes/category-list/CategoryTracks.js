@@ -135,9 +135,11 @@ export default function CategoryTracks(props) {
               </div>
               {tracks?.tracks?.items.map((track, index) => {
                 return (
-                  <div 
+                  <NavLink 
                     key={track.track.name} 
                     className={classes['playlist-container']}
+                    onFocus={(e) => e.target.classList.add(classes.active)}
+                    onBlur={(e) => e.target.classList.remove(classes.active)}
                   >
                     <div className={classes.playlistInfo} key={index}>
                       <div className={classes.trackImg}>
@@ -163,7 +165,7 @@ export default function CategoryTracks(props) {
                     <div className={classes['track-duration']}>
                       {msToTime(track.track.duration_ms)[1]}
                     </div>
-                  </div>
+                  </NavLink>
                 );
               })}
             </div>
