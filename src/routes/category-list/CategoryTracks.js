@@ -7,9 +7,9 @@ import classes from "./CategoryTracks.module.css";
 import { NavLink, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { prominent } from 'color.js';
 
-import { prominent } from "color.js";
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+
 
 export default function CategoryTracks(props) {
   const [display, dispatch] = useContext(DisplayContext);

@@ -119,7 +119,6 @@ display: flex;
 .album-info{
     display: flex;
     justify-content: left;
-    flex-direction: column;
     text-align: left;
     align-items: center;
     
