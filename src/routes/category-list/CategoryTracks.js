@@ -152,10 +152,10 @@ export default function CategoryTracks(props) {
                         }
                       </div>
                       <div className={classes.trackInfo}>
-                        <NavLink>{track.track.name}</NavLink>
+                        <NavLink className={classes['track-nav']}>{track.track.name}</NavLink>
                         <div> {track.track.artists.map((artist, index) => {
                           return(
-                            <NavLink key= {index} to='/artist'>
+                            <NavLink className={classes['track-navName']} key= {index} to='/artist'>
                               {artist.name}
                             </NavLink>
                           )
