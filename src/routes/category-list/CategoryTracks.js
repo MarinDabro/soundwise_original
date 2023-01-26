@@ -81,6 +81,9 @@ export default function CategoryTracks(props) {
       getCatTracks();
       fetchColor();
     }
+    fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
+      .then(res => res.json())
+      .then(res => console.log(res));
   }, []);
 
   const handleClick = id => {
@@ -152,7 +155,16 @@ export default function CategoryTracks(props) {
                       </div>
                       <div className={classes.trackInfo}>
                         <div>{track.track.name}</div>
-                        <div> {track.track.artists[0].name} </div>
+                        <div>
+                          {" "}
+                          {track.track.artists.map((artist, idx) => {
+                            return (
+                              <div key={idx}>
+                                {(idx ? "," : "") + artist.name}
+                              </div>
+                            );
+                          })}{" "}
+                        </div>
                       </div>
                     </div>
                     <div className={classes["album-info"]}>
