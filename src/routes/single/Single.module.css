@@ -88,11 +88,11 @@
 }
 
 .active {
-  background-color: #2e2d2dbb;
+  background-color: #444444bb;
 }
 
 .active:hover {
-  background-color: #252424bb;
+  background-color: #444444bb;
 }
 
 .playlist-container {
