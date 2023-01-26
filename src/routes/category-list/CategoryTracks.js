@@ -86,6 +86,11 @@ export default function CategoryTracks(props) {
     }
   }, []);
 
+  const listFocus = (e) => {
+    console.log(e.target.classList)
+    e.target.classList.toggle(classes.active)
+  }
+
   return (
     <div className={classes.main}>
       {tracks && colors && (
@@ -130,7 +135,12 @@ export default function CategoryTracks(props) {
               </div>
               {tracks?.tracks?.items.map((track, index) => {
                 return (
-                  <div activeClassName= {classes.active} className={classes['playlist-container']}  key={index}>
+                  <NavLink 
+                    key={track.track.name} 
+                    className={classes['playlist-container']}
+                    onFocus={(e) => e.target.classList.add(classes.active)}
+                    onBlur={(e) => e.target.classList.remove(classes.active)}
+                  >
                     <div className={classes.playlistInfo} key={index}>
                       <div className={classes.trackImg}>
                         <div>{index + 1}</div>
@@ -155,7 +165,7 @@ export default function CategoryTracks(props) {
                     <div className={classes['track-duration']}>
                       {msToTime(track.track.duration_ms)[1]}
                     </div>
-                  </div>
+                  </NavLink>
                 );
               })}
             </div>
