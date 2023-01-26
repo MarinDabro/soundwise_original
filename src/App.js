@@ -14,6 +14,7 @@ import Songs from './routes/songs/Songs';
 import CategoryTracks from './routes/category-list/CategoryTracks';
 import Profile from './routes/profile/Profile';
 import classes from './App.module.css';
+import Player from './components/player/Player';
 
 function App() {
   const [{ token, user }, DISPATCH] = useContext(MainContext);
@@ -68,7 +69,7 @@ function App() {
   return (
     <div className={classes.main}>
       <Nav />
-      <Routes>
+      <Routes className={classes.routes}>
         <Route path="/" element={<Home />} />
         <Route path="search" element={<Search />} />
         <Route path="library" element={<Library />} />
@@ -78,6 +79,7 @@ function App() {
         <Route path='profile' element={<Profile/>}/>
         {/* <Route path="login" element={<Login />} /> */}
       </Routes>
+      <Player />
       <Login />
       {user ? <UserHome /> : <div></div>}
     </div>
