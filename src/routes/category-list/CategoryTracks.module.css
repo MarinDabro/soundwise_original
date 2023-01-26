@@ -74,16 +74,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-decoration: none;
 }
 
 .playlist-container:hover{
+    background-color: #222222bb;
+    border-radius: 2.5px;
+}
+
+.playlist-container:visited {
+  color: white;
     background-color: gray;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .active{
-    background-color: lightgray;
+    background-color: #444444bb;
+}
+
+.active:hover{
+  background-color: #444444bb;
 }
 
 .playlist-container {

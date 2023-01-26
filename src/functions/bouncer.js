@@ -5,7 +5,6 @@ const Bouncer = ({dependencies}) => {
   const navigate = useNavigate()
 
   dependencies?.map(dep => {
-    console.log(dep)
     if (!dep) {
       navigate('/')
     }
