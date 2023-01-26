@@ -69,16 +69,18 @@ function App() {
   return (
     <div className={classes.main}>
       <Nav />
-      <Routes className={classes.routes}>
-        <Route path="/" element={<Home />} />
-        <Route path="search" element={<Search />} />
-        <Route path="library" element={<Library />} />
-        <Route path="playlist" element={<Playlist />} />
-        <Route path="songs" element={<Songs />} />
-        <Route path='activePlaylist' element={<CategoryTracks/>}/>
-        <Route path='profile' element={<Profile/>}/>
-        {/* <Route path="login" element={<Login />} /> */}
-      </Routes>
+      <div className={classes.routes}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="search" element={<Search />} />
+          <Route path="library" element={<Library />} />
+          <Route path="playlist" element={<Playlist />} />
+          <Route path="songs" element={<Songs />} />
+          <Route path='activePlaylist' element={<CategoryTracks/>}/>
+          <Route path='profile' element={<Profile/>}/>
+          {/* <Route path="login" element={<Login />} /> */}
+        </Routes>
+      </div>
       <Player />
       <Login />
       {user ? <UserHome /> : <div></div>}

@@ -17,7 +17,8 @@ export default function Search() {
   const {catId, catName} = display
   const [searchInput, setSearchInput] = useState("");
   const [browseAll, setBrowseAll] = useState({});
-  const [activeCat, setActiveCat] = useState('all')
+  const [activeType, setActiveType] = useState(["album", "artist", "playlist", "track", "show", "episode", "audiobook"])
+  const [activeCat, setActiveCat] = useState(false)
 
   //get the return params from useToken function
   const searchParams = useToken();
@@ -62,26 +63,17 @@ export default function Search() {
   }, [searchInput]);
 
   async function getSearch() {
-    const artistID = await fetch(
-      `https://api.spotify.com/v1/search?q=${searchInput}&type=artist`,
-      searchParams
-    )
-      .then(res => res.json())
-      .then(res => {
-        return res.artists?.items[0].id; // add "?" to avoid the error of no artist
-      });
 
     await fetch(
-      `https://api.spotify.com/v1/artists/${artistID}/albums/?include_groups=album&market=US&limit=50`,
+      `https://api.spotify.com/v1/search?q=${searchInput}&type=${activeType}`,
       searchParams
     )
-      .then(res => res.json())
-      .then(res => {
-        DISPATCH({
-          type: "SET_ALBUMS",
-          albums: res.items,
-        });
-      });
+    .then(res => res.json())
+    .then(res => {
+      console.log('test',res)
+      setActiveCat(res); // add "?" to avoid the error of no artist
+    });
+
   }
 
 
@@ -90,7 +82,7 @@ export default function Search() {
       {catPlaylist ? (
         <CategoryList />
       ) : (
-        <div className={classes.main}>
+        <div className={`${classes.main} ${searchInput && classes.mainScroll}`}>
           <div className={classes.searchBar}>
             <input
               placeholder="&#xF002; What do you want to listen to"
@@ -98,13 +90,13 @@ export default function Search() {
               onChange={e => setSearchInput(e.target.value)}
             />
           </div>
-          {searchInput && <SearchNav activeCat={activeCat} setActiveCat={setActiveCat} />}
+          {searchInput && <SearchNav activeType={activeType} setActiveType={setActiveType} />}
           <div>
             {searchInput ? (
               <div>
                 <h3>Albums</h3>
               <div className={style.albumContainer}>
-                {albums.map((album, index) => {
+                {albums?.map((album, index) => {
                   return (
                     <div key={index} className={style.albumBox}>
                       <div className={style.albumImage}>
