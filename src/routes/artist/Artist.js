@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import { useToken } from "../../spotify.js";
 import DisplayContext from "../../context/DisplayContext.js";
-import style from "../MusicBox.module.css";
 import classes from "./Artist.module.css";
 import { NavLink, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,15 +9,14 @@ import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 import { prominent } from "color.js";
 import Bouncer from "../../functions/bouncer.js";
+import { useRef } from "react";
 
-export default function CategoryTracks(props) {
+export default function Artist() {
   const [display, dispatch] = useContext(DisplayContext);
-  const { tracks, activePlaylist, artistId, singleId } = display;
+  const { tracks, activePlaylist } = display;
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState("");
-
-  //checking active action on div click
-  const [active, setActive] = useState();
+  const [isActive, setIsActive] = useState(-1);
 
   const trackId = activePlaylist?.id;
   const trackName = activePlaylist?.name;
@@ -60,7 +58,6 @@ export default function CategoryTracks(props) {
     await fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
       .then(res => res.json())
       .then(res => {
-        //counting total tracks duration time
         let timeCounter = 0;
         res.tracks.items.map(track => {
           timeCounter += track.track.duration_ms;
@@ -68,7 +65,6 @@ export default function CategoryTracks(props) {
           setDuration(durationTime[0]);
           return durationTime;
         });
-
         dispatch({
           type: "SET_TRACKS",
           tracks: res,
@@ -86,17 +82,29 @@ export default function CategoryTracks(props) {
       .then(res => console.log(res));
   }, []);
 
-  /*   const listFocus = (e) => {
-    console.log(e.target.classList)
-    e.target.classList.toggle(classes.active)
-  }
- */
+  // handle selected track to be active and lost focus by click outside of playlist
+  const ref = useRef(null);
+  useEffect(() => {
+    const handleOutsideClick = e => {
+      if (!ref?.current?.contains(e.target)) {
+        setIsActive(-1);
+      }
+    };
+    const timeoutId = setTimeout(() => {
+      document.addEventListener("click", handleOutsideClick, false);
+    }, 0);
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener("click", handleOutsideClick, false);
+    };
+  }, [isActive]);
+
   return (
     <div className={classes.main}>
-      {tracks && colors && (
+      {tracks && colors && activePlaylist && (
         <div>
           <Bouncer dependencies={[activePlaylist]} />
-          <div className={classes.headerNav}>The artist nav</div>
+          <div className={classes.headerNav}>The ARTIST page</div>
           <div
             className={classes.header}
             style={{
@@ -135,11 +143,17 @@ export default function CategoryTracks(props) {
               </div>
               {tracks?.tracks?.items.map((track, index) => {
                 return (
-                  <NavLink
+                  <div
                     key={index}
-                    className={classes["playlist-container"]}
-                    onFocus={e => e.target.classList.add(classes.active)}
-                    onBlur={e => e.target.classList.remove(classes.active)}
+                    onClick={e => {
+                      e.stopPropagation();
+                      setIsActive(index);
+                    }}
+                    className={`${isActive === index ? classes.active : ""} ${
+                      classes["playlist-container"]
+                    } `}
+                    /*       onFocus={e => e.target.classList.add(classes.active)}
+                    onBlur={e => e.target.classList.remove(classes.active)} */
                   >
                     <div className={classes.playlistInfo} key={index}>
                       <div className={classes.trackImg}>
@@ -153,10 +167,11 @@ export default function CategoryTracks(props) {
                       </div>
                       <div className={classes.trackInfo}>
                         <NavLink
+                          to="/single"
                           onClick={() => {
                             dispatch({
-                              type: "SET_SINGLE_ID",
-                              singleId: track.track.id,
+                              type: "SET_SINGLE_TRACK",
+                              singleTrack: track,
                             });
                           }}
                         >
@@ -167,6 +182,7 @@ export default function CategoryTracks(props) {
                           {track.track.artists.map((artist, index) => {
                             return (
                               <NavLink
+                                to="/artist"
                                 key={index}
                                 onClick={() => {
                                   dispatch({
@@ -191,7 +207,7 @@ export default function CategoryTracks(props) {
                     <div className={classes["track-duration"]}>
                       {msToTime(track.track.duration_ms)[1]}
                     </div>
-                  </NavLink>
+                  </div>
                 );
               })}
             </div>
