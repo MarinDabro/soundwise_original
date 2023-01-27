@@ -11,15 +11,14 @@
   padding: 2rem;
   color: white;
   background-color: blue;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
 }
 
 .header h2 {
-  
   letter-spacing: 1;
   margin-left: 1rem;
   margin-top: 3rem;
-  font-size: calc(4rem + 2.5vw);
+  font-size: calc(3rem + 2vw);
 }
 
 .header img {
@@ -64,18 +63,19 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  font-family:  Helvetica,sans-serif; 
+  font-family: Helvetica, sans-serif;
 }
 
 .song-info,
 .playlist-container {
   width: 95%;
-  padding: .5rem 1.5rem  ;
+  padding: 0.5rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   text-decoration: none;
 }
+
 
 .song-info,.album-info,.album-date,.track-navName{
     font-size: .8rem;
@@ -89,10 +89,12 @@
 .playlist-container:hover{
     background-color: var( --color-backGround-hover);
     border-radius: 2.5px;
+
 }
 
 .playlist-container:visited {
   color: white;
+
    
     border-radius: 2.5px;
     
@@ -101,10 +103,11 @@
 .active{
      border-radius: 2.5px;
     background-color: #444444bb;
+
 }
 
-.active:hover{
-  background-color: #444444bb;
+.active:hover {
+  background-color: #252424bb;
 }
 
 .playlist-container {
@@ -129,11 +132,12 @@
   height: 3rem;
 }
 
-.trackInfo{
-    display: flex;
-    flex-direction: column;
-    gap: .3rem;
+.trackInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
+
 
 .track-nav,.track-navName{
     text-decoration: none;
@@ -149,16 +153,16 @@
 
 .song-release{
     width: 21.5%;
+
 }
 
 .playlistInfo,
 .album-info,
-.song-title, 
-.song-album
- {
+.song-title,
+.song-album {
   width: 35%;
 }
 
-.album-date{
-    width: 20%;
+.album-date {
+  width: 20%;
 }
