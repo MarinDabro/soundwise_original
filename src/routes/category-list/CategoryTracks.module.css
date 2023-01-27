@@ -76,19 +76,34 @@
   text-decoration: none;
 }
 
-.playlist-container:hover {
-  background-color: #222222bb;
-  border-radius: 2.5px;
+
+.song-info,.album-info,.album-date,.track-navName{
+    font-size: .8rem;
+    color: rgb(168, 162, 162);
+}
+
+.track-duration{
+    color: rgb(168, 162, 162);
+}
+
+.playlist-container:hover{
+    background-color: var( --color-backGround-hover);
+    border-radius: 2.5px;
+
 }
 
 .playlist-container:visited {
   color: white;
-  background-color: gray;
-  border-radius: 5px;
+
+   
+    border-radius: 2.5px;
+    
 }
 
-.active {
-  background-color: #2e2d2dbb;
+.active{
+     border-radius: 2.5px;
+    background-color: #444444bb;
+
 }
 
 .active:hover {
@@ -123,8 +138,22 @@
   gap: 0.3rem;
 }
 
-.song-release {
-  width: 21.5%;
+
+.track-nav,.track-navName{
+    text-decoration: none;
+}
+
+.track-nav{
+    color:white;
+}
+
+
+
+
+
+.song-release{
+    width: 21.5%;
+
 }
 
 .playlistInfo,

@@ -1,0 +1,8 @@
+.player {
+  width: 100vw;
+  height: 5.7rem;
+  position: absolute;
+  bottom: 0;
+  color: white;
+  background-color: #222;
+}

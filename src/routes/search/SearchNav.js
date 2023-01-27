@@ -2,23 +2,28 @@ import React from 'react'
 import classes from './SearchNav.module.css'
 
 
-const SearchNav = ({activeCat, setActiveCat}) => {
+const SearchNav = ({activeType, setActiveType}) => {
+  const all = ["album", "artist", "playlist", "track", "show", "episode", "audiobook"]
+  const playlist = ['playlist']
+  const albums = ['album']
+  const track = ['track']
+  const artists = ['artist']
+  const podcasts = ['podcast', 'show']
 
   const setCategory = (e) => {
+    console.log(activeType)
     console.log(e.target.value)
-    setActiveCat(e.target.value)
+    setActiveType(e.target.value)
   }
 
   return (
     <div className={classes.searchNav}>
-      <button className={activeCat === 'all' ? classes.active : ''} value='all' onClick={setCategory}>All</button>
-      <button className={activeCat === 'playlists' ? classes.active : ''} value='playlists' onClick={setCategory}>Playlists</button>
-      <button className={activeCat === 'podcasts & shows' ? classes.active : ''} value='podcasts & shows' onClick={setCategory}>Podcasts & Shows</button>
-      <button className={activeCat === 'genres & moods' ? classes.active : ''} value='genres & moods' onClick={setCategory}>Genres & Moods</button>
-      <button className={activeCat === 'artists' ? classes.active : ''} value='artists' onClick={setCategory}>Artists</button>
-      <button className={activeCat === 'songs' ? classes.active : ''} value='songs' onClick={setCategory}>Songs</button>
-      <button className={activeCat === 'profiles' ? classes.active : ''} value='profiles' onClick={setCategory}>Profiles</button>
-      <button className={activeCat === 'albums' ? classes.active : ''} value='albums' onClick={setCategory}>Albums</button>
+      <button className={activeType.length > 3 ? classes.active : ''} value={all} onClick={setCategory}>All</button>
+      <button className={activeType == playlist ? classes.active : ''} value={playlist} onClick={setCategory}>Playlists</button>
+      <button className={activeType == albums ? classes.active : ''} value={albums} onClick={setCategory}>Albums</button>
+      <button className={activeType == track ? classes.active : ''} value={track} onClick={setCategory}>Songs</button>
+      <button className={activeType == artists ? classes.active : ''} value={artists} onClick={setCategory}>Artists</button>
+      <button className={activeType == podcasts ? classes.active : ''} value={podcasts} onClick={setCategory}>Podcasts & Shows</button>
     </div>
   )
 }

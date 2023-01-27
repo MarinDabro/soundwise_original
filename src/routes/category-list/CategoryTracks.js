@@ -167,6 +167,7 @@ export default function CategoryTracks() {
                         }
                       </div>
                       <div className={classes.trackInfo}>
+
                         <NavLink
                           to="/single"
                           onClick={() => {
@@ -197,6 +198,7 @@ export default function CategoryTracks() {
                             );
                           })}{" "}
                         </div>
+
                       </div>
                     </div>
                     <div className={classes["album-info"]}>
