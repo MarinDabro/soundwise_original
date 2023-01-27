@@ -21,6 +21,11 @@
   bottom: 0;
   left: 0;
   right: 0;
+  scrollbar-width: none; 
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 :root {
