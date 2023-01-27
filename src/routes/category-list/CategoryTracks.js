@@ -169,6 +169,7 @@ export default function CategoryTracks() {
                       <div className={classes.trackInfo}>
 
                         <NavLink
+                        className={classes['track-nav']}
                           to="/single"
                           onClick={() => {
                             dispatch({
@@ -184,6 +185,7 @@ export default function CategoryTracks() {
                           {track.track.artists.map((artist, index) => {
                             return (
                               <NavLink
+                              className={classes['track-navName']}
                                 to="/artist"
                                 key={index}
                                 onClick={() => {
