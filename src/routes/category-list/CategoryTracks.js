@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import { useToken } from "../../spotify.js";
 import DisplayContext from "../../context/DisplayContext.js";
-import style from "../MusicBox.module.css";
 import classes from "./CategoryTracks.module.css";
 import { NavLink, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -78,9 +77,6 @@ export default function CategoryTracks() {
       getCatTracks();
       fetchColor();
     }
-    fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
-      .then(res => res.json())
-      .then(res => console.log(res));
   }, []);
 
   // handle selected track to be active and lost focus by click outside of playlist
@@ -187,8 +183,8 @@ export default function CategoryTracks() {
                                 key={index}
                                 onClick={() => {
                                   dispatch({
-                                    type: "SET_ARTIST_ID",
-                                    artistId: artist.id,
+                                    type: "SET_ARTIST",
+                                    artist: artist,
                                   });
                                 }}
                               >

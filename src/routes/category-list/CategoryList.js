@@ -6,7 +6,6 @@ import classes from "./CategoryList.module.css";
 import style from "../MusicBox.module.css";
 import { NavLink, Outlet } from "react-router-dom";
 
-
 export default function CategoryList() {
   const searchParams = useToken();
 

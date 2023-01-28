@@ -8,6 +8,7 @@ export const initialState = {
   singleId: "",
   singleTrack: null,
   artist: null,
+  albumId: "",
 };
 
 export const displayReducer = (state, action) => {
@@ -64,6 +65,12 @@ export const displayReducer = (state, action) => {
       return {
         ...state,
         singleTrack: action.singleTrack,
+      };
+    }
+    case "SET_ALBUM_ID": {
+      return {
+        ...state,
+        albumId: action.albumId,
       };
     }
     default: {

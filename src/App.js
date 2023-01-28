@@ -15,6 +15,7 @@ import CategoryTracks from "./routes/category-list/CategoryTracks";
 import Profile from "./routes/profile/Profile";
 import Artist from "./routes/artist/Artist";
 import Single from "./routes/single/Single";
+import Album from "./routes/albums/Album";
 import classes from "./App.module.css";
 import { useToken } from "./spotify.js";
 
@@ -85,6 +86,7 @@ function App() {
         <Route path="profile" element={<Profile />} />
         <Route path="artist" element={<Artist />} />
         <Route path="single" element={<Single />} />
+        <Route path="album" element={<Album />} />
         {/* <Route path="login" element={<Login />} /> */}
       </Routes>
       <Login />

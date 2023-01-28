@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import { useToken } from "../../spotify.js";
 import DisplayContext from "../../context/DisplayContext.js";
-import classes from "./Artist.module.css";
+import classes from "./Album.module.css";
 import { NavLink, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
@@ -11,9 +11,9 @@ import { prominent } from "color.js";
 import Bouncer from "../../functions/bouncer.js";
 import { useRef } from "react";
 
-export default function Artist() {
+export default function CategoryTracks() {
   const [display, dispatch] = useContext(DisplayContext);
-  const { tracks, activePlaylist, artist } = display;
+  const { tracks, activePlaylist, albumId } = display;
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState("");
   const [isActive, setIsActive] = useState(-1);
@@ -76,7 +76,6 @@ export default function Artist() {
     if (trackId) {
       getCatTracks();
       fetchColor();
-      console.log(artist);
     }
   }, []);
 
@@ -102,7 +101,7 @@ export default function Artist() {
       {tracks && colors && activePlaylist && (
         <div>
           <Bouncer dependencies={[activePlaylist]} />
-          <div className={classes.headerNav}>The ARTIST page</div>
+          <div className={classes.headerNav}>The ALBUM</div>
           <div
             className={classes.header}
             style={{
@@ -184,8 +183,8 @@ export default function Artist() {
                                 key={index}
                                 onClick={() => {
                                   dispatch({
-                                    type: "SET_ARTIST_ID",
-                                    artistId: artist.id,
+                                    type: "SET_ARTIST",
+                                    artist: artist,
                                   });
                                 }}
                               >
