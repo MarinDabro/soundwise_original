@@ -5,6 +5,10 @@
     width: 25%;
     height: 15rem;
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 1rem 1rem;
+    gap: 1rem;
     padding: 2rem;
     border-radius: 10px;
     background-color: var(--color-album-backGround);
