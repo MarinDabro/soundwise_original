@@ -1,6 +1,5 @@
 export const initialState = {
   token: "",
-  
   featuredPlaylists: null,
   playListTracks: [],
   newRelease: null,

@@ -6,7 +6,8 @@ import MainContext from "../../context/MainContext";
 import DisplayContext from "../../context/DisplayContext";
 import style from "../MusicBox.module.css";
 import { useToken } from "../../spotify.js";
-import SearchNav from './SearchNav.js'
+import SearchNav from './components/SearchNav.js'
+import SearchResults from "./components/SearchResults";
 import CategoryList from "../category-list/CategoryList";
 
 
@@ -23,9 +24,8 @@ export default function Search() {
   //get the return params from useToken function
   const searchParams = useToken();
 
-  /*  console.log(albums); 
+  console.log(albums); 
   console.log(browseAll);
-  */
 
 
   /* ===> Trying the categories api */
@@ -60,7 +60,7 @@ export default function Search() {
 
     if (searchInput !== '') getSearch();
 
-  }, [searchInput]);
+  }, [searchInput, activeCat]);
 
   async function getSearch() {
 
@@ -91,27 +91,10 @@ export default function Search() {
             />
           </div>
           {searchInput && <SearchNav activeType={activeType} setActiveType={setActiveType} />}
+          {searchInput && <SearchResults activeCat={activeCat} />}
           <div>
-            {searchInput ? (
-              <div>
-                <h3>Albums</h3>
-              <div className={style.albumContainer}>
-                {albums?.map((album, index) => {
-                  return (
-                    <div key={index} className={style.albumBox}>
-                      <div className={style.albumImage}>
-                        <img src={album.images[0].url} alt="/playlist images" />
-                      </div>
-                      <div className={style.albumName}>{album.name}</div>
-                      <div className={style.artistName}>
-                        {album.artists[0].name}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              </div>
-            ) : (
+            {!searchInput ? (
+              
               //if no searchInput then show all categories
               <div className={style.albumContainer}>
                 {browseAll.categories?.items.map((cat, idx) => {
@@ -152,7 +135,7 @@ export default function Search() {
                   );
                 })}
               </div>
-            )}
+            ) : <div></div> }
           </div>
         </div>
       )}
