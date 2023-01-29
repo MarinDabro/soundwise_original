@@ -1,0 +1,16 @@
+
+
+.top-artist{
+
+    width: 25%;
+    height: 15rem;
+    display: flex;
+    padding: 2rem;
+    border-radius: 10px;
+    background-color: var(--color-album-backGround);
+}
+.top-artist img{
+ width: 6rem;
+ height: 6rem;
+ border-radius: 50%;
+}

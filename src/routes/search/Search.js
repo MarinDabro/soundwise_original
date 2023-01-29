@@ -91,7 +91,7 @@ export default function Search() {
             />
           </div>
           {searchInput && <SearchNav activeType={activeType} setActiveType={setActiveType} />}
-          {searchInput && <SearchResults activeCat={activeCat} activeType={activeType} />}
+          {searchInput && activeCat? <SearchResults activeCat={activeCat} activeType={activeType} /> : ''}
           <div>
             {!searchInput ? (
               

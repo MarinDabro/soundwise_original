@@ -1,5 +1,5 @@
 import React from 'react';
-import allResults from './allResults';
+import AllResults from './AllResults.js';
 
 const SearchResults = ({ activeCat, activeType }) => {
   const { albums, artists, audiobooks, episodes, playlists, shows, tracks } =
@@ -19,7 +19,7 @@ const SearchResults = ({ activeCat, activeType }) => {
   console.log(albums);
   if(activeType.length > 3){
     
-    return <allResults categories= {categories}/>
+    return <div><AllResults categories= {categories}/></div>
   }
 
   

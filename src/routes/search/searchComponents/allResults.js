@@ -1,16 +1,29 @@
 import React from 'react';
+import general from './GeneralStyle.module.css';
+import classes from './AllResults.module.css';
 
-export default function allResults({ categories }) {
+export default function AllResults({ categories }) {
+  console.log(categories);
+  console.log(categories.artists.items[0].name);
   return (
-    <div>
+    <div className={general.main}>
       <div>
-        <div>
-        <h3>Top Results</h3>
-        {categories.artists[0]}
+        <h4>Top Results</h4>
+        <div className={classes['top-artist']}>
+          <img
+            src={categories.artists?.items[0].images.at(-1).url}
+            alt="artist_image"
+          />
+
+          <h3 style={{ color: 'white' }}>
+            {' '}
+            {categories.artists?.items[0].name}{' '}
+          </h3>
         </div>
-        
-        <div><h3>Songs</h3></div>
-        
+
+        <div>
+          <h3>Songs</h3>
+        </div>
       </div>
     </div>
   );
