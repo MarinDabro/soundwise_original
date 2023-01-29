@@ -12,6 +12,22 @@ export default function CategoryList() {
   const [display, dispatch] = useContext(DisplayContext);
   const { playLists, catId, catName } = display;
 
+  /*   const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "a30f2317c7msh081028190b66273p16916ejsn052158fd6dd7",
+      "X-RapidAPI-Host": "theaudiodb.p.rapidapi.com",
+    },
+  };
+
+  fetch(
+    "https://theaudiodb.p.rapidapi.com/searchalbum.php?s=daft_punk",
+    options
+  )
+    .then(response => response.json())
+    .then(response => console.log(response))
+    .catch(err => console.error(err)); */
+
   const getCatPlaylist = async () => {
     await fetch(
       `https://api.spotify.com/v1/browse/categories/${catId}/playlists?limit=50`,

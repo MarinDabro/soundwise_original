@@ -8,7 +8,7 @@ export const initialState = {
   singleId: "",
   singleTrack: null,
   artist: null,
-  albumId: "",
+  album: null,
 };
 
 export const displayReducer = (state, action) => {
@@ -67,10 +67,10 @@ export const displayReducer = (state, action) => {
         singleTrack: action.singleTrack,
       };
     }
-    case "SET_ALBUM_ID": {
+    case "SET_ALBUM": {
       return {
         ...state,
-        albumId: action.albumId,
+        album: action.album,
       };
     }
     default: {

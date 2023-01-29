@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import { useToken } from "../../spotify.js";
 import DisplayContext from "../../context/DisplayContext.js";
+import PopularAlbums from "../artist/PopularAlbums.js";
+import RelatedArtists from "../artist/RelatedArtists.js";
 import classes from "./Album.module.css";
 import { NavLink, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,15 +15,21 @@ import { useRef } from "react";
 
 export default function CategoryTracks() {
   const [display, dispatch] = useContext(DisplayContext);
-  const { tracks, activePlaylist, albumId } = display;
+  const { activePlaylist, album } = display;
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState("");
   const [isActive, setIsActive] = useState(-1);
+  const [singleAlbum, setSingleAlbum] = useState(null);
+  const [artistInfo, setArtistInfo] = useState(null);
+  const [releaseTime, setReleaseTime] = useState("");
 
-  const trackId = activePlaylist?.id;
-  const trackName = activePlaylist?.name;
   //search params for fetching data
   const searchParams = useToken();
+
+  const albumId = album?.album.id;
+  const artistName = album?.artists[0].name;
+  const artistId = album.artists[0].id;
+  const releaseDate = album?.album.release_date;
 
   //convert duration time to hours and minutes
   function msToTime(ms) {
@@ -40,43 +48,94 @@ export default function CategoryTracks() {
       s = "0" + s;
     }
     const trackTime = m + ":" + s;
-    return [duration, trackTime];
+    let albumDuration = "";
+    if (h > 0) {
+      albumDuration = h + " h " + m + " min " + s + " sec";
+    } else {
+      albumDuration = m + " min " + s + " sec";
+    }
+
+    return [duration, trackTime, albumDuration];
   }
 
   //store the colors from album cover
   const fetchColor = async () => {
-    prominent(activePlaylist?.images[0]?.url, {
+    prominent(album?.album.images[1]?.url, {
       format: "hex",
-
       amount: 5,
     }).then(color => {
       setColors(color);
     });
   };
 
-  const getCatTracks = async () => {
-    await fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
+  const getAlbum = async () => {
+    await fetch(`https://api.spotify.com/v1/albums/${albumId}`, searchParams)
       .then(res => res.json())
       .then(res => {
+        setSingleAlbum(res);
         let timeCounter = 0;
-        res.tracks.items.map(track => {
-          timeCounter += track.track.duration_ms;
-          const durationTime = msToTime(timeCounter);
-          setDuration(durationTime[0]);
-          return durationTime;
-        });
-        dispatch({
-          type: "SET_TRACKS",
-          tracks: res,
-        });
+        if (res.album_type === "album") {
+          res.tracks?.items.map(track => {
+            timeCounter += track.duration_ms;
+            const durationTime = msToTime(timeCounter);
+            setDuration(durationTime[2]);
+            return durationTime;
+          });
+        } else {
+          const singleTime = msToTime(album.duration_ms);
+          setDuration(singleTime[2]);
+        }
       });
   };
 
+  //get artist info
+  const getArtistInfo = async () => {
+    await fetch(
+      `https://api.spotify.com/v1/artists/${artistId}`,
+      searchParams
+    ).then(res =>
+      res.json().then(res => {
+        setArtistInfo(res);
+      })
+    );
+  };
+
+  //convert time to date format
+  const getReleaseDate = () => {
+    const date = releaseDate;
+    const monthArr = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const getMonth = Math.floor(+date.substring(5, 7));
+    let alphaMonth = "";
+    monthArr.forEach((val, index) => {
+      if (index === getMonth) {
+        alphaMonth = val;
+      }
+    });
+    const fullDate =
+      alphaMonth + " " + date.substring(8, 10) + ", " + date.substring(0, 4);
+    setReleaseTime(fullDate);
+  };
+
   useEffect(() => {
-    if (trackId) {
-      getCatTracks();
+    if (albumId) {
+      getAlbum();
       fetchColor();
+      getArtistInfo();
     }
+    getReleaseDate();
   }, []);
 
   // handle selected track to be active and lost focus by click outside of playlist
@@ -98,7 +157,7 @@ export default function CategoryTracks() {
 
   return (
     <div className={classes.main}>
-      {tracks && colors && activePlaylist && (
+      {singleAlbum && colors && (
         <div>
           <Bouncer dependencies={[activePlaylist]} />
           <div className={classes.headerNav}>The ALBUM</div>
@@ -108,19 +167,35 @@ export default function CategoryTracks() {
               backgroundImage: `linear-gradient(to bottom left, ${colors[3]},  ${colors[4]})`,
             }}
           >
-            <img src={activePlaylist.images[0].url} alt="track_image" />
+            <img
+              className={classes["album_cover"]}
+              src={singleAlbum?.images[1].url}
+              alt="track_image"
+            />
             <div>
-              <h2>{trackName}</h2>
+              <h4>{singleAlbum?.album_type}</h4>
+              <h2>{singleAlbum?.name}</h2>
               <div className={classes.headerInfo}>
-                <p>{activePlaylist.description}</p>
                 <div>
+                  <img
+                    src={artistInfo?.images[2].url}
+                    alt="artist_image"
+                    className={classes["artist_image"]}
+                  />
                   <NavLink className={classes.profileLink} to="/profile">
-                    Spotify
+                    {singleAlbum?.artists[0].name}
                   </NavLink>
                   <span></span>
-                  <p>{tracks.followers.total} likes </p>
+                  <p style={{ fontWeight: "bold" }}>
+                    {singleAlbum?.release_date.substring(0, 4)}{" "}
+                  </p>
                   <span></span>
-                  <p>about {duration}</p>
+                  <p style={{ fontWeight: "bold" }}>
+                    {singleAlbum?.total_tracks}
+                    {singleAlbum.total_tracks > 1 ? " songs" : " song"}
+                    {", "}
+                  </p>
+                  <p>{duration}</p>
                 </div>
               </div>
             </div>
@@ -132,82 +207,99 @@ export default function CategoryTracks() {
                   <div>#</div>
                   <div>TITLE</div>
                 </div>
-                <div className={classes["song-album"]}>ALBUM</div>
-                <div className={classes["song-release"]}>RELEASE DATE</div>
+
                 <div className={classes["song-time"]}>
                   <FontAwesomeIcon icon={faClock} />
                 </div>
               </div>
-              {tracks?.tracks?.items.map((track, index) => {
-                return (
-                  <div
-                    key={index}
-                    onClick={e => {
-                      e.stopPropagation();
-                      setIsActive(index);
-                    }}
-                    className={`${isActive === index ? classes.active : ""} ${
-                      classes["playlist-container"]
-                    } `}
-                    /*       onFocus={e => e.target.classList.add(classes.active)}
-                    onBlur={e => e.target.classList.remove(classes.active)} */
-                  >
-                    <div className={classes.playlistInfo} key={index}>
-                      <div className={classes.trackImg}>
-                        <div>{index + 1}</div>
-                        {
-                          <img
-                            src={track.track.album.images[2].url}
-                            alt="playlist_image"
-                          />
-                        }
-                      </div>
-                      <div className={classes.trackInfo}>
-                        <NavLink
-                          to="/single"
-                          onClick={() => {
-                            dispatch({
-                              type: "SET_SINGLE_TRACK",
-                              singleTrack: track,
-                            });
-                          }}
-                        >
-                          {track.track.name}
-                        </NavLink>
-                        <div>
-                          {" "}
-                          {track.track.artists.map((artist, index) => {
-                            return (
-                              <NavLink
-                                to="/artist"
-                                key={index}
-                                onClick={() => {
-                                  dispatch({
-                                    type: "SET_ARTIST",
-                                    artist: artist,
-                                  });
-                                }}
-                              >
-                                {(index ? "," : "") + artist.name}
-                              </NavLink>
-                            );
-                          })}{" "}
-                        </div>
-                      </div>
+              {/* checking if album_type is single then no map */}
+              {singleAlbum?.album_type === "single" && (
+                <div
+                  onClick={e => {
+                    e.stopPropagation();
+                    setIsActive(0);
+                  }}
+                  className={`${isActive === 0 ? classes.active : ""} ${
+                    classes["playlist-container"]
+                  } `}
+                >
+                  <div className={classes.playlistInfo}>
+                    <div className={classes.trackImg}>
+                      <div>{1}</div>
                     </div>
-                    <div className={classes["album-info"]}>
-                      <div>{track.track.album.name}</div>
-                    </div>
-                    <div className={classes["album-date"]}>
-                      {track.track.album.release_date}
-                    </div>{" "}
-                    <div className={classes["track-duration"]}>
-                      {msToTime(track.track.duration_ms)[1]}
+                    <div className={classes.trackInfo}>
+                      <div>{singleAlbum.name}</div>
+                      <div>
+                        {" "}
+                        {singleAlbum.artists.map((artist, index) => {
+                          return (
+                            <div key={index} className={classes["artist_name"]}>
+                              {(index ? "," : "") + artist.name}
+                            </div>
+                          );
+                        })}{" "}
+                      </div>
                     </div>
                   </div>
-                );
-              })}
+
+                  <div className={classes["track-duration"]}>
+                    {msToTime(album.duration_ms)[1]}
+                  </div>
+                </div>
+              )}
+              {/* if album_type is "album" need to map through track items */}
+              {singleAlbum?.album_type === "album" &&
+                singleAlbum?.tracks?.items.map((track, index) => {
+                  return (
+                    <div
+                      key={index}
+                      onClick={e => {
+                        e.stopPropagation();
+                        setIsActive(index);
+                      }}
+                      className={`${isActive === index ? classes.active : ""} ${
+                        classes["playlist-container"]
+                      } `}
+                    >
+                      <div className={classes.playlistInfo} key={index}>
+                        <div className={classes.trackImg}>
+                          <div>{index + 1}</div>
+                        </div>
+                        <div className={classes.trackInfo}>
+                          <div>{track.name}</div>
+                          <div className={classes["artist_name"]}>
+                            {" "}
+                            {track.artists.map((artist, index) => {
+                              return (
+                                <div key={index}>
+                                  {(index ? "," : "") + artist.name}
+                                </div>
+                              );
+                            })}{" "}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={classes["track-duration"]}>
+                        {msToTime(track.duration_ms)[1]}
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
+            <div className={classes["album_copyright"]}>
+              <div>{releaseTime}</div>
+              <div>{singleAlbum.copyrights[0].text}</div>
+            </div>
+          </div>
+          <div>
+            <h2>{artistName} Albums</h2>
+            <PopularAlbums artistId={artistId} />
+          </div>
+
+          <div>
+            <h2>{artistName} Related Artists</h2>
+            <RelatedArtists artistId={artistId} />
           </div>
         </div>
       )}

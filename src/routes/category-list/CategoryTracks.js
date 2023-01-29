@@ -118,7 +118,7 @@ export default function CategoryTracks() {
                     Spotify
                   </NavLink>
                   <span></span>
-                  <p>{tracks.followers.total} likes </p>
+                  <p>{tracks.followers.total.toLocaleString()} likes </p>
                   <span></span>
                   <p>about {duration}</p>
                 </div>

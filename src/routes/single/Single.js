@@ -223,12 +223,14 @@ export default function Single() {
                   );
                 })}
             </div>
-            <button
-              onClick={() => setShowMore(!showMore)}
-              className={classes["show_btn"]}
-            >
-              {showMore ? "SHOW LESS" : "SEE MORE"}
-            </button>
+            {popularTrack?.tracks.length > 5 && (
+              <button
+                onClick={() => setShowMore(!showMore)}
+                className={classes["show_btn"]}
+              >
+                {showMore ? "SHOW LESS" : "SEE MORE"}
+              </button>
+            )}
           </div>
           <div>
             <h2>{artistName} Albums</h2>

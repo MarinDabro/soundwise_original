@@ -17,11 +17,18 @@
 .header h2 {
   letter-spacing: 1;
   margin-left: 1rem;
-  margin-top: 3rem;
+  margin-top: 0.5rem;
   font-size: calc(3rem + 2vw);
 }
+.header h4 {
+  text-transform: uppercase;
 
-.header img {
+  letter-spacing: 1;
+  margin-left: 1rem;
+  margin-top: 2.5rem;
+}
+
+.header album_cover {
   width: 15rem;
   height: 15rem;
 }
@@ -46,7 +53,17 @@
   background-color: white;
   border: 1px solid white;
 }
-
+.artist_info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+.artist_image {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+}
 .profileLink {
   text-decoration: none;
   color: white;
@@ -56,6 +73,26 @@
 .profileLink:hover {
   text-decoration: underline;
 }
+/* Lyrics */
+.single_lyrics {
+  width: 50%;
+  height: 7rem;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 1rem 0 0 1rem;
+  background-color: var(--color-green);
+}
+.single_lyrics button {
+  margin: 1rem 0.5rem 0 0;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 30px;
+}
+.artist_profile_image {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+}
 
 .mainContainer {
   width: 100%;
@@ -64,6 +101,13 @@
   flex-direction: column;
   align-items: center;
   font-family: Helvetica, sans-serif;
+}
+/* Title for popular tracks */
+.popular_track {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.5rem 1rem;
 }
 
 .song-info,
@@ -75,7 +119,9 @@
   align-items: center;
   text-decoration: none;
 }
-
+.song-time {
+  width: 24%;
+}
 .playlist-container:hover {
   background-color: #222222bb;
   border-radius: 2.5px;
@@ -88,11 +134,11 @@
 }
 
 .active {
-  background-color: #2e2d2dbb;
+  background-color: #444444bb;
 }
 
 .active:hover {
-  background-color: #252424bb;
+  background-color: #444444bb;
 }
 
 .playlist-container {
@@ -111,29 +157,38 @@
   gap: 1rem;
   align-items: center;
 }
-
+.trackImg {
+  display: flex;
+  justify-content: right;
+}
 .trackImg img {
   width: 3rem;
   height: 3rem;
 }
-
-.trackInfo {
+.artist_name {
   display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
 }
-
 .song-release {
   width: 21.5%;
 }
-
-.playlistInfo,
-.album-info,
-.song-title,
-.song-album {
-  width: 35%;
+.track_index {
+  width: 15px;
 }
-
-.album-date {
-  width: 20%;
+.playlistInfo {
+  width: 70%;
+}
+.track-duration {
+  width: 25%;
+}
+.show_btn {
+  margin-left: 45%;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+}
+.album_copyright {
+  margin: 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
 }

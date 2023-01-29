@@ -9,7 +9,6 @@ import DisplayContext from "../../context/DisplayContext.js";
 export default function PopularAlbums({ artistId }) {
   const searchParams = useToken();
   const [display, dispatch] = useContext(DisplayContext);
-
   const [albums, setAlbums] = useState(null);
 
   const getPopularAlbums = async () => {
@@ -19,7 +18,6 @@ export default function PopularAlbums({ artistId }) {
     )
       .then(res => res.json())
       .then(res => {
-        console.log(res);
         setAlbums(res);
       });
   };
@@ -39,8 +37,8 @@ export default function PopularAlbums({ artistId }) {
                     to="/album"
                     onClick={() => {
                       dispatch({
-                        type: "SET_ALBUM_ID",
-                        albumId: album.id,
+                        type: "SET_ALBUM",
+                        album: album,
                       });
                     }}
                     key={index}
