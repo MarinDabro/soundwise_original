@@ -3,8 +3,7 @@ import AllResults from './AllResults.js';
 import PlaylistResults from './PlaylistResults';
 
 const SearchResults = ({ activeCat, activeType }) => {
-  const { albums, artists, audiobooks, episodes, playlists, shows, tracks } =
-    activeCat;
+  const { albums, artists, audiobooks, episodes, playlists, shows, tracks } = activeCat;
   const categories = {
     albums,
     artists,
@@ -15,18 +14,15 @@ const SearchResults = ({ activeCat, activeType }) => {
     tracks,
   }
  
-  console.log(categories);
+  console.log('activeType', activeType);
 
-  if(activeType == ["album", "artist", "playlist", "track", "show", "episode", "audiobook"]){
-    return <AllResults categories={categories}/>
-  } else if (activeType == 'playlist') {
-    return <div><PlaylistResults playlists={playlists}/></div>
-  } else {
-    return <div></div>
-  }
-
-  
-  
+  return (
+    <div>
+      {activeType.split(',')[0].length > 1 ? <AllResults categories={categories}/> : ''}
+      {activeType == 'playlist' ? <PlaylistResults playlists={playlists}/> : ''}
+      {activeType == 'album' ? <PlaylistResults playlists={albums} /> : '' }
+    </div>
+  )
 };
 
 export default SearchResults;

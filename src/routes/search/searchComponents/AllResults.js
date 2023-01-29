@@ -10,15 +10,15 @@ export default function AllResults({ categories }) {
         <h3>Top Results</h3>
         <div className={classes['top-artist']}>
           <img
-            src={categories.artists?.items[0].images.at(-1).url}
+            src={categories?.artists?.items[0].images.at(-1).url}
             alt="artist_image"
           />
 
           <h3 style={{ color: 'white' }}>
-            {categories.artists?.items[0].name}
+            {categories?.artists?.items[0].name}
           </h3>
           
-          <span>{categories.artists?.items[0].type}</span>
+          <span>{categories?.artists?.items[0].type}</span>
         </div>
 
         <div>

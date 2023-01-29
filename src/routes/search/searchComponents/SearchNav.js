@@ -3,7 +3,7 @@ import classes from './SearchNav.module.css'
 
 
 const SearchNav = ({activeType, setActiveType}) => {
-  const all = ["album", "artist", "playlist", "track", "show", "episode", "audiobook"]
+  const all = "album,artist,playlist,track,show,episode,audiobook"
   const playlist = ['playlist']
   const albums = ['album']
   const track = ['track']
