@@ -9,6 +9,9 @@ export const initialState = {
   singleTrack: null,
   artist: null,
   album: null,
+  albumId: "",
+  releaseDate: "",
+  albumImg: [],
 };
 
 export const displayReducer = (state, action) => {
@@ -71,6 +74,24 @@ export const displayReducer = (state, action) => {
       return {
         ...state,
         album: action.album,
+      };
+    }
+    case "SET_ALBUM_ID": {
+      return {
+        ...state,
+        albumId: action.albumId,
+      };
+    }
+    case "SET_RELEASE_DATE": {
+      return {
+        ...state,
+        releaseDate: action.releaseDate,
+      };
+    }
+    case "SET_ALBUM_IMAGE": {
+      return {
+        ...state,
+        albumImg: action.albumImg,
       };
     }
     default: {

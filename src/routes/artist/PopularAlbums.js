@@ -40,6 +40,18 @@ export default function PopularAlbums({ artistId }) {
                         type: "SET_ALBUM",
                         album: album,
                       });
+                      dispatch({
+                        type: "SET_ALBUM_ID",
+                        albumId: album.album.id,
+                      });
+                      dispatch({
+                        type: "SET_RELEASE_DATE",
+                        releaseDate: album.album.release_date,
+                      });
+                      dispatch({
+                        type: "SET_ALBUM_IMAGE",
+                        albumImg: album.album.images,
+                      });
                     }}
                     key={index}
                     className={style.albumBox}

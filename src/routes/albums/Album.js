@@ -15,7 +15,7 @@ import { useRef } from "react";
 
 export default function CategoryTracks() {
   const [display, dispatch] = useContext(DisplayContext);
-  const { activePlaylist, album } = display;
+  const { activePlaylist, album, albumId, releaseDate, albumImg } = display;
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState("");
   const [isActive, setIsActive] = useState(-1);
@@ -26,10 +26,9 @@ export default function CategoryTracks() {
   //search params for fetching data
   const searchParams = useToken();
 
-  const albumId = album?.album.id;
-  const artistName = album?.artists[0].name;
+  /*   const albumID = albumId;
+   */ const artistName = album?.artists[0].name;
   const artistId = album.artists[0].id;
-  const releaseDate = album?.album.release_date;
 
   //convert duration time to hours and minutes
   function msToTime(ms) {
@@ -60,7 +59,7 @@ export default function CategoryTracks() {
 
   //store the colors from album cover
   const fetchColor = async () => {
-    prominent(album?.album.images[1]?.url, {
+    prominent(albumImg[1]?.url, {
       format: "hex",
       amount: 5,
     }).then(color => {
