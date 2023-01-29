@@ -6,8 +6,8 @@ import MainContext from "../../context/MainContext";
 import DisplayContext from "../../context/DisplayContext";
 import style from "../MusicBox.module.css";
 import { useToken } from "../../spotify.js";
-import SearchNav from './components/SearchNav.js'
-import SearchResults from "./components/SearchResults";
+import SearchNav from './searchComponents/SearchNav.js'
+import SearchResults from "./searchComponents/SearchResults";
 import CategoryList from "../category-list/CategoryList";
 
 
@@ -60,7 +60,7 @@ export default function Search() {
 
     if (searchInput !== '') getSearch();
 
-  }, [searchInput, activeCat]);
+  }, [searchInput, activeType]);
 
   async function getSearch() {
 
@@ -91,7 +91,7 @@ export default function Search() {
             />
           </div>
           {searchInput && <SearchNav activeType={activeType} setActiveType={setActiveType} />}
-          {searchInput && <SearchResults activeCat={activeCat} />}
+          {searchInput && <SearchResults activeCat={activeCat} activeType={activeType} />}
           <div>
             {!searchInput ? (
               
