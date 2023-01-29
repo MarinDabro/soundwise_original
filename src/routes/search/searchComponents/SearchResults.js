@@ -17,11 +17,12 @@ const SearchResults = ({ activeCat, activeType }) => {
  
   console.log(categories);
 
-  if(activeType.length > 3){
-    
+  if(activeType == ["album", "artist", "playlist", "track", "show", "episode", "audiobook"]){
     return <AllResults categories={categories}/>
-  } else if (activeType == ['playlists']) {
+  } else if (activeType == 'playlist') {
     return <div><PlaylistResults playlists={playlists}/></div>
+  } else {
+    return <div></div>
   }
 
   

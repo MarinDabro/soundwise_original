@@ -4,7 +4,6 @@ import classes from './AllResults.module.css';
 
 export default function AllResults({ categories }) {
   console.log(categories);
-  console.log(categories.artists.items[0].name);
   return (
     <div className={general.main}>
       <div>

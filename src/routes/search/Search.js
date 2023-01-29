@@ -65,7 +65,7 @@ export default function Search() {
   async function getSearch() {
 
     await fetch(
-      `https://api.spotify.com/v1/search?q=${searchInput}&type=${activeType}`,
+      `https://api.spotify.com/v1/search?q=${searchInput}&type=${activeType}&limit=50`,
       searchParams
     )
     .then(res => res.json())
