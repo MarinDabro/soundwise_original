@@ -1,5 +1,6 @@
 import React from 'react';
-import allResults from './allResults';
+import AllResults from './allResults';
+import PlaylistResults from './PlaylistResults';
 
 const SearchResults = ({ activeCat, activeType }) => {
   const { albums, artists, audiobooks, episodes, playlists, shows, tracks } =
@@ -14,12 +15,13 @@ const SearchResults = ({ activeCat, activeType }) => {
     tracks,
   }
  
+  console.log(categories);
 
-
-  console.log(albums);
   if(activeType.length > 3){
     
-    return <allResults categories= {categories}/>
+    return <AllResults categories={categories}/>
+  } else if (activeType == ['playlists']) {
+    return <div><PlaylistResults playlists={playlists}/></div>
   }
 
   
