@@ -1,16 +1,17 @@
 import React, { useEffect, useContext } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+
 import classes from "../MusicBox.module.css";
 import MainContext from "../../context/MainContext";
 import DisplayContext from "../../context/DisplayContext.js";
 import style from "../MusicBox.module.css";
-import { NavLink, Outlet } from "react-router-dom";
+// import Bouncer from "../../functions/bouncer.js";
 
 export default function FeaturedPlaylists() {
   const [STATE, DISPATCH] = useContext(MainContext);
   const [display, dispatch] = useContext(DisplayContext);
   const { featuredPlaylists, token } = STATE;
-  /*   console.log(featuredPlaylists);
-   */
+  const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -28,10 +29,14 @@ export default function FeaturedPlaylists() {
       )
         .then(res => res.json())
         .then(res => {
-          DISPATCH({
-            type: "SET_FEATURED_PLAYLISTS",
-            featuredPlaylists: res,
-          });
+          if (res.error) {
+            navigate("/");
+          } else {
+            DISPATCH({
+              type: "SET_FEATURED_PLAYLISTS",
+              featuredPlaylists: res,
+            });
+          }
         });
     }
     getFeaturedPlaylists();

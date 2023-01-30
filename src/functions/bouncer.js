@@ -1,16 +1,18 @@
-import React from 'react'
-import {useNavigate} from 'react-router-dom'
+import React from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Bouncer = ({dependencies}) => {
-  const navigate = useNavigate()
+const Bouncer = ({ dependencies }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    dependencies?.map(dep => {
+      if (!dep) {
+        navigate("/");
+      }
+    });
+  }, []);
 
-  dependencies?.map(dep => {
-    if (!dep) {
-      navigate('/')
-    }
-  })
+  return <React.Fragment></React.Fragment>;
+};
 
-  return <React.Fragment></React.Fragment>
-}
-
-export default Bouncer
+export default Bouncer;

@@ -1,14 +1,11 @@
-import React, { useState, useContext } from "react";
-import { useEffect } from "react";
-import { useToken } from "../../spotify.js";
-import style from "../MusicBox.module.css";
+import React, { useState, useContext, useEffect } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { useToken } from "../../spotify.js";
 
-import DisplayContext from "../../context/DisplayContext.js";
+import style from "../MusicBox.module.css";
 
 export default function PopularAlbums({ artistId }) {
   const searchParams = useToken();
-  const [display, dispatch] = useContext(DisplayContext);
   const [albums, setAlbums] = useState(null);
 
   const getPopularAlbums = async () => {
@@ -35,16 +32,7 @@ export default function PopularAlbums({ artistId }) {
                 return (
                   <NavLink
                     to="/album"
-                    onClick={() => {
-                      dispatch({
-                        type: "SET_ALBUM",
-                        album: album,
-                      });
-                      dispatch({
-                        type: "SET_ALBUM_ID",
-                        albumId: album.album.id,
-                      });
-                    }}
+                    state={{ album: album, albumId: album.album.id }}
                     key={index}
                     className={style.albumBox}
                   >

@@ -1,13 +1,13 @@
 import React, { useEffect, useContext } from "react";
+import { NavLink, Outlet } from "react-router-dom";
+
 import classes from "../MusicBox.module.css";
 import MainContext from "../../context/MainContext";
-import DisplayContext from "../../context/DisplayContext.js";
 import style from "../MusicBox.module.css";
-import { NavLink, Outlet } from "react-router-dom";
+//import Bouncer from "../../functions/bouncer.js";
 
 export default function NewRelease(props) {
   const [STATE, DISPATCH] = useContext(MainContext);
-  const [display, dispatch] = useContext(DisplayContext);
 
   const { newRelease, token } = STATE;
   useEffect(() => {
@@ -41,16 +41,7 @@ export default function NewRelease(props) {
               <div key={index} className={classes.albumBox}>
                 <NavLink
                   to="/album"
-                  onClick={() => {
-                    dispatch({
-                      type: "SET_ALBUM",
-                      album: album,
-                    });
-                    dispatch({
-                      type: "SET_ALBUM_ID",
-                      albumId: album.id,
-                    });
-                  }}
+                  state={{ album: album, albumId: album.id }}
                   className={style.albumBox}
                 >
                   <div className={classes.albumImage}>

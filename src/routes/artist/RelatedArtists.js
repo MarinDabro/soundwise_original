@@ -1,16 +1,10 @@
-import React, { useState, useContext } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { NavLink, Outlet } from "react-router-dom";
 import { useToken } from "../../spotify.js";
 import style from "../MusicBox.module.css";
-import { NavLink, Outlet } from "react-router-dom";
-
-import DisplayContext from "../../context/DisplayContext.js";
 
 export default function RelatedArtists({ artistId }) {
   const searchParams = useToken();
-  const [display, dispatch] = useContext(DisplayContext);
-  const [albums, setAlbums] = useState(null);
-
   const [relatedArtist, setRelatedArtist] = useState(null);
 
   const getRelatedArtists = async () => {
@@ -37,12 +31,7 @@ export default function RelatedArtists({ artistId }) {
                 return (
                   <NavLink
                     to="/artist"
-                    onClick={() => {
-                      dispatch({
-                        type: "SET_ARTIST",
-                        artist: artists,
-                      });
-                    }}
+                    state={artists}
                     key={index}
                     className={style.albumBox}
                   >

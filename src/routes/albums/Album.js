@@ -1,21 +1,21 @@
-import React, { useContext } from "react";
-import { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
+import { prominent } from "color.js";
+
 import { useToken } from "../../spotify.js";
-import DisplayContext from "../../context/DisplayContext.js";
 import PopularAlbums from "../artist/PopularAlbums.js";
 import RelatedArtists from "../artist/RelatedArtists.js";
 import classes from "./Album.module.css";
-import { NavLink, Outlet } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
 
-import { prominent } from "color.js";
-import Bouncer from "../../functions/bouncer.js";
-import { useRef } from "react";
+//import Bouncer from "../../functions/bouncer.js";
 
 export default function CategoryTracks() {
-  const [display, dispatch] = useContext(DisplayContext);
-  const { activePlaylist, album, albumId } = display;
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const album = state.album;
+
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState("");
   const [isActive, setIsActive] = useState(-1);
@@ -26,8 +26,8 @@ export default function CategoryTracks() {
   //search params for fetching data
   const searchParams = useToken();
 
-  const artistName = album?.artists[0].name;
-  const artistId = album.artists[0].id;
+  const artistName = state?.album?.artists[0].name;
+  const artistId = state?.album?.artists[0].id;
 
   //convert duration time to hours and minutes
   function msToTime(ms) {
@@ -56,34 +56,38 @@ export default function CategoryTracks() {
     return [duration, trackTime, albumDuration];
   }
 
-  const getAlbum = async () => {
+  const getAlbum = async albumId => {
     await fetch(`https://api.spotify.com/v1/albums/${albumId}`, searchParams)
       .then(res => res.json())
       .then(res => {
-        setSingleAlbum(res);
-
-        /* store the colors from album cover */
-        prominent(res.images[1]?.url, {
-          format: "hex",
-          amount: 5,
-        }).then(color => {
-          setColors(color);
-        });
-
-        //get release date
-        getReleaseDate(res.release_date);
-
-        let timeCounter = 0;
-        if (res.album_type === "album") {
-          res.tracks?.items.map(track => {
-            timeCounter += track.duration_ms;
-            const durationTime = msToTime(timeCounter);
-            setDuration(durationTime[2]);
-            return durationTime;
-          });
+        if (res.error) {
+          navigate("/");
         } else {
-          const singleTime = msToTime(album.duration_ms);
-          setDuration(singleTime[2]);
+          setSingleAlbum(res);
+
+          /* store the colors from album cover */
+          prominent(res.images[1].url, {
+            format: "hex",
+            amount: 5,
+          }).then(color => {
+            setColors(color);
+          });
+
+          //get release date
+          getReleaseDate(res.release_date);
+
+          let timeCounter = 0;
+          if (res.album_type === "album") {
+            res.tracks?.items.map(track => {
+              timeCounter += track.duration_ms;
+              const durationTime = msToTime(timeCounter);
+              setDuration(durationTime[2]);
+              return durationTime;
+            });
+          } else {
+            const singleTime = msToTime(album.duration_ms);
+            setDuration(singleTime[2]);
+          }
         }
       });
   };
@@ -131,11 +135,11 @@ export default function CategoryTracks() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (albumId) {
-      getAlbum();
+    if (state) {
+      getAlbum(state.albumId);
       getArtistInfo();
     }
-  }, []);
+  }, [state.albumId]);
 
   // handle selected track to be active and lost focus by click outside of playlist
   const ref = useRef(null);
@@ -158,7 +162,6 @@ export default function CategoryTracks() {
     <div className={classes.main}>
       {singleAlbum && colors && (
         <div>
-          <Bouncer dependencies={[activePlaylist]} />
           <div className={classes.headerNav}>The ALBUM</div>
           <div
             className={classes.header}

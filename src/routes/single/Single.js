@@ -1,13 +1,13 @@
-import React, { useContext, useRef } from "react";
-import { useEffect, useState } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
+import { NavLink, Outlet } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
+
 import { useToken } from "../../spotify.js";
 import DisplayContext from "../../context/DisplayContext.js";
 import PopularAlbums from "../artist/PopularAlbums.js";
 import RelatedArtists from "../artist/RelatedArtists.js";
 import classes from "./Single.module.css";
-import { NavLink, Outlet } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 import { prominent } from "color.js";
 import Bouncer from "../../functions/bouncer.js";

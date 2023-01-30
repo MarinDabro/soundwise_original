@@ -1,15 +1,13 @@
-import React, { useContext } from "react";
-import { useEffect, useState } from "react";
-import { useToken } from "../../spotify.js";
-import DisplayContext from "../../context/DisplayContext.js";
-import classes from "./CategoryTracks.module.css";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
-
 import { prominent } from "color.js";
+
+import { useToken } from "../../spotify.js";
+import DisplayContext from "../../context/DisplayContext.js";
+import classes from "./CategoryTracks.module.css";
 import Bouncer from "../../functions/bouncer.js";
-import { useRef } from "react";
 
 export default function CategoryTracks() {
   const [display, dispatch] = useContext(DisplayContext);
@@ -150,8 +148,6 @@ export default function CategoryTracks() {
                     className={`${isActive === index ? classes.active : ""} ${
                       classes["playlist-container"]
                     } `}
-                    /*       onFocus={e => e.target.classList.add(classes.active)}
-                    onBlur={e => e.target.classList.remove(classes.active)} */
                   >
                     <div className={classes.playlistInfo} key={index}>
                       <div className={classes.trackImg}>
@@ -179,16 +175,7 @@ export default function CategoryTracks() {
                           {" "}
                           {track.track.artists.map((artist, index) => {
                             return (
-                              <NavLink
-                                to="/artist"
-                                key={index}
-                                onClick={() => {
-                                  dispatch({
-                                    type: "SET_ARTIST",
-                                    artist: artist,
-                                  });
-                                }}
-                              >
+                              <NavLink to="/artist" key={index} state={artist}>
                                 {(index ? "," : "") + artist.name}
                               </NavLink>
                             );

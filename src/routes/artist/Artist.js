@@ -1,20 +1,15 @@
-import React, { useContext, useRef } from "react";
-import { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { prominent } from "color.js";
+
 import { useToken } from "../../spotify.js";
-import DisplayContext from "../../context/DisplayContext.js";
 import PopularAlbums from "../artist/PopularAlbums.js";
 import RelatedArtists from "../artist/RelatedArtists.js";
 import classes from "./Artist.module.css";
-import { NavLink, Outlet } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
-
-import { prominent } from "color.js";
-import Bouncer from "../../functions/bouncer.js";
 
 export default function Artist() {
-  const [display, dispatch] = useContext(DisplayContext);
-  const { activePlaylist, artist } = display;
+  const navigate = useNavigate();
+  const { state } = useLocation();
   const [colors, setColors] = useState(null);
 
   const [isActive, setIsActive] = useState(-1);
@@ -26,10 +21,10 @@ export default function Artist() {
   const searchParams = useToken();
 
   let trackArr = [];
-  const artistName = artist.name;
+  const artistName = state.name;
 
   //get the artist Id to fetch artist api
-  const artistId = artist.id;
+  const artistId = state.id;
 
   //get artist info
   const getArtistInfo = async () => {
@@ -55,7 +50,11 @@ export default function Artist() {
     )
       .then(res => res.json())
       .then(res => {
-        setPopularTrack(res);
+        if (res.error) {
+          navigate("/");
+        } else {
+          setPopularTrack(res);
+        }
       });
   };
 
@@ -91,7 +90,7 @@ export default function Artist() {
       getArtistInfo();
       getPopularTrack();
     }
-  }, []);
+  }, [state]);
 
   // handle selected track to be active and lost focus by click outside of playlist
   const ref = useRef(null);
@@ -112,9 +111,8 @@ export default function Artist() {
 
   return (
     <div className={classes.main}>
-      {artist && colors && artistInfo && (
+      {state && colors && artistInfo && (
         <div>
-          <Bouncer dependencies={[activePlaylist]} />
           <div className={classes.headerNav}>The ARTIST page</div>
           <div
             className={classes.header}
