@@ -15,7 +15,7 @@ import { useRef } from "react";
 
 export default function CategoryTracks() {
   const [display, dispatch] = useContext(DisplayContext);
-  const { activePlaylist, album, albumId, releaseDate, albumImg } = display;
+  const { activePlaylist, album, albumId } = display;
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState("");
   const [isActive, setIsActive] = useState(-1);
@@ -26,8 +26,7 @@ export default function CategoryTracks() {
   //search params for fetching data
   const searchParams = useToken();
 
-  /*   const albumID = albumId;
-   */ const artistName = album?.artists[0].name;
+  const artistName = album?.artists[0].name;
   const artistId = album.artists[0].id;
 
   //convert duration time to hours and minutes
@@ -57,21 +56,23 @@ export default function CategoryTracks() {
     return [duration, trackTime, albumDuration];
   }
 
-  //store the colors from album cover
-  const fetchColor = async () => {
-    prominent(albumImg[1]?.url, {
-      format: "hex",
-      amount: 5,
-    }).then(color => {
-      setColors(color);
-    });
-  };
-
   const getAlbum = async () => {
     await fetch(`https://api.spotify.com/v1/albums/${albumId}`, searchParams)
       .then(res => res.json())
       .then(res => {
         setSingleAlbum(res);
+
+        /* store the colors from album cover */
+        prominent(res.images[1]?.url, {
+          format: "hex",
+          amount: 5,
+        }).then(color => {
+          setColors(color);
+        });
+
+        //get release date
+        getReleaseDate(res.release_date);
+
         let timeCounter = 0;
         if (res.album_type === "album") {
           res.tracks?.items.map(track => {
@@ -100,8 +101,8 @@ export default function CategoryTracks() {
   };
 
   //convert time to date format
-  const getReleaseDate = () => {
-    const date = releaseDate;
+  const getReleaseDate = date => {
+    // const date = releaseDate;
     const monthArr = [
       "January",
       "February",
@@ -129,12 +130,11 @@ export default function CategoryTracks() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (albumId) {
       getAlbum();
-      fetchColor();
       getArtistInfo();
     }
-    getReleaseDate();
   }, []);
 
   // handle selected track to be active and lost focus by click outside of playlist

@@ -12,6 +12,8 @@ export default function FeaturedPlaylists() {
   /*   console.log(featuredPlaylists);
    */
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     async function getFeaturedPlaylists() {
       await fetch(
         "https://api.spotify.com/v1/browse/featured-playlists?&limit=20",

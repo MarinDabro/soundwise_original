@@ -42,6 +42,7 @@ export default function CategoryList() {
       );
   };
   useEffect(() => {
+    window.scrollTo(0, 0);
     getCatPlaylist();
   }, []);
 

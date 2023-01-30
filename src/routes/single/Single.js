@@ -14,7 +14,7 @@ import Bouncer from "../../functions/bouncer.js";
 
 export default function Single() {
   const [display, dispatch] = useContext(DisplayContext);
-  const { tracks, activePlaylist, artist, singleTrack } = display;
+  const { activePlaylist, singleTrack } = display;
   const [colors, setColors] = useState(null);
 
   const [isActive, setIsActive] = useState(-1);
@@ -98,6 +98,7 @@ export default function Single() {
       .then(res => console.log(res));
   }; */
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (singleTrack) {
       getArtistInfo();
       getPopularTrack();

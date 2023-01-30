@@ -73,6 +73,7 @@ export default function CategoryTracks() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (trackId) {
       getCatTracks();
       fetchColor();

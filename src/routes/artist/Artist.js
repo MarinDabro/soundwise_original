@@ -14,7 +14,7 @@ import Bouncer from "../../functions/bouncer.js";
 
 export default function Artist() {
   const [display, dispatch] = useContext(DisplayContext);
-  const { tracks, activePlaylist, artist, singleTrack } = display;
+  const { activePlaylist, artist } = display;
   const [colors, setColors] = useState(null);
 
   const [isActive, setIsActive] = useState(-1);
@@ -86,6 +86,7 @@ export default function Artist() {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (artistId) {
       getArtistInfo();
       getPopularTrack();
@@ -113,7 +114,6 @@ export default function Artist() {
     <div className={classes.main}>
       {artist && colors && artistInfo && (
         <div>
-          console.log(artist)
           <Bouncer dependencies={[activePlaylist]} />
           <div className={classes.headerNav}>The ARTIST page</div>
           <div

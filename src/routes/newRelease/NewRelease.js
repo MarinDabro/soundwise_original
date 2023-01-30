@@ -36,7 +36,7 @@ export default function NewRelease(props) {
       <h2>New Releases</h2>
       {newRelease && (
         <div className={classes.albumContainer}>
-          {newRelease.albums.items.map((album, index) => {
+          {newRelease?.albums?.items.map((album, index) => {
             return (
               <div key={index} className={classes.albumBox}>
                 <NavLink
@@ -49,14 +49,6 @@ export default function NewRelease(props) {
                     dispatch({
                       type: "SET_ALBUM_ID",
                       albumId: album.id,
-                    });
-                    dispatch({
-                      type: "SET_RELEASE_DATE",
-                      releaseDate: album.release_date,
-                    });
-                    dispatch({
-                      type: "SET_ALBUM_IMAGE",
-                      albumImg: album.album.images,
                     });
                   }}
                   className={style.albumBox}
