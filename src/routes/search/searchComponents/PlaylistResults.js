@@ -32,10 +32,10 @@ const PlaylistResults = ({ playlists }) => {
                         alt="/ playlist_image"
                       />
                     </div>
-                    <div className={style.albumName}>
-                      {playlist.description}
+                    <div className={style.albumName} title={`${playlist.name}`}>
+                      {playlist.name}
                     </div>
-                    <div className={style.artistName}>{playlist.name}</div>
+                    <div className={style.artistName}>{playlist.owner ? playlist.owner.display_name : playlist.artists.map(artist => artist.name)}</div>
                   </NavLink>
                 );
               })}

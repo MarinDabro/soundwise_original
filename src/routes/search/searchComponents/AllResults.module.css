@@ -76,9 +76,11 @@
 .song-title {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3rem;
+  width: 25rem;
 }
 
 .artist-name {
+  width: 20rem;
   color: rgb(168, 162, 162);
 }

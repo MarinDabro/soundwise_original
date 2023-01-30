@@ -5,7 +5,7 @@ import classes from './AllResults.module.css';
 import msToTime from '../../../functions/timer';
 export default function AllResults({ categories }) {
   console.log(categories);
-  const firstFourCategories = categories.tracks?.items.slice(16);
+  const firstFourCategories = categories.tracks?.items.slice(0, 4);
   console.log(firstFourCategories);
   return (
     <div className={general.main}>

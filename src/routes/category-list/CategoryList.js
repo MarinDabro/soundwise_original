@@ -57,9 +57,9 @@ export default function CategoryList() {
                       />
                     </div>
                     <div className={style.albumName}>
-                      {playlist.description}
+                      {playlist.name}
                     </div>
-                    <div className={style.artistName}>{playlist.name}</div>
+                    <div className={style.artistName}>{playlist.owner.display_name}</div>
                   </NavLink>
                 );
               })}

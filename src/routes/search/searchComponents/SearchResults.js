@@ -3,8 +3,7 @@ import AllResults from './AllResults.js';
 import PlaylistResults from './PlaylistResults.js';
 /* import classes from './SearchResults.module.css'; */
 const SearchResults = ({ activeCat, activeType }) => {
-  const { albums, artists, audiobooks, episodes, playlists, shows, tracks } =
-    activeCat;
+  const { albums, artists, audiobooks, episodes, playlists, shows, tracks } = activeCat;
   const categories = {
     albums,
     artists,
@@ -13,25 +12,17 @@ const SearchResults = ({ activeCat, activeType }) => {
     playlists,
     shows,
     tracks,
-  };
-
-  console.log(categories);
-
-  if (activeType === "album,artist,playlist,track,show,episode,audiobook") {
-    return (
-      <div>
-        <AllResults categories={categories} />
-      </div>
-    );
-  } else if (activeType === 'playlist') {
-    return (
-      <div>
-        <PlaylistResults playlists={playlists} />
-      </div>
-    );
-  } else {
-    return null;
   }
+ 
+  console.log('activeType', activeType);
+
+  return (
+    <div>
+      {activeType === "album,artist,playlist,track,show,episode,audiobook" ? <AllResults categories={categories}/> : ''}
+      {activeType === 'playlist' ? <PlaylistResults playlists={playlists}/> : ''}
+      {activeType === 'album' ? <PlaylistResults playlists={albums} /> : '' }
+    </div>
+  )
 };
 
 export default SearchResults;

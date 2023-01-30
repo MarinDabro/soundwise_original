@@ -18,7 +18,7 @@ export default function Search() {
   const {catId, catName} = display
   const [searchInput, setSearchInput] = useState("");
   const [browseAll, setBrowseAll] = useState({});
-  const [activeType, setActiveType] = useState(["album", "artist", "playlist", "track", "show", "episode", "audiobook"])
+  const [activeType, setActiveType] = useState("album,artist,playlist,track,show,episode,audiobook")
   const [activeCat, setActiveCat] = useState(false)
 
   //get the return params from useToken function
@@ -65,7 +65,7 @@ export default function Search() {
   async function getSearch() {
 
     await fetch(
-      `https://api.spotify.com/v1/search?q=${searchInput}&type=${activeType}`,
+      `https://api.spotify.com/v1/search?q=${searchInput}&type=${activeType}&limit=49`,
       searchParams
     )
     .then(res => res.json())
