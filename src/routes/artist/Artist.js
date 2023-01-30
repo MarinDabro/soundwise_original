@@ -33,13 +33,17 @@ export default function Artist() {
       searchParams
     ).then(res =>
       res.json().then(res => {
-        setArtistInfo(res);
-        prominent(res.images[0].url, {
-          format: "hex",
-          amount: 5,
-        }).then(color => {
-          setColors(color);
-        });
+        if (res.error) {
+          navigate("/");
+        } else {
+          setArtistInfo(res);
+          prominent(res.images[0].url, {
+            format: "hex",
+            amount: 5,
+          }).then(color => {
+            setColors(color);
+          });
+        }
       })
     );
   };

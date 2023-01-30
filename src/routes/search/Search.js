@@ -13,8 +13,7 @@ import CategoryList from "../category-list/CategoryList";
 export default function Search() {
   const [STATE, DISPATCH] = useContext(MainContext);
   const [display, dispatch] = useContext(DisplayContext);
-  const { albums, token, catPlaylist } = STATE;
-  const { catId, catName } = display;
+  const { albums, catPlaylist } = STATE;
   const [searchInput, setSearchInput] = useState("");
   const [browseAll, setBrowseAll] = useState({});
   const [activeCat, setActiveCat] = useState("all");
@@ -70,7 +69,11 @@ export default function Search() {
     )
       .then(res => res.json())
       .then(res => {
-        return res.artists?.items[0].id; // add "?" to avoid the error of no artist
+        if (res.error) {
+          navigate("/");
+        } else {
+          return res.artists?.items[0].id; // add "?" to avoid the error of no artist
+        }
       });
 
     await fetch(
@@ -79,10 +82,14 @@ export default function Search() {
     )
       .then(res => res.json())
       .then(res => {
-        DISPATCH({
-          type: "SET_ALBUMS",
-          albums: res.items,
-        });
+        if (res.error) {
+          navigate("/");
+        } else {
+          DISPATCH({
+            type: "SET_ALBUMS",
+            albums: res.items,
+          });
+        }
       });
   }
 

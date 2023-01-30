@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useEffect, useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
+import { NavLink, useNavigate } from "react-router-dom";
+/* import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-regular-svg-icons"; */
 
 import { useToken } from "../../spotify.js";
 import DisplayContext from "../../context/DisplayContext.js";
@@ -16,6 +16,7 @@ export default function Single() {
   const [display, dispatch] = useContext(DisplayContext);
   const { activePlaylist, singleTrack } = display;
   const [colors, setColors] = useState(null);
+  const navigate = useNavigate();
 
   const [isActive, setIsActive] = useState(-1);
   const [artistInfo, setArtistInfo] = useState(null);
@@ -38,7 +39,11 @@ export default function Single() {
       searchParams
     ).then(res =>
       res.json().then(res => {
-        setArtistInfo(res);
+        if (res.error) {
+          navigate("/");
+        } else {
+          setArtistInfo(res);
+        }
       })
     );
   };
@@ -49,7 +54,11 @@ export default function Single() {
     )
       .then(res => res.json())
       .then(res => {
-        setPopularTrack(res);
+        if (res.error) {
+          navigate("/");
+        } else {
+          setPopularTrack(res);
+        }
       });
   };
 

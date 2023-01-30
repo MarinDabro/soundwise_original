@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import classes from "../MusicBox.module.css";
 import MainContext from "../../context/MainContext";
@@ -8,7 +8,7 @@ import style from "../MusicBox.module.css";
 
 export default function NewRelease(props) {
   const [STATE, DISPATCH] = useContext(MainContext);
-
+  const navigate = useNavigate();
   const { newRelease, token } = STATE;
   useEffect(() => {
     async function getNewRelease() {
@@ -22,10 +22,14 @@ export default function NewRelease(props) {
       })
         .then(res => res.json())
         .then(res => {
-          DISPATCH({
-            type: "SET_NEW_RELEASE",
-            newRelease: res,
-          });
+          if (res.error) {
+            navigate("/");
+          } else {
+            DISPATCH({
+              type: "SET_NEW_RELEASE",
+              newRelease: res,
+            });
+          }
         });
     }
     getNewRelease();

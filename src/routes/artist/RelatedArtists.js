@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Outlet } from "react-router-dom";
 import { useToken } from "../../spotify.js";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import style from "../MusicBox.module.css";
 
 export default function RelatedArtists({ artistId }) {
   const searchParams = useToken();
+  const navigate = useNavigate();
   const [relatedArtist, setRelatedArtist] = useState(null);
 
   const getRelatedArtists = async () => {
@@ -14,7 +15,11 @@ export default function RelatedArtists({ artistId }) {
     )
       .then(res => res.json())
       .then(res => {
-        setRelatedArtist(res);
+        if (res.error) {
+          navigate("/");
+        } else {
+          setRelatedArtist(res);
+        }
       });
   };
   useEffect(() => {

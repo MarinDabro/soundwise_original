@@ -1,11 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useToken } from "../../spotify.js";
 
 import style from "../MusicBox.module.css";
 
 export default function PopularAlbums({ artistId }) {
   const searchParams = useToken();
+  const navigate = useNavigate();
   const [albums, setAlbums] = useState(null);
 
   const getPopularAlbums = async () => {
@@ -15,7 +16,11 @@ export default function PopularAlbums({ artistId }) {
     )
       .then(res => res.json())
       .then(res => {
-        setAlbums(res);
+        if (res.error) {
+          navigate("/");
+        } else {
+          setAlbums(res);
+        }
       });
   };
   useEffect(() => {

@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { prominent } from "color.js";
 
+import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { useToken } from "../../spotify.js";
 import PopularAlbums from "../artist/PopularAlbums.js";
 import RelatedArtists from "../artist/RelatedArtists.js";
@@ -99,7 +99,11 @@ export default function CategoryTracks() {
       searchParams
     ).then(res =>
       res.json().then(res => {
-        setArtistInfo(res);
+        if (res.error) {
+          navigate("/");
+        } else {
+          setArtistInfo(res);
+        }
       })
     );
   };
