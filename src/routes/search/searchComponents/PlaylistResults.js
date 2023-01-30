@@ -20,14 +20,22 @@ const PlaylistResults = ({ playlists }) => {
           <div>
             <div className={style.albumContainer}>
               {playlists?.map((playlist, index) => {
+                console.log('please', playlist)
                 return (
                   <NavLink
-                    to="/activePlaylist"
+                    to={playlist.type === 'playlist' ? '/activePlaylist' : '/activeAlbum'}
                     onClick={() => {
-                      dispatch({
-                        type: 'SET_ACTIVE_PLAYLIST',
-                        activePlaylist: playlist,
-                      });
+                      if (playlist.type === 'playlist') {
+                        dispatch({
+                          type: 'SET_ACTIVE_PLAYLIST',
+                          activePlaylist: playlist,
+                        });
+                      } else if (playlist.type === 'album') {
+                        dispatch({
+                          type: 'SET_ACTIVE_ALBUM',
+                          activeAlbum: playlist,
+                        });
+                      }
                     }}
                     key={index}
                     className={style.albumBox}
@@ -35,7 +43,7 @@ const PlaylistResults = ({ playlists }) => {
                     <div className={style.albumImage}>
                       <img
                         src={playlist.images[0].url}
-                        alt="/ playlist_image"
+                        alt="playlist_image"
                       />
                     </div>
                     <div className={style.albumName} title={`${playlist.name}`}>

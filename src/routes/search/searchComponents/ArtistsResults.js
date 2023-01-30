@@ -27,7 +27,7 @@ const ArtistsResults = ({ artists }) => {
                   >
                     <div className={`${style.albumImage} ${style.artistImage}`}>
                       <img
-                        src={artist.images[0].url}
+                        src={artist?.images[0]?.url}
                         alt="/artist_image"
                       />
                     </div>
