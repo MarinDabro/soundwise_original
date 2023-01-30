@@ -61,7 +61,7 @@ export default function CategoryTracks() {
     if (trackId) {
       getCatTracks();
     }
-  }, []);
+  }, [activePlaylist]);
 
   const realTracks = tracks?.tracks ? tracks?.tracks : tracks?.chapters
   const realArtists = activePlaylist?.artists ? activePlaylist?.artists : activePlaylist?.authors
@@ -218,9 +218,27 @@ export default function CategoryTracks() {
                         </div>
                       </div>
                     </div>
-                        <div className={classes['album-info']}>
+                        <NavLink to={track.track.album.album_type === 'single' ? '/single': 'activePlaylist'} className={classes['album-info']}
+                          onClick={() => {
+                            if (track.track.album.album_type === 'single') {
+                              dispatch({
+                                type: 'SET_SINGLE_TRACK',
+                                singleTrack: track.track.album
+                              })
+                              dispatch({
+                                type: 'SET_SINGLE_ID',
+                                singleTrack: track.track.id
+                              })
+                            } else {
+                              dispatch({
+                                type: 'SET_ACTIVE_PLAYLIST',
+                                activePlaylist: track.track.album
+                              })
+                            }
+                          }}
+                        >
                           <div>{playlistCheck ? track.track.album.name : ''}</div>
-                        </div>
+                        </NavLink>
                         <div className={classes['album-date']}>
                           {playlistCheck ? track.track.album.release_date : ''}
                         </div>{' '}
