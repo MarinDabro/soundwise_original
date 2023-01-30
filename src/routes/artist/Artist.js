@@ -121,7 +121,7 @@ export default function Artist() {
                     Spotify
                   </NavLink>
                   <span></span>
-                  <p>{tracks.followers.total} likes </p>
+                  <p>{tracks?.followers?.total} likes </p>
                   <span></span>
                   <p>about {duration}</p>
                 </div>

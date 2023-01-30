@@ -37,12 +37,14 @@ export default function CategoryTracks() {
   };
 
   const getCatTracks = async () => {
-    await fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
+    await fetch(`https://api.spotify.com/v1/${activePlaylist?.type}s/${trackId}`, searchParams)
       .then(res => res.json())
       .then(res => {
+        console.log('active', res)
         let timeCounter = 0;
-        res.tracks.items.map(track => {
-          timeCounter += track.track.duration_ms;
+        const realMap = res.tracks ? res.tracks : res.chapters
+        realMap.items.map(track => {
+          timeCounter += track.duration_ms ? track.duration_ms : track.track.duration_ms;
           const durationTime = msToTime(timeCounter);
           setDuration(durationTime[0]);
           return durationTime;
@@ -55,15 +57,14 @@ export default function CategoryTracks() {
   };
 
   useEffect(() => {
+    fetchColor();
     if (trackId) {
       getCatTracks();
-      fetchColor();
     }
-    fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
-      .then(res => res.json())
-      .then(res => console.log(res));
   }, []);
 
+  const realTracks = tracks?.tracks ? tracks?.tracks : tracks?.chapters
+  const realArtists = activePlaylist?.artists ? activePlaylist?.artists : activePlaylist?.authors
   // handle selected track to be active and lost focus by click outside of playlist
   const ref = useRef(null);
   useEffect(() => {
@@ -98,15 +99,45 @@ export default function CategoryTracks() {
               <h2>{trackName}</h2>
               <div className={classes.headerInfo}>
                 <p>{activePlaylist.description}</p>
-                <div>
-                  <NavLink className={classes.profileLink} to="/profile">
-                    Spotify
-                  </NavLink>
-                  <span></span>
-                  <p>{tracks.followers.total} likes </p>
-                  <span></span>
-                  <p>about {duration}</p>
-                </div>
+                {
+                  activePlaylist.type === 'playlist' ?
+                    <div>
+                      <NavLink 
+                        className={classes.profileLink} 
+                        to="/profile" 
+                        onClick={() => {
+                          dispatch({
+                            type: 'SET_PROFILE_ID',
+                            profileID: activePlaylist.owner.id
+                          })
+                        }}>
+                        {activePlaylist.owner.display_name}
+                      </NavLink>
+                      <span></span>
+                      <p>{tracks?.followers?.total} likes </p>
+                      <span></span>
+                      <p>about {duration}</p>
+                    </div>
+                  : 
+                    realArtists.map((artist, index) => {
+                      console.log('artist', artist)
+                      return (
+                        <NavLink
+                          className={classes.profileLink}
+                          to="/artist"
+                          key={index}
+                          onClick={() => {
+                            dispatch({
+                              type: 'SET_ARTIST_ID',
+                              artistId: artist.id,
+                            });
+                          }}
+                        >
+                          {(index ? ', ' : '') + artist.name}
+                        </NavLink>
+                      );
+                    })
+                }
               </div>
             </div>
           </div>
@@ -117,13 +148,16 @@ export default function CategoryTracks() {
                   <div>#</div>
                   <div>TITLE</div>
                 </div>
-                <div className={classes['song-album']}>ALBUM</div>
-                <div className={classes['song-release']}>RELEASE DATE</div>
+                {activePlaylist.type === 'playlist' ? <div className={classes['song-album']}>ALBUM</div> : ''}
+                {activePlaylist.type === 'playlist' ? <div className={classes['song-release']}>RELEASE DATE</div> : ''}
+                
                 <div className={classes['song-time']}>
                   <FontAwesomeIcon icon={faClock} />
                 </div>
               </div>
-              {tracks?.tracks?.items.map((track, index) => {
+              {realTracks?.items?.map((track, index) => {
+                const realTracks2 = track.track ? track.track : track
+                const playlistCheck = track.track ? true : false
                 return (
                   <div
                     key={index}
@@ -140,11 +174,13 @@ export default function CategoryTracks() {
                     <div className={classes.playlistInfo} key={index}>
                       <div className={classes.trackImg}>
                         <div>{index + 1}</div>
-                        {
+                        { 
+                          playlistCheck ?
                           <img
                             src={track.track.album.images[2].url}
-                            alt="playlist_image"
+                            alt="album_image"
                           />
+                          : ''
                         }
                       </div>
                       <div className={classes.trackInfo}>
@@ -154,15 +190,15 @@ export default function CategoryTracks() {
                           onClick={() => {
                             dispatch({
                               type: 'SET_SINGLE_TRACK',
-                              singleTrack: track,
+                              singleTrack: realTracks2,
                             });
                           }}
                         >
-                          {track.track.name}
+                          {playlistCheck ? track.track.name : track.name}
                         </NavLink>
                         <div>
                           {' '}
-                          {track.track.artists.map((artist, index) => {
+                          {realTracks2.artists.map((artist, index) => {
                             return (
                               <NavLink
                                 className={classes['track-navName']}
@@ -175,21 +211,21 @@ export default function CategoryTracks() {
                                   });
                                 }}
                               >
-                                {(index ? ',' : '') + artist.name}
+                                {(index ? ', ' : '') + artist.name}
                               </NavLink>
                             );
                           })}{' '}
                         </div>
                       </div>
                     </div>
-                    <div className={classes['album-info']}>
-                      <div>{track.track.album.name}</div>
-                    </div>
-                    <div className={classes['album-date']}>
-                      {track.track.album.release_date}
-                    </div>{' '}
+                        <div className={classes['album-info']}>
+                          <div>{playlistCheck ? track.track.album.name : ''}</div>
+                        </div>
+                        <div className={classes['album-date']}>
+                          {playlistCheck ? track.track.album.release_date : ''}
+                        </div>{' '}
                     <div className={classes['track-duration']}>
-                      {msToTime(track.track.duration_ms)[1]}
+                      {msToTime(realTracks2.duration_ms)[1]}
                     </div>
                   </div>
                 );

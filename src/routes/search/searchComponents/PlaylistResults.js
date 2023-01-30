@@ -43,8 +43,8 @@ const PlaylistResults = ({ playlists }) => {
                     </div>
                     <div className={style.artistName}>{
                       playlist.owner ? playlist.owner.display_name : 
-                      playlist.artists ? playlist?.artists?.map(artist => artist.name) :
-                      playlist.authors ? playlist?.authors?.map(author => author.name) :
+                      playlist.artists ? playlist?.artists?.map((artist, i) => `${i > 0 ? ', ' : ''}${artist.name}`) :
+                      playlist.authors ? playlist?.authors?.map((author, i) => `${i > 0 ? ', ' : ''}${author.name}`) :
                       returnDuration(playlist)}</div>
                   </NavLink>
                 );
