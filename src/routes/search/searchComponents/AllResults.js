@@ -3,10 +3,13 @@ import PlaylistResults from './PlaylistResults';
 import general from './GeneralStyle.module.css';
 import classes from './AllResults.module.css';
 import msToTime from '../../../functions/timer';
+import ArtistsResults from './ArtistsResults';
 export default function AllResults({ categories }) {
   console.log(categories);
   const firstFourCategories = categories.tracks?.items.slice(0, 4);
   console.log(firstFourCategories);
+
+
   return (
     <div className={general.main}>
       <div className={classes['artist-container']}>
@@ -50,10 +53,26 @@ export default function AllResults({ categories }) {
       </div>
       <div>
         <div>
-          <h2>Playlists</h2>
+        <div>
+          <h2>Artists</h2>
+          <ArtistsResults artists={categories?.artists?.items.slice(0, 7)} />
         </div>
         <div>
-          <PlaylistResults playlists={categories.playlists} />
+          <h2>Albums</h2>
+          <PlaylistResults playlists={categories?.albums?.items.slice(0, 7)} />
+        </div>
+        <div>
+          <h2>Playlists</h2>
+          <PlaylistResults playlists={categories?.playlists?.items?.slice(0, 7)} />
+        </div>
+        <div>
+          <h2>Audiobooks</h2>
+          <PlaylistResults playlists={categories?.audiobooks?.items?.slice(0, 7)} />
+        </div>
+        <div>
+          <h2>Episodes</h2>
+          <PlaylistResults playlists={categories?.episodes?.items?.slice(0, 7)} />
+        </div>
         </div>
       </div>
     </div>

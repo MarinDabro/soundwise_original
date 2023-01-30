@@ -21,6 +21,7 @@ import classes from './App.module.css';
 import Player from './components/player/Player';
 import Artist from "./routes/artist/Artist";
 import Single from "./routes/single/Single";
+import ActiveAlbum from './routes/activeAlbum/ActiveAlbum';
 
 
 function App() {
@@ -89,6 +90,7 @@ function App() {
           <Route path="playlist" element={<Playlist />} />
           <Route path="songs" element={<Songs />} />
           <Route path='activePlaylist' element={<CategoryTracks/>}/>
+          <Route path='activeAlbum' element={<ActiveAlbum />}/>
            <Route path="artist" element={<Artist />} />
         <Route path="single" element={<Single />} />
           <Route path='profile' element={<Profile/>}/>

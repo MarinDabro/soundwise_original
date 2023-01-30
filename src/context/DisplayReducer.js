@@ -8,6 +8,9 @@ export const initialState = {
   singleId: "",
   singleTrack: null,
   artist: null,
+  profileID: null,
+  activeAlbum: null,
+  albumTracks: null,
 };
 
 export const displayReducer = (state, action) => {
@@ -42,6 +45,18 @@ export const displayReducer = (state, action) => {
         activePlaylist: action.activePlaylist,
       };
     }
+    case "SET_ALBUM_TRACKS": {
+      return {
+        ...state,
+        albumTracks: action.albumTracks,
+      };
+    }
+    case "SET_ACTIVE_ALBUM": {
+      return {
+        ...state,
+        activeAlbum: action.activeAlbum,
+      };
+    }
     case "SET_ARTIST_ID": {
       return {
         ...state,
@@ -64,6 +79,12 @@ export const displayReducer = (state, action) => {
       return {
         ...state,
         singleTrack: action.singleTrack,
+      };
+    }
+    case "SET_PROFILE_ID": {
+      return {
+        ...state,
+        profileID: action.profileID,
       };
     }
     default: {

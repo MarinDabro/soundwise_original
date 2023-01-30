@@ -73,3 +73,7 @@
     width: 9rem;
     height: 9rem;
 }
+
+.artistImage img {
+  border-radius: 50%;
+}
