@@ -71,6 +71,7 @@
     width: 100%;
    text-align: right;
    padding-right: 3rem;
+   color: rgb(168, 162, 162);
 }
 
 .song-title {
@@ -82,5 +83,5 @@
 
 .artist-name {
   width: 20rem;
-  color: rgb(168, 162, 162);
+  
 }
