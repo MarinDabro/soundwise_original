@@ -1,11 +1,17 @@
 import React, { useContext } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import DisplayContext from '../../../context/DisplayContext.js';
-
+import msToTime from '../../../functions/timer.js';
 import style from '../../MusicBox.module.css';
 
 const PlaylistResults = ({ playlists }) => {
   const [state, dispatch] = useContext(DisplayContext);
+
+  const returnDuration = (playlist) => {
+
+    return `${playlist.release_date.slice(0, 7).split('-').reverse().join(' ')} - ${msToTime(playlist.duration_ms)[0]}`
+
+  }
 
   return (
     <div className={style.main}>
@@ -13,7 +19,7 @@ const PlaylistResults = ({ playlists }) => {
         {playlists && (
           <div>
             <div className={style.albumContainer}>
-              {playlists?.items?.map((playlist, index) => {
+              {playlists?.map((playlist, index) => {
                 return (
                   <NavLink
                     to="/activePlaylist"
@@ -35,7 +41,11 @@ const PlaylistResults = ({ playlists }) => {
                     <div className={style.albumName} title={`${playlist.name}`}>
                       {playlist.name}
                     </div>
-                    <div className={style.artistName}>{playlist.owner ? playlist.owner.display_name : playlist.artists.map(artist => artist.name)}</div>
+                    <div className={style.artistName}>{
+                      playlist.owner ? playlist.owner.display_name : 
+                      playlist.artists ? playlist?.artists?.map(artist => artist.name) :
+                      playlist.authors ? playlist?.authors?.map(author => author.name) :
+                      returnDuration(playlist)}</div>
                   </NavLink>
                 );
               })}

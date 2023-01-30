@@ -8,7 +8,7 @@ const SearchNav = ({activeType, setActiveType}) => {
   const albums = 'album'
   const track = 'track'
   const artists = 'artist'
-  const podcasts = 'podcast,show'
+  const podcasts = 'episode,show'
 
   const setCategory = (e) => {
     console.log(activeType)
