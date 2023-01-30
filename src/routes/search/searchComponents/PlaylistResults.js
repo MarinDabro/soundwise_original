@@ -13,14 +13,14 @@ const PlaylistResults = ({ playlists }) => {
 
   }
 
+                console.log('please', playlists)
   return (
     <div className={style.main}>
       <div>
         {playlists && (
           <div>
             <div className={style.albumContainer}>
-              {playlists?.map((playlist, index) => {
-                console.log('please', playlist)
+              {playlists.items?.map((playlist, index) => {
                 return (
                   <NavLink
                     to={playlist.type === 'playlist' ? '/activePlaylist' : '/activeAlbum'}
