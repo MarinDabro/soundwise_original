@@ -18,9 +18,9 @@ const SearchResults = ({ activeCat, activeType }) => {
 
   return (
     <div>
-      {activeType.split(',')[0].length > 1 ? <AllResults categories={categories}/> : ''}
-      {activeType == 'playlist' ? <PlaylistResults playlists={playlists}/> : ''}
-      {activeType == 'album' ? <PlaylistResults playlists={albums} /> : '' }
+      {activeType === "album,artist,playlist,track,show,episode,audiobook" ? <AllResults categories={categories}/> : ''}
+      {activeType === 'playlist' ? <PlaylistResults playlists={playlists}/> : ''}
+      {activeType === 'album' ? <PlaylistResults playlists={albums} /> : '' }
     </div>
   )
 };

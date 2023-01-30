@@ -18,7 +18,7 @@ const SearchNav = ({activeType, setActiveType}) => {
 
   return (
     <div className={classes.searchNav}>
-      <button className={activeType.length > 3 ? classes.active : ''} value={all} onClick={setCategory}>All</button>
+      <button className={activeType == all ? classes.active : ''} value={all} onClick={setCategory}>All</button>
       <button className={activeType == playlist ? classes.active : ''} value={playlist} onClick={setCategory}>Playlists</button>
       <button className={activeType == albums ? classes.active : ''} value={albums} onClick={setCategory}>Albums</button>
       <button className={activeType == track ? classes.active : ''} value={track} onClick={setCategory}>Songs</button>
