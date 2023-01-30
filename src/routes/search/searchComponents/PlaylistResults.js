@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
-import { NavLink, Outlet } from "react-router-dom";
-import DisplayContext from '../../../context/DisplayContext.js'
+import React, { useContext } from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
+import DisplayContext from '../../../context/DisplayContext.js';
 
-import style from "../../MusicBox.module.css";
+import style from '../../MusicBox.module.css';
 
-const PlaylistResults = ({playlists}) => {
-  const [state, dispatch] = useContext(DisplayContext)
+const PlaylistResults = ({ playlists }) => {
+  const [state, dispatch] = useContext(DisplayContext);
 
   return (
     <div className={style.main}>
@@ -19,7 +19,7 @@ const PlaylistResults = ({playlists}) => {
                     to="/activePlaylist"
                     onClick={() => {
                       dispatch({
-                        type: "SET_ACTIVE_PLAYLIST",
+                        type: 'SET_ACTIVE_PLAYLIST',
                         activePlaylist: playlist,
                       });
                     }}
@@ -48,6 +48,6 @@ const PlaylistResults = ({playlists}) => {
       </div>
     </div>
   );
-}
+};
 
-export default PlaylistResults
+export default PlaylistResults;

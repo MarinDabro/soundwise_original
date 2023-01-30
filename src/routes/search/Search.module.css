@@ -8,7 +8,7 @@
   padding-top: 9rem
 }
 
-.main h3 {
+.main > h3 {
   color: white;
   font-size: 2rem;
   font-family: 'Roboto Condensed', sans-serif;

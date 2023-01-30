@@ -97,9 +97,11 @@ export default function Search() {
               
               //if no searchInput then show all categories
               <div className={style.albumContainer}>
+                
                 {browseAll.categories?.items.map((cat, idx) => {
                   return (
                     <div
+                    
                       style={{ backgroundColor: randomColor() }}
                       className={classes.categoryBox}
                       key={idx}
