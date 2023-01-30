@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import DisplayContext from '../../../context/DisplayContext.js';
-import classes from './ArtistsResults.module.css';
 import style from '../../MusicBox.module.css';
 
 const ArtistsResults = ({ artists }) => {
