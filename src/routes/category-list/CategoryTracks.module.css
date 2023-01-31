@@ -47,6 +47,13 @@
   border: 1px solid white;
 }
 
+
+.artist_image {
+  max-width: 2rem;
+  max-height: 2rem;
+  border-radius: 50%;
+}
+
 .profileLink {
   text-decoration: none;
   color: white;
@@ -130,6 +137,7 @@
   gap: 1rem;
   align-items: center;
 }
+
 
 .trackImg img {
   width: 3rem;

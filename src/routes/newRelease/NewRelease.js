@@ -1,9 +1,14 @@
 import React, { useEffect, useContext } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+
 import classes from "../MusicBox.module.css";
 import MainContext from "../../context/MainContext";
+import style from "../MusicBox.module.css";
+//import Bouncer from "../../functions/bouncer.js";
 
 export default function NewRelease(props) {
   const [STATE, DISPATCH] = useContext(MainContext);
+  const navigate = useNavigate();
   const { newRelease, token } = STATE;
   useEffect(() => {
     async function getNewRelease() {
@@ -17,10 +22,14 @@ export default function NewRelease(props) {
       })
         .then(res => res.json())
         .then(res => {
-          DISPATCH({
-            type: "SET_NEW_RELEASE",
-            newRelease: res,
-          });
+          if (res.error) {
+            navigate("/");
+          } else {
+            DISPATCH({
+              type: "SET_NEW_RELEASE",
+              newRelease: res,
+            });
+          }
         });
     }
     getNewRelease();
@@ -31,21 +40,28 @@ export default function NewRelease(props) {
       <h2>New Releases</h2>
       {newRelease && (
         <div className={classes.albumContainer}>
-          {newRelease.albums.items.map((album, index) => {
+          {newRelease?.albums?.items.map((album, index) => {
             return (
               <div key={index} className={classes.albumBox}>
-                <div className={classes.albumImage}>
-                  <img src={album.images[1].url} alt="/artist_image" />
-                </div>
-                <div className={classes.albumName}>{album.name}</div>
-                <div className={classes.artistName}>
-                  BY: {album.artists[0].name}
-                </div>
+                <NavLink
+                  to="/album"
+                  state={{ album: album, albumId: album.id }}
+                  className={style.albumBox}
+                >
+                  <div className={classes.albumImage}>
+                    <img src={album.images[1].url} alt="/artist_image" />
+                  </div>
+                  <div className={classes.albumName}>{album.name}</div>
+                  <div className={classes.artistName}>
+                    BY: {album.artists[0].name}
+                  </div>
+                </NavLink>
               </div>
             );
           })}
         </div>
       )}
+      <Outlet />
 
       <h2>Featured Playlists</h2>
     </div>

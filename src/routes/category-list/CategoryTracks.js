@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useToken } from '../../spotify.js';
 import DisplayContext from '../../context/DisplayContext.js';
 import style from '../MusicBox.module.css';
@@ -11,7 +10,6 @@ import msToTime from '../../functions/timer.js';
 
 import { prominent } from 'color.js';
 import Bouncer from '../../functions/bouncer.js';
-import { useRef } from 'react';
 
 export default function CategoryTracks() {
   const [display, dispatch] = useContext(DisplayContext);
@@ -57,6 +55,7 @@ export default function CategoryTracks() {
 
   useEffect(() => {
     fetchColor();
+    window.scrollTo(0, 0);
     if (trackId) {
       getCatTracks();
     }
@@ -110,7 +109,7 @@ export default function CategoryTracks() {
                     {activePlaylist.owner.display_name}
                   </NavLink>
                   <span></span>
-                  <p>{tracks?.followers?.total} likes </p>
+                  <p>{tracks.followers.total.toLocaleString()} likes </p>
                   <span></span>
                   <p>about {duration}</p>
                 </div>
@@ -141,9 +140,6 @@ export default function CategoryTracks() {
                     className={`${isActive === index ? classes.active : ''} ${
                       classes['playlist-container']
                     } `}
-                    /*       onFocus={e => e.target.classList.add(classes.active)}
-                    onBlur={e => e.target.classList.remove(classes.active)} */
-                    
                   >
                     <div className={classes.playlistInfo} key={index}>
                       <div className={classes.trackImg}>
