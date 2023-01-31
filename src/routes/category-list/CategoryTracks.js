@@ -40,7 +40,7 @@ export default function CategoryTracks() {
     await fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
       .then(res => res.json())
       .then(res => {
-        console.log('active', res)
+        console.log('active', res);
         let timeCounter = 0;
         res.tracks.items.map(track => {
           timeCounter += track.track.duration_ms;
@@ -96,23 +96,24 @@ export default function CategoryTracks() {
               <h2>{trackName}</h2>
               <div className={classes.headerInfo}>
                 <p>{activePlaylist.description}</p>
-                    <div>
-                      <NavLink 
-                        className={classes.profileLink} 
-                        to="/profile" 
-                        onClick={() => {
-                          dispatch({
-                            type: 'SET_PROFILE_ID',
-                            profileID: activePlaylist.owner.id
-                          })
-                        }}>
-                        {activePlaylist.owner.display_name}
-                      </NavLink>
-                      <span></span>
-                      <p>{tracks?.followers?.total} likes </p>
-                      <span></span>
-                      <p>about {duration}</p>
-                    </div>
+                <div>
+                  <NavLink
+                    className={classes.profileLink}
+                    to="/profile"
+                    onClick={() => {
+                      dispatch({
+                        type: 'SET_PROFILE_ID',
+                        profileID: activePlaylist.owner.id,
+                      });
+                    }}
+                  >
+                    {activePlaylist.owner.display_name}
+                  </NavLink>
+                  <span></span>
+                  <p>{tracks?.followers?.total} likes </p>
+                  <span></span>
+                  <p>about {duration}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -142,14 +143,15 @@ export default function CategoryTracks() {
                     } `}
                     /*       onFocus={e => e.target.classList.add(classes.active)}
                     onBlur={e => e.target.classList.remove(classes.active)} */
+                    
                   >
                     <div className={classes.playlistInfo} key={index}>
                       <div className={classes.trackImg}>
                         <div>{index + 1}</div>
-                          <img
-                            src={track.track.album.images[2].url}
-                            alt="album_image"
-                          />
+                        <img
+                          src={track.track.album.images[2].url}
+                          alt="album_image"
+                        />
                       </div>
                       <div className={classes.trackInfo}>
                         <NavLink
@@ -186,30 +188,38 @@ export default function CategoryTracks() {
                         </div>
                       </div>
                     </div>
-                          <NavLink to={track.track.album.album_type === 'single' ? '/single': '/activeAlbum'} className={classes['album-info']}
-                            onClick={() => {
-                              if (track.track.album.album_type === 'single') {
-                                dispatch({
-                                  type: 'SET_SINGLE_TRACK',
-                                  singleTrack: track.track.album
-                                })
-                                dispatch({
-                                  type: 'SET_SINGLE_ID',
-                                  singleTrack: track.track.id
-                                })
-                              } else {
-                                dispatch({
-                                  type: 'SET_ACTIVE_ALBUM',
-                                  activeAlbum: track.track.album
-                                })
-                              }
-                            }}
-                          >
-                            <div>{track.track.album.name}</div>
-                          </NavLink>
-                        <div className={classes['album-date']}>
-                          {track.track.album.release_date}
-                        </div>{' '}
+                    <div className={classes['album-info']}>
+                    <NavLink
+                      to={
+                        track.track.album.album_type === 'single'
+                          ? '/single'
+                          : '/activeAlbum'
+                      }
+                      className={classes['album-name']}
+                      onClick={() => {
+                        if (track.track.album.album_type === 'single') {
+                          dispatch({
+                            type: 'SET_SINGLE_TRACK',
+                            singleTrack: track.track.album,
+                          });
+                          dispatch({
+                            type: 'SET_SINGLE_ID',
+                            singleTrack: track.track.id,
+                          });
+                        } else {
+                          dispatch({
+                            type: 'SET_ACTIVE_ALBUM',
+                            activeAlbum: track.track.album,
+                          });
+                        }
+                      }}
+                    >
+                      {track.track.album.name}
+                    </NavLink>
+                    </div>
+                    <div className={classes['album-date']}>
+                      {track.track.album.release_date}
+                    </div>{' '}
                     <div className={classes['track-duration']}>
                       {msToTime(track.track.duration_ms)[1]}
                     </div>
