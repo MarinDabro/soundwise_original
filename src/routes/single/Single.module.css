@@ -73,16 +73,18 @@
 }
 /* Lyrics */
 .single_lyrics {
-  width: 50%;
-  height: 10rem;
+  width: 55%;
+  height: 20rem;
   border-radius: 10px;
   padding: 1rem;
-  margin: 1rem 0 0 1rem;
-  background-color: var(--color-green);
-  overflow-x: scroll;
+  margin: 3rem auto 1rem;
+  background-color: var(--color-album-backGround);
+  overflow-y: scroll;
 }
+.single_lyrics a,
 .single_lyrics p {
   text-decoration: none;
+  color: var(--color-green);
 }
 .single_lyrics button {
   margin: 1rem 0.5rem 0 0;
