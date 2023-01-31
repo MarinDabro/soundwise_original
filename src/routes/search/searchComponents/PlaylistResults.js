@@ -8,7 +8,7 @@ const PlaylistResults = ({ playlists }) => {
   const [state, dispatch] = useContext(DisplayContext);
 
   const returnDuration = (playlist) => {
-
+    console.log('please', playlist)
     return `${playlist.release_date.slice(0, 7).split('-').reverse().join(' ')} - ${msToTime(playlist.duration_ms)[0]}`
 
   }
@@ -19,8 +19,8 @@ const PlaylistResults = ({ playlists }) => {
         {playlists && (
           <div>
             <div className={style.albumContainer}>
-              {playlists?.map((playlist, index) => {
-                console.log('please', playlist)
+              {playlists.items?.map((playlist, index) => {
+             
                 return (
                   <NavLink
                     to={playlist.type === 'playlist' ? '/activePlaylist' : '/activeAlbum'}

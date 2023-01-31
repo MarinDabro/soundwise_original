@@ -9,7 +9,6 @@ export default function AllResults({ categories }) {
   const firstFourCategories = categories.tracks?.items.slice(0, 4);
   console.log(firstFourCategories);
 
-
   return (
     <div className={general.main}>
       <div className={classes['artist-container']}>
@@ -42,37 +41,36 @@ export default function AllResults({ categories }) {
                     </div>
                   </div>
                   <div className={classes['track-duration']}>
-                       {msToTime(track.duration_ms)[1]}
-                    </div>
+                    {msToTime(track.duration_ms)[1]}
+                  </div>
                 </div>
               );
             })}
           </div>
-       
         </div>
       </div>
       <div>
         <div>
-        <div>
-          <h2>Artists</h2>
-          <ArtistsResults artists={categories?.artists?.items.slice(0, 7)} />
-        </div>
-        <div>
-          <h2>Albums</h2>
-          <PlaylistResults playlists={categories?.albums?.items.slice(0, 7)} />
-        </div>
-        <div>
-          <h2>Playlists</h2>
-          <PlaylistResults playlists={categories?.playlists?.items?.slice(0, 7)} />
-        </div>
-        <div>
-          <h2>Audiobooks</h2>
-          <PlaylistResults playlists={categories?.audiobooks?.items?.slice(0, 7)} />
-        </div>
-        <div>
-          <h2>Episodes</h2>
-          <PlaylistResults playlists={categories?.episodes?.items?.slice(0, 7)} />
-        </div>
+          <div>
+            <h2>Artists</h2>
+            <ArtistsResults artists={categories?.artists?.items} />
+          </div>
+          <div>
+            <h2>Albums</h2>
+            <PlaylistResults playlists={categories?.albums} />
+          </div>
+          <div>
+            <h2>Playlists</h2>
+            <PlaylistResults playlists={categories?.playlists} />
+          </div>
+          <div>
+            <h2>Audiobooks</h2>
+            <PlaylistResults playlists={categories?.audiobooks} />
+          </div>
+          <div>
+            <h2>Episodes</h2>
+            <PlaylistResults playlists={categories?.episodes} />
+          </div>
         </div>
       </div>
     </div>
