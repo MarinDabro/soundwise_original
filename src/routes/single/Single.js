@@ -106,7 +106,7 @@ export default function Single() {
     const options = {
       method: "GET",
       headers: {
-        "X-RapidAPI-Key": "eb2da2699emsh12f40b3a3633c52p172a0ajsn2b0ccc86371d",
+        "X-RapidAPI-Key": process.env.REACT_APP_GENIUS_KEY,
         "X-RapidAPI-Host": "genius-song-lyrics1.p.rapidapi.com",
       },
     };
