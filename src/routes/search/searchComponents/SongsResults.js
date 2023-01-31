@@ -26,7 +26,7 @@ export default function SongsResults({ tracks }) {
               <FontAwesomeIcon icon={faClock} />
             </div>
           </div>
-          {tracks.items?.map((track, index) => {
+          {tracks?.items?.map((track, index) => {
             return (
               <div
                 key={index}
