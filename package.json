@@ -13,6 +13,7 @@
     "axios": "^1.2.5",
     "color.js": "^1.2.0",
     "font-awesome": "^4.7.0",
+    "html-react-parser": "^3.0.8",
     "navigate": "^0.3.6",
     "re-resizable": "^6.9.9",
     "react": "^17.0.2",

@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import parse from "html-react-parser";
 /* import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons"; */
 
@@ -22,6 +23,7 @@ export default function Single() {
   const [artistInfo, setArtistInfo] = useState(null);
   const [popularTrack, setPopularTrack] = useState(null);
   const [showMore, setShowMore] = useState(false);
+  const [lyrics, setLyrics] = useState("");
 
   //search params for fetching data{
   const searchParams = useToken();
@@ -98,14 +100,32 @@ export default function Single() {
     });
   };
 
-  //fetch api lyrics
   /*   const getLyrics = async () => {
-    const artist = "Micheal Jackson";
-    const song = "Bad";
-    await Axios.get(` https://api.lyrics.ovh/v1/${artist}/${song}`)
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": "eb2da2699emsh12f40b3a3633c52p172a0ajsn2b0ccc86371d",
+        "X-RapidAPI-Host": "genius-song-lyrics1.p.rapidapi.com",
+      },
+    };
+
+    await fetch(
+      "https://genius-song-lyrics1.p.rapidapi.com/search/?q=bad&per_page=10&page=1",
+      options
+    )
+      .then(response => response.json())
+      .then(response => console.log("response"))
+      .catch(err => console.error(err));
+
+    await fetch(
+      "https://genius-song-lyrics1.p.rapidapi.com/song/lyrics/?id=2396871",
+      options
+    )
       .then(res => res.json())
-      .then(res => console.log(res));
-  }; */
+      .then(res => setLyrics(res.lyrics.lyrics.body.html))
+      .catch(err => console.error(err));
+  };
+ */
   useEffect(() => {
     window.scrollTo(0, 0);
     if (singleTrack) {
@@ -113,6 +133,7 @@ export default function Single() {
       getPopularTrack();
       fetchColor();
     }
+    //   getLyrics();
   }, []);
 
   // handle selected track to be active and lost focus by click outside of playlist
@@ -172,7 +193,7 @@ export default function Single() {
           </div>
           <div>
             <div className={classes["single_lyrics"]}>
-              <h4>Sign in to see lyrics and listen to the full track</h4>
+              {/*  <p>{parse(lyrics)} </p> */}
               <button>Log in</button>
               <button>Sign up</button>
             </div>

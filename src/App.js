@@ -59,15 +59,6 @@ function App() {
             playlistTracks: response,
           });
         });
-
-        /*         await fetch(
-          "https://spclient.wg.spotify.com/color-lyrics/78Sw5GDo6AlGwTwanjXbGh",
-          searchParams
-        )
-          .then(res => res.json())
-          .then(res => {
-            console.log(res);
-          }); */
       }
     }
     getData();
