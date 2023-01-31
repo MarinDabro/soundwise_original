@@ -101,6 +101,7 @@ export default function Single() {
     });
   };
 
+  //get the song lyrics
   const getLyrics = async () => {
     const songParams = singleTrack?.track.name;
     const options = {
@@ -144,7 +145,6 @@ export default function Single() {
       fetchColor();
       getLyrics();
     }
-    //   getLyrics();
   }, []);
 
   // handle selected track to be active and lost focus by click outside of playlist
