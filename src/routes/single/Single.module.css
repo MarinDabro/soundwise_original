@@ -137,3 +137,16 @@
 .album-date {
   width: 20%;
 }
+
+.track-nav{
+  color:white;
+}
+
+.track-nav,.track-navName{
+  text-decoration: none;
+}
+
+.song-info,.album-info,.album-date,.track-navName,.track-duration{
+  font-size: .8rem;
+  color: rgb(168, 162, 162);
+}
