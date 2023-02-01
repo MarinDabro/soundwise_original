@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import { useToken } from "../../spotify.js";
 import DisplayContext from "../../context/DisplayContext.js";
-import classes from "./Artist.module.css";
+import classes from '../../routes/category-list/CategoryTracks.module.css';
 import { NavLink, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
@@ -129,19 +129,19 @@ export default function Artist() {
             </div>
           </div>
           <div>
-            <div className={classes.mainContainer}>
-              <div className={classes["song-info"]}>
-                <div className={classes["song-title"]}>
+          <div className={classes.mainContainer}>
+              <div className={classes['song-info']}>
+                <div className={classes['song-title']}>
                   <div>#</div>
                   <div>TITLE</div>
                 </div>
-                <div className={classes["song-album"]}>ALBUM</div>
-                <div className={classes["song-release"]}>RELEASE DATE</div>
-                <div className={classes["song-time"]}>
+                <div className={classes['song-album']}>ALBUM</div>
+                <div className={classes['song-release']}>RELEASE DATE</div>
+                <div className={classes['song-time']}>
                   <FontAwesomeIcon icon={faClock} />
                 </div>
               </div>
-              {tracks?.tracks?.items.map((track, index) => {
+              {tracks.tracks.items?.map((track, index) => {
                 return (
                   <div
                     key={index}
@@ -149,62 +149,89 @@ export default function Artist() {
                       e.stopPropagation();
                       setIsActive(index);
                     }}
-                    className={`${isActive === index ? classes.active : ""} ${
-                      classes["playlist-container"]
+                    className={`${isActive === index ? classes.active : ''} ${
+                      classes['playlist-container']
                     } `}
                     /*       onFocus={e => e.target.classList.add(classes.active)}
                     onBlur={e => e.target.classList.remove(classes.active)} */
+                    
                   >
                     <div className={classes.playlistInfo} key={index}>
                       <div className={classes.trackImg}>
                         <div>{index + 1}</div>
-                        {
-                          <img
-                            src={track.track.album.images[2].url}
-                            alt="playlist_image"
-                          />
-                        }
+                        <img
+                          src={track.track.album.images[2].url}
+                          alt="album_image"
+                        />
                       </div>
                       <div className={classes.trackInfo}>
                         <NavLink
+                          className={classes['track-nav']}
                           to="/single"
                           onClick={() => {
                             dispatch({
-                              type: "SET_SINGLE_TRACK",
-                              singleTrack: track,
+                              type: 'SET_SINGLE_TRACK',
+                              singleTrack: track.track,
                             });
                           }}
                         >
                           {track.track.name}
                         </NavLink>
                         <div>
-                          {" "}
+                          {' '}
                           {track.track.artists.map((artist, index) => {
                             return (
                               <NavLink
+                                className={classes['track-navName']}
                                 to="/artist"
                                 key={index}
                                 onClick={() => {
                                   dispatch({
-                                    type: "SET_ARTIST_ID",
+                                    type: 'SET_ARTIST_ID',
                                     artistId: artist.id,
                                   });
                                 }}
                               >
-                                {(index ? "," : "") + artist.name}
+                                {(index ? ', ' : '') + artist.name}
                               </NavLink>
                             );
-                          })}{" "}
+                          })}{' '}
                         </div>
                       </div>
                     </div>
-                    <div className={classes["album-info"]}>
-                      <div>{track.track.album.name}</div>
+                    <div className={classes['album-info']}>
+                    <NavLink
+                      to={
+                        track.track.album.album_type === 'single'
+                          ? '/single'
+                          : '/activeAlbum'
+                      }
+                      className={classes['album-name']}
+                      onClick={() => {
+                        if (track.track.album.album_type === 'single') {
+                          dispatch({
+                            type: 'SET_SINGLE_TRACK',
+                            singleTrack: track.track.album,
+                          });
+                          dispatch({
+                            type: 'SET_SINGLE_ID',
+                            singleTrack: track.track.id,
+                          });
+                        } else {
+                          dispatch({
+                            type: 'SET_ACTIVE_ALBUM',
+                            activeAlbum: track.track.album,
+                          });
+                        }
+                      }}
+                    >
+                      {track.track.album.name}
+                    </NavLink>
                     </div>
-                    <div className={classes["album-date"]}>
+                    <div className={classes['album-date']}>
                       {track.track.album.release_date}
-                    </div>{" "}
-                    <div className={classes["track-duration"]}>
+                    </div>{' '}
+                    <div className={classes['track-duration']}>
                       {msToTime(track.track.duration_ms)[1]}
                     </div>
                   </div>
