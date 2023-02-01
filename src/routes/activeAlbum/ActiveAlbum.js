@@ -1,7 +1,5 @@
-import React, { useContext } from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useToken } from '../../spotify.js';
-import DisplayContext from '../../context/DisplayContext.js';
 import classes from '../category-list/CategoryTracks.module.css';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -110,14 +108,6 @@ export default function ActiveAlbum() {
   };
 
   useEffect(() => {
-    console.log('scroll')
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }, [album])
-
-  useEffect(() => {
     fetchColor();
     if (trackId) {
       getCatTracks();
@@ -143,7 +133,7 @@ export default function ActiveAlbum() {
   }, [isActive]);
 
   return (
-    <div className={classes.main}>
+    <div id='album-main' className={classes.main}>
       {album && colors && (
         <div>
           <Bouncer dependencies={[album]} />
@@ -276,6 +266,7 @@ export default function ActiveAlbum() {
           </div>
         </div>
       )}
+      <Outlet />
     </div>
   );
 }
