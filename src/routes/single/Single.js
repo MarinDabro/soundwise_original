@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import parse from "html-react-parser";
 /* import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons"; */
@@ -14,11 +14,12 @@ import { prominent } from "color.js";
 import Bouncer from "../../functions/bouncer.js";
 
 export default function Single() {
-  const [display, dispatch] = useContext(DisplayContext);
-  const { activePlaylist, singleTrack } = display;
+
+
   const [colors, setColors] = useState(null);
   const navigate = useNavigate();
-
+  const {state} = useLocation()
+  const singleTrack = state.singleTrack
   const [isActive, setIsActive] = useState(-1);
   const [artistInfo, setArtistInfo] = useState(null);
   const [popularTrack, setPopularTrack] = useState(null);
@@ -157,7 +158,7 @@ export default function Single() {
     <div className={classes.main}>
       {singleTrack && colors && artistInfo && (
         <div>
-          <Bouncer dependencies={[activePlaylist]} />
+          <Bouncer dependencies={[singleTrack]} />
           <div className={classes.headerNav}>The SINGLE page</div>
           <div
             className={classes.header}

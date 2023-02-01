@@ -81,13 +81,13 @@ function App() {
           <Route path="playlist" element={<Playlist />} />
           <Route path="songs" element={<Songs />} />
           <Route path='activePlaylist' element={<CategoryTracks/>}/>
-          <Route path='activeAlbum' element={<ActiveAlbum />}/>
+          <Route path='album' element={<ActiveAlbum />}/>
            <Route path="artist" element={<Artist />} />
         <Route path="single" element={<Single />} />
           <Route path='profile' element={<Profile/>}/>
           {/* <Route path="login" element={<Login />} /> */}
 
-        <Route path="album" element={<Album />} />
+        {/*  <Route path="album" element={<Album />} />  */}
         {/* <Route path="login" element={<Login />} /> */}
       </Routes>
       </div>

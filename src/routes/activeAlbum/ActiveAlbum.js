@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { useToken } from '../../spotify.js';
 import DisplayContext from '../../context/DisplayContext.js';
-import style from '../MusicBox.module.css';
 import classes from '../category-list/CategoryTracks.module.css';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import msToTime from '../../functions/timer.js';
@@ -16,28 +15,29 @@ import Bouncer from '../../functions/bouncer.js';
 import { useRef } from 'react';
 
 export default function ActiveAlbum() {
-  const [display, dispatch] = useContext(DisplayContext);
-  const { albumTracks, activeAlbum } = display;
+ 
+  
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState('');
   const [isActive, setIsActive] = useState(-1);
   const [artistInfo, setArtistInfo] = useState(null);
   const [releaseTime, setReleaseTime] = useState("");
-
-  const artistName = activeAlbum?.artists[0].name;
-  const artistId = activeAlbum?.artists[0].id;
-  const trackId = activeAlbum?.id;
-  const trackName = activeAlbum?.name;
+  const {state} = useLocation()
+  const {album} = state
+  const artistName = album?.artists[0].name;
+  const artistId = album?.artists[0].id;
+  const trackId = album?.id;
+  const trackName = album?.name;
   //search params for fetching data
   const searchParams = useToken();
   const navigate = useNavigate()
 
+  console.log(album, 'coming from activeA.js');
   //store the colors from album cover
   const fetchColor = async () => {
-    console.log(activeAlbum)
-    prominent(activeAlbum?.images[0]?.url, {
+    console.log(album, 'from color function');
+    prominent(album?.images[0]?.url, {
       format: 'hex',
-
       amount: 5,
     }).then(color => {
       setColors(color);
@@ -89,14 +89,11 @@ export default function ActiveAlbum() {
             console.log(durationTime)
             setDuration(durationTime[0]);
           } else {
-            const activeTime = msToTime(activeAlbum.duration_ms);
+            const activeTime = msToTime(album.duration_ms);
             setDuration(activeTime[0]);
           }
 
-        dispatch({
-          type: 'SET_ALBUM_TRACKS',
-          albumTracks: res,
-        });
+       
       });
   }; 
   
@@ -116,9 +113,9 @@ export default function ActiveAlbum() {
   };
 
   useEffect(() => {
-    fetchColor();
     window.scrollTo(0, 0);
     if (trackId) {
+      fetchColor();
       getCatTracks();
       getArtistInfo()
     }
@@ -143,9 +140,9 @@ export default function ActiveAlbum() {
 
   return (
     <div className={classes.main}>
-      {albumTracks && colors && activeAlbum && (
+      {album && colors && (
         <div>
-          <Bouncer dependencies={[activeAlbum]} />
+          <Bouncer dependencies={[album]} />
           <div className={classes.headerNav}>The top nav</div>
 
           <div
@@ -156,11 +153,11 @@ export default function ActiveAlbum() {
           >
             <img
               className={classes["album_cover"]}
-              src={activeAlbum?.images[1].url}
+              src={album?.images[1]?.url}
               alt="track_image"
             />
             <div>
-              <h2>{activeAlbum?.name}</h2>
+              <h2>{album?.name}</h2>
               <div className={classes.headerInfo}>
                 <div>
                   <img
@@ -169,7 +166,7 @@ export default function ActiveAlbum() {
                     className={classes["artist_image"]}
                   />
                 {
-                    activeAlbum.artists.map((artist, index) => {
+                    album.artists.map((artist, index) => {
                       return (
                         <React.Fragment>
                           {index ? '- ' : ''}
@@ -177,12 +174,7 @@ export default function ActiveAlbum() {
                             className={classes.profileLink}
                             to="/artist"
                             key={index}
-                            onClick={() => {
-                              dispatch({
-                                type: 'SET_ARTIST_ID',
-                                artistId: artist.id,
-                              });
-                            }}
+                            state = {artist}
                           >
                             {artist.name}
                           </NavLink>
@@ -192,12 +184,12 @@ export default function ActiveAlbum() {
                 }
                   <span></span>
                   <p style={{ fontWeight: "bold" }}>
-                    {activeAlbum?.release_date.substring(0, 4)}{" "}
+                    {album?.release_date.substring(0, 4)}{" "}
                   </p>
                   <span></span>
                   <p style={{ fontWeight: "bold" }}>
-                    {activeAlbum?.total_tracks}
-                    {activeAlbum.total_tracks > 1 ? " songs" : " song"}
+                    {album?.total_tracks}
+                    {album.total_tracks > 1 ? " songs" : " song"}
                   </p>
                   <span></span>
                   <p style={{ fontWeight: "bold" }}>{duration}</p>
@@ -218,7 +210,7 @@ export default function ActiveAlbum() {
                   <FontAwesomeIcon icon={faClock} />
                 </div>
               </div>
-              {albumTracks?.tracks?.items?.map((track, index) => {
+              {album?.tracks?.items?.map((track, index) => {
                 return (
                   <div
                     key={index}
@@ -237,13 +229,8 @@ export default function ActiveAlbum() {
                       <div className={classes.trackInfo}>
                         <NavLink
                           className={classes['track-nav']}
-                          to="/active"
-                          onClick={() => {
-                            dispatch({
-                              type: 'SET_SINGLE_TRACK',
-                              activeTrack: track
-                            });
-                          }}
+                          to="/single"
+                         state = {{singleTrack: track}}
                         >
                           {track.name}
                         </NavLink>
@@ -255,12 +242,7 @@ export default function ActiveAlbum() {
                                 className={classes['track-navName']}
                                 to="/artist"
                                 key={index}
-                                onClick={() => {
-                                  dispatch({
-                                    type: 'SET_ARTIST_ID',
-                                    artistId: artist.id,
-                                  });
-                                }}
+                               state = {artist}
                               >
                                 {(index ? ', ' : '') + artist.name}
                               </NavLink>
