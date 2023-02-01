@@ -186,29 +186,9 @@ export default function CategoryTracks() {
                     </div>
                     <div className={classes['album-info']}>
                     <NavLink
-                      to={
-                        track.track.album.album_type === 'single'
-                          ? '/single'
-                          : '/activeAlbum'
-                      }
+                      to='/album'
                       className={classes['album-name']}
-                      onClick={() => {
-                        if (track.track.album.album_type === 'single') {
-                          dispatch({
-                            type: 'SET_SINGLE_TRACK',
-                            singleTrack: track.track.album,
-                          });
-                          dispatch({
-                            type: 'SET_SINGLE_ID',
-                            singleTrack: track.track.id,
-                          });
-                        } else {
-                          dispatch({
-                            type: 'SET_ACTIVE_ALBUM',
-                            activeAlbum: track.track.album,
-                          });
-                        }
-                      }}
+                      state={{album: track.track.album}}
                     >
                       {track.track.album.name}
                     </NavLink>

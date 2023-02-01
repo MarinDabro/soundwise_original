@@ -174,7 +174,7 @@ export default function Single() {
             />
             <div>
               <h4>SONG</h4>
-              <h2>{album?.name}</h2>
+              <h2>{singleTrack?.name}</h2>
               <div className={classes.headerInfo}>
                 <div>
                   <img
@@ -182,11 +182,25 @@ export default function Single() {
                     alt="artist_image"
                     className={classes["artist_image"]}
                   />
-                  <NavLink className={classes.profileLink} to="/profile">
-                    {artistName}
-                  </NavLink>
+                  {
+                    singleTrack?.artists?.map((artist, index) => {
+                      return (
+                        <React.Fragment key={index}>
+                          {index ? '- ' : ''}
+                          <NavLink
+                            className={classes.profileLink}
+                            to="/artist"
+                            key={index}
+                            state={{ artist }}
+                          >
+                            {artist.name}
+                          </NavLink>
+                        </React.Fragment>
+                      );
+                    })
+                  }
                   <span></span>
-                  <p>{singleTrack.name} </p>
+                  <p>{album?.name} </p>
                   <span></span>
                   <p>{msToTime(singleTrack.duration_ms)[1]}</p>
                 </div>
