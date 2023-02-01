@@ -36,9 +36,16 @@ export default function RelatedArtists({ artistId }) {
                 return (
                   <NavLink
                     to="/artist"
-                    state={artist}
+                    state={{artist}}
                     key={index}
                     className={style.albumBox}
+                    onClick={() => {
+                      const routes = document.getElementById('routes')
+                      routes.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                      })
+                    }}
                   >
                     <div className={style.albumImage}>
                       <img

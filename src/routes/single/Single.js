@@ -186,7 +186,7 @@ export default function Single() {
                     {artistName}
                   </NavLink>
                   <span></span>
-                  <p>{singleTrack?.added_at?.substring(0, 4)} </p>
+                  <p>{singleTrack.name} </p>
                   <span></span>
                   <p>{msToTime(singleTrack.duration_ms)[1]}</p>
                 </div>

@@ -6,6 +6,7 @@ import { useToken } from "../../spotify.js";
 import PopularAlbums from "../artist/PopularAlbums.js";
 import RelatedArtists from "../artist/RelatedArtists.js";
 import classes from "./Artist.module.css";
+import Bouncer from "../../functions/bouncer.js";
 
 export default function Artist() {
   const navigate = useNavigate();
@@ -21,10 +22,12 @@ export default function Artist() {
   const searchParams = useToken();
 
   let trackArr = [];
-  const artistName = state.name;
+  const {artist} = state
+  console.log(artist)
+  const artistName = artist.name;
 
   //get the artist Id to fetch artist api
-  const artistId = state.id;
+  const artistId = artist.id;
 
   //get artist info
   const getArtistInfo = async () => {
@@ -115,6 +118,7 @@ export default function Artist() {
 
   return (
     <div className={classes.main}>
+      <Bouncer dependencies={[artist]} />
       {state && colors && artistInfo && (
         <div>
           <div className={classes.headerNav}>The ARTIST page</div>

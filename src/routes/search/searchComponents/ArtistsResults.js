@@ -16,12 +16,7 @@ const ArtistsResults = ({ artists }) => {
                 return (
                   <NavLink
                     to="/artist"
-                    onClick={() => {
-                      dispatch({
-                        type: 'SET_ARTIST',
-                        artist: artist,
-                      });
-                    }}
+                    state={{artist}}
                     key={index}
                     className={style.albumBox}
                   >

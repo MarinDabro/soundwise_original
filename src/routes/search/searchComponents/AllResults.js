@@ -4,6 +4,7 @@ import general from './GeneralStyle.module.css';
 import classes from './AllResults.module.css';
 import msToTime from '../../../functions/timer';
 import ArtistsResults from './ArtistsResults';
+import { NavLink } from 'react-router-dom';
 export default function AllResults({ categories }) {
   console.log(categories);
   const firstFourCategories = categories.tracks?.items.slice(0, 4);
@@ -14,7 +15,10 @@ export default function AllResults({ categories }) {
       <div className={classes['artist-container']}>
         <div className={classes['artist-info']}>
           <h2>Top Results</h2>
-          <div className={classes['top-artist']}>
+          <NavLink className={classes['top-artist']}
+            to='/artist'
+            state={{artist: categories.artists.items[0]}}
+          >
             <div>
               <img
                 src={categories.artists?.items[0].images.at(-1).url}
@@ -24,7 +28,7 @@ export default function AllResults({ categories }) {
               <h3>{categories.artists?.items[0].name}</h3>
               <span>{categories.artists?.items[0].type}</span>
             </div>
-          </div>
+          </NavLink>
         </div>
 
         <div className={classes['artist-songs']}>
