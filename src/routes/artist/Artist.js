@@ -152,13 +152,7 @@ export default function Artist() {
               </div>
             </div>
           </div>
-          <div>
-            <div className={classes["single_lyrics"]}>
-              <h4>Sign in to see lyrics and listen to the full track</h4>
-              <button>Log in</button>
-              <button>Sign up</button>
-            </div>
-          </div>
+          <div></div>
           <div className={classes["artist_info"]}>
             <img
               src={artistInfo.images[1].url}

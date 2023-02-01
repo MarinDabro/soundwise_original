@@ -108,6 +108,10 @@ export default function Nav() {
             </NavLink>
           </div>
         </nav>
+        <div
+          id="google_translate_element"
+          style={{ margin: "1rem 0 0 1.5rem" }}
+        ></div>
       </div>
       <Outlet />
     </Resizable>

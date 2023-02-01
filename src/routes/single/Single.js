@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import parse from "html-react-parser";
+import toast, { Toaster } from "react-hot-toast";
 /* import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons"; */
 
@@ -102,40 +103,50 @@ export default function Single() {
     });
   };
 
-  /*   const getLyrics = async () => {
+  //get the song lyrics
+  const getLyrics = async () => {
+    const songParams = singleTrack?.name;
     const options = {
       method: "GET",
       headers: {
-        "X-RapidAPI-Key": "eb2da2699emsh12f40b3a3633c52p172a0ajsn2b0ccc86371d",
+        "X-RapidAPI-Key": process.env.REACT_APP_GENIUS_KEY,
         "X-RapidAPI-Host": "genius-song-lyrics1.p.rapidapi.com",
       },
     };
 
-    await fetch(
-      "https://genius-song-lyrics1.p.rapidapi.com/search/?q=bad&per_page=10&page=1",
+    const fetchSong = await fetch(
+      `https://genius-song-lyrics1.p.rapidapi.com/search/?q=${songParams}&per_page=1&page=1`,
       options
-    )
-      .then(response => response.json())
-      .then(response => console.log("response"))
-      .catch(err => console.error(err));
+    );
+    const songData = await fetchSong.json();
+    let songId = "";
+    if (songData.hits.length > 0) {
+      songId = songData.hits[0].result.id;
+    } else {
+      toast.error(songData.error);
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    }
 
-    await fetch(
-      "https://genius-song-lyrics1.p.rapidapi.com/song/lyrics/?id=2396871",
-      options
-    )
-      .then(res => res.json())
-      .then(res => setLyrics(res.lyrics.lyrics.body.html))
-      .catch(err => console.error(err));
+    songId &&
+      (await fetch(
+        `https://genius-song-lyrics1.p.rapidapi.com/song/lyrics/?id=${songId}`,
+        options
+      )
+        .then(res => res.json())
+        .then(res => setLyrics(res.lyrics.lyrics.body.html))
+        .catch(err => toast.error(err)));
   };
- */
+
   useEffect(() => {
     window.scrollTo(0, 0);
     if (singleTrack) {
       getArtistInfo();
       getPopularTrack();
       fetchColor();
+      getLyrics();
     }
-    //   getLyrics();
   }, []);
 
   // handle selected track to be active and lost focus by click outside of playlist
@@ -157,6 +168,7 @@ export default function Single() {
 
   return (
     <div className={classes.main}>
+      <Toaster position="top-center" />
       {singleTrack && colors && artistInfo && (
         <div>
           <Bouncer dependencies={[singleTrack]} />
@@ -209,9 +221,7 @@ export default function Single() {
           </div>
           <div>
             <div className={classes["single_lyrics"]}>
-              {/*  <p>{parse(lyrics)} </p> */}
-              <button>Log in</button>
-              <button>Sign up</button>
+              <p>{parse(lyrics)} </p>
             </div>
           </div>
           <div className={classes["artist_info"]}>
