@@ -5,7 +5,6 @@ import parse from "html-react-parser";
 import { faClock } from "@fortawesome/free-regular-svg-icons"; */
 
 import { useToken } from "../../spotify.js";
-import DisplayContext from "../../context/DisplayContext.js";
 import PopularAlbums from "../artist/PopularAlbums.js";
 import RelatedArtists from "../artist/RelatedArtists.js";
 import classes from "./Single.module.css";
@@ -20,6 +19,7 @@ export default function Single() {
   const navigate = useNavigate();
   const {state} = useLocation()
   const singleTrack = state.singleTrack
+  const album = state.album
   const [isActive, setIsActive] = useState(-1);
   const [artistInfo, setArtistInfo] = useState(null);
   const [popularTrack, setPopularTrack] = useState(null);
@@ -30,10 +30,11 @@ export default function Single() {
   const searchParams = useToken();
 
   let trackArr = [];
-  const artistName = singleTrack?.track.artists[0].name;
+  console.log(singleTrack)
+  const artistName = singleTrack?.artists[0].name;
 
   //get the artist Id to fetch artist api
-  const artistId = singleTrack.track.artists[0].id;
+  const artistId = singleTrack.artists[0].id;
 
   //get artist info
   const getArtistInfo = async () => {
@@ -93,7 +94,7 @@ export default function Single() {
 
   //store the colors from album cover
   const fetchColor = async () => {
-    prominent(singleTrack?.track?.album.images[1].url, {
+    prominent(album?.images[1]?.url, {
       format: "hex",
       amount: 5,
     }).then(color => {
@@ -168,12 +169,12 @@ export default function Single() {
           >
             <img
               className={classes["album_cover"]}
-              src={singleTrack?.track?.album.images[1].url}
+              src={album?.images[1]?.url}
               alt="track_image"
             />
             <div>
               <h4>SONG</h4>
-              <h2>{singleTrack?.track.album.name}</h2>
+              <h2>{album?.name}</h2>
               <div className={classes.headerInfo}>
                 <div>
                   <img
@@ -185,9 +186,9 @@ export default function Single() {
                     {artistName}
                   </NavLink>
                   <span></span>
-                  <p>{singleTrack?.added_at.substring(0, 4)} </p>
+                  <p>{singleTrack?.added_at?.substring(0, 4)} </p>
                   <span></span>
-                  <p>{msToTime(singleTrack.track.duration_ms)[1]}</p>
+                  <p>{msToTime(singleTrack.duration_ms)[1]}</p>
                 </div>
               </div>
             </div>

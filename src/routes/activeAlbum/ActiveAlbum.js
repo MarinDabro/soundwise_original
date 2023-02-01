@@ -224,7 +224,7 @@ export default function ActiveAlbum() {
                         <NavLink
                           className={classes['track-nav']}
                           to="/single"
-                         state = {{singleTrack: track}}
+                           state = {{singleTrack: track, album: album}}
                         >
                           {track.name}
                         </NavLink>
