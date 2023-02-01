@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useToken } from "../../spotify.js";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import style from "../MusicBox.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 export default function RelatedArtists({ artistId }) {
   const searchParams = useToken();
@@ -48,7 +50,11 @@ export default function RelatedArtists({ artistId }) {
                     </div>
                     <div className={style.albumName}>{artists.name}</div>
                     <div className={style.artistName}>
-                      {artists.followers.total.toLocaleString()} likes
+                      {artists.followers.total.toLocaleString()}{" "}
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        style={{ color: "pink", marginLeft: "5px" }}
+                      />
                     </div>
                   </NavLink>
                 );
