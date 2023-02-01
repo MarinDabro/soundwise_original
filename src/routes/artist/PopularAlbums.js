@@ -25,7 +25,7 @@ export default function PopularAlbums({ artistId }) {
   };
   useEffect(() => {
     getPopularAlbums();
-  }, []);
+  }, [artistId]);
 
   return (
     <div className={style.main}>

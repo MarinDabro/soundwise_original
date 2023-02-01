@@ -24,7 +24,7 @@ export default function RelatedArtists({ artistId }) {
   };
   useEffect(() => {
     getRelatedArtists();
-  }, []);
+  }, [artistId]);
 
   return (
     <div className={style.main}>
