@@ -1,25 +1,22 @@
-
-
-
-import React, { useEffect, useContext } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { spotify } from './spotify';
-import { GetTokenFromResponse } from './spotify';
-import MainContext from './context/MainContext.js';
-import Nav from './components/nav/Nav';
-import Home from './routes/home/Home';
-import UserHome from './routes/user_playList/UserPlayList';
-import Search from './routes/search/Search';
-import Library from './routes/library/Library';
-import Playlist from './routes/playlist/Playlist';
-import Login from './routes/login/Login';
-import Songs from './routes/songs/Songs';
-import CategoryTracks from './routes/category-list/CategoryTracks';
-import Profile from './routes/profile/Profile';
-import Player from './components/player/Player';
+import React, { useEffect, useContext } from "react";
+import { Routes, Route } from "react-router-dom";
+import { spotify } from "./spotify";
+import { GetTokenFromResponse } from "./spotify";
+import MainContext from "./context/MainContext.js";
+import Nav from "./components/nav/Nav";
+import Home from "./routes/home/Home";
+import UserHome from "./routes/user_playList/UserPlayList";
+import Search from "./routes/search/Search";
+import Library from "./routes/library/Library";
+import Playlist from "./routes/playlist/Playlist";
+import Login from "./routes/login/Login";
+import Songs from "./routes/songs/Songs";
+import CategoryTracks from "./routes/category-list/CategoryTracks";
+import Profile from "./routes/profile/Profile";
+import Player from "./components/player/Player";
 import Artist from "./routes/artist/Artist";
 import Single from "./routes/single/Single";
-import ActiveAlbum from './routes/activeAlbum/ActiveAlbum';
+import ActiveAlbum from "./routes/activeAlbum/ActiveAlbum";
 import Album from "./routes/albums/Album";
 import classes from "./App.module.css";
 import { useToken } from "./spotify.js";
@@ -80,16 +77,16 @@ function App() {
           <Route path="library" element={<Library />} />
           <Route path="playlist" element={<Playlist />} />
           <Route path="songs" element={<Songs />} />
-          <Route path='activePlaylist' element={<CategoryTracks/>}/>
-          <Route path='album' element={<ActiveAlbum />}/>
-           <Route path="artist" element={<Artist />} />
-        <Route path="single" element={<Single />} />
-          <Route path='profile' element={<Profile/>}/>
+          <Route path="activePlaylist" element={<CategoryTracks />} />
+          <Route path="album" element={<ActiveAlbum />} />
+          <Route path="artist" element={<Artist />} />
+          <Route path="single" element={<Single />} />
+          <Route path="profile" element={<Profile />} />
           {/* <Route path="login" element={<Login />} /> */}
 
-        {/*  <Route path="album" element={<Album />} />  */}
-        {/* <Route path="login" element={<Login />} /> */}
-      </Routes>
+          {/*  <Route path="album" element={<Album />} />  */}
+          {/* <Route path="login" element={<Login />} /> */}
+        </Routes>
       </div>
       <Player />
       <Login />

@@ -14,12 +14,11 @@ import { prominent } from "color.js";
 import Bouncer from "../../functions/bouncer.js";
 
 export default function Single() {
-
-
   const [colors, setColors] = useState(null);
   const navigate = useNavigate();
-  const {state} = useLocation()
-  const singleTrack = state.singleTrack
+  const { state } = useLocation();
+  console.log(state);
+  const singleTrack = state.singleTrack;
   const [isActive, setIsActive] = useState(-1);
   const [artistInfo, setArtistInfo] = useState(null);
   const [popularTrack, setPopularTrack] = useState(null);
