@@ -37,7 +37,7 @@ export default function PopularAlbums({ artistId }) {
                 return (
                   <NavLink
                     to="/album"
-                    state={{ album: album, albumId: album.album.id }}
+                    state={{ album: album.album}}
                     key={index}
                     className={style.albumBox}
                   >

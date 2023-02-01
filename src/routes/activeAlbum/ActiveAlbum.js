@@ -24,6 +24,7 @@ export default function ActiveAlbum() {
   const [releaseTime, setReleaseTime] = useState("");
   const {state} = useLocation()
   const {album} = state
+  const [albumTracks, setAlbumTracks] = useState(false)
   const artistName = album?.artists[0].name;
   const artistId = album?.artists[0].id;
   const trackId = album?.id;
@@ -32,10 +33,8 @@ export default function ActiveAlbum() {
   const searchParams = useToken();
   const navigate = useNavigate()
 
-  console.log(album, 'coming from activeA.js');
   //store the colors from album cover
   const fetchColor = async () => {
-    console.log(album, 'from color function');
     prominent(album?.images[0]?.url, {
       format: 'hex',
       amount: 5,
@@ -76,8 +75,7 @@ export default function ActiveAlbum() {
     await fetch(`https://api.spotify.com/v1/albums/${trackId}`, searchParams)
       .then(res => res.json())
       .then(res => {
-        console.log('active', res)
-
+          setAlbumTracks(res.tracks)
           getReleaseDate(res.release_date);
 
           let timeCounter = 0;
@@ -86,7 +84,6 @@ export default function ActiveAlbum() {
               timeCounter += track.duration_ms;
             });
             const durationTime = msToTime(timeCounter);
-            console.log(durationTime)
             setDuration(durationTime[0]);
           } else {
             const activeTime = msToTime(album.duration_ms);
@@ -113,13 +110,20 @@ export default function ActiveAlbum() {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    console.log('scroll')
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, [album])
+
+  useEffect(() => {
+    fetchColor();
     if (trackId) {
-      fetchColor();
       getCatTracks();
       getArtistInfo()
     }
-  }, []);
+  }, [album]);
 
   // handle selected track to be active and lost focus by click outside of playlist
   const ref = useRef(null);
@@ -168,7 +172,7 @@ export default function ActiveAlbum() {
                 {
                     album.artists.map((artist, index) => {
                       return (
-                        <React.Fragment>
+                        <React.Fragment key={index}>
                           {index ? '- ' : ''}
                           <NavLink
                             className={classes.profileLink}
@@ -210,7 +214,7 @@ export default function ActiveAlbum() {
                   <FontAwesomeIcon icon={faClock} />
                 </div>
               </div>
-              {album?.tracks?.items?.map((track, index) => {
+              {albumTracks?.items?.map((track, index) => {
                 return (
                   <div
                     key={index}
