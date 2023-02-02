@@ -114,7 +114,7 @@ export default function Artist() {
   }, [isActive]);
 
   return (
-    <div className={classes.main}>
+    <div className={classes.main} translate="no">
       {state && colors && artistInfo && (
         <div>
           <div className={classes.headerNav}>The ARTIST page</div>

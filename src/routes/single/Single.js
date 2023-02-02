@@ -147,6 +147,25 @@ export default function Single() {
     }
   }, []);
 
+  const googleTranslateElementInit = () => {
+    new window.google.translate.TranslateElement(
+      {
+        pageLanguage: "en",
+        autoDisplay: false,
+      },
+      "google_translate_element"
+    );
+  };
+  useEffect(() => {
+    var addScript = document.createElement("script");
+    addScript.setAttribute(
+      "src",
+      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    );
+    document.body.appendChild(addScript);
+    window.googleTranslateElementInit = googleTranslateElementInit;
+  }, []);
+
   // handle selected track to be active and lost focus by click outside of playlist
   const ref = useRef(null);
   useEffect(() => {
@@ -170,8 +189,11 @@ export default function Single() {
       {singleTrack && colors && artistInfo && (
         <div>
           <Bouncer dependencies={[activePlaylist]} />
-          <div className={classes.headerNav}>The SINGLE page</div>
+          <div translate="no" className={classes.headerNav}>
+            The SINGLE page
+          </div>
           <div
+            translate="no"
             className={classes.header}
             style={{
               backgroundImage: `linear-gradient(to bottom left, ${colors[3]},  ${colors[4]})`,
@@ -205,10 +227,14 @@ export default function Single() {
           </div>
           <div>
             <div className={classes["single_lyrics"]}>
+              <div
+                id="google_translate_element"
+                style={{ margin: "1rem 0 0 1.5rem" }}
+              ></div>
               <p>{parse(lyrics)} </p>
             </div>
           </div>
-          <div className={classes["artist_info"]}>
+          <div translate="no" className={classes["artist_info"]}>
             <img
               src={artistInfo.images[1].url}
               alt="artist_image"
@@ -219,7 +245,7 @@ export default function Single() {
               <h4> {artistName}</h4>
             </div>
           </div>
-          <div>
+          <div translate="no">
             <div className={classes["popular_track"]}>
               <p>Popular Tracks by</p>
               <h3>{artistName}</h3>
@@ -273,12 +299,12 @@ export default function Single() {
               </button>
             )}
           </div>
-          <div>
+          <div translate="no">
             <h2>{artistName} Albums</h2>
             <PopularAlbums artistId={artistId} />
           </div>
 
-          <div>
+          <div translate="no">
             <h2>{artistName} Related Artists</h2>
             <RelatedArtists artistId={artistId} />
           </div>

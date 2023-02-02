@@ -96,7 +96,7 @@ export default function CategoryTracks() {
   }, [isActive]);
 
   return (
-    <div className={classes.main}>
+    <div className={classes.main} translate="no">
       {tracks && colors && activePlaylist && (
         <div>
           <Bouncer dependencies={[activePlaylist]} />

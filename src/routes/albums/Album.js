@@ -163,7 +163,7 @@ export default function CategoryTracks() {
   }, [isActive]);
 
   return (
-    <div className={classes.main}>
+    <div className={classes.main} translate="no">
       {singleAlbum && colors && (
         <div>
           <div className={classes.headerNav}>The ALBUM</div>

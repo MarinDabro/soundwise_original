@@ -94,7 +94,7 @@ export default function Search() {
   }
 
   return (
-    <div>
+    <div translate="no">
       {catPlaylist ? (
         <CategoryList />
       ) : (
