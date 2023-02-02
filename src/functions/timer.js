@@ -9,7 +9,7 @@ function msToTime(ms) {
     d = Math.floor(h / 24);
     h = h % 24;
     h += d * 24;
-    const duration = h + " h " + m + " min";
+    const duration = h + "h " + m + "min";
     if (s < 10) {
       s = "0" + s;
     }
