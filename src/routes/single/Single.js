@@ -164,6 +164,7 @@ export default function Single() {
               </div>
             </div>
           </div>
+
           <div className={classes['song-container']}>
          
               <Lyrics  colors={colors} songName={songName} />
@@ -179,6 +180,7 @@ export default function Single() {
                 <h5 style={{ padding: '0.5rem 0' }}>ARTIST</h5>
                 <h4> {artistName}</h4>
               </div>
+
             </div>
           </div>
           <div translate="no">
