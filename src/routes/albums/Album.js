@@ -163,7 +163,7 @@ console.log(album , ' this is from album.js');
   }, [isActive]);
 
   return (
-    <div className={classes.main}>
+    <div className={classes.main} translate="no">
       {singleAlbum && colors && (
         <div>
           <div className={classes.headerNav}>The ALBUM</div>

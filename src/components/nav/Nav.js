@@ -21,6 +21,7 @@ export default function Nav() {
   const [state, setState] = useState({ width: "15vw", height: "200" });
   return (
     <Resizable
+      translate="yes"
       style={{ border: "1px solid black" }}
       minHeight="100vh"
       /* set minWidth to be wider */
@@ -34,7 +35,7 @@ export default function Nav() {
         });
       }}
     >
-      <div className={classes.main}>
+      <div className={classes.main} translate="no">
         <div className={classes.logo}>
           <img src={logo} alt="logo" /> {/* move the width to css file  */}
           <h2>Soundwise</h2>
@@ -108,6 +109,10 @@ export default function Nav() {
             </NavLink>
           </div>
         </nav>
+        {/*        <div
+          id="google_translate_element"
+          style={{ margin: "1rem 0 0 1.5rem" }}
+        ></div> */}
       </div>
       <Outlet />
     </Resizable>

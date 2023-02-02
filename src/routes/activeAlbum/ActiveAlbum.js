@@ -1,7 +1,5 @@
-import React, { useContext } from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useToken } from '../../spotify.js';
-import DisplayContext from '../../context/DisplayContext.js';
 import classes from '../category-list/CategoryTracks.module.css';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,15 +13,15 @@ import Bouncer from '../../functions/bouncer.js';
 import { useRef } from 'react';
 
 export default function ActiveAlbum() {
- 
-  
+
+
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState('');
   const [isActive, setIsActive] = useState(-1);
   const [artistInfo, setArtistInfo] = useState(null);
   const [releaseTime, setReleaseTime] = useState("");
-  const {state} = useLocation()
-  const {album} = state
+  const { state } = useLocation()
+  const { album } = state
   const [albumTracks, setAlbumTracks] = useState(false)
   const artistName = album?.artists[0].name;
   const artistId = album?.artists[0].id;
@@ -68,32 +66,32 @@ export default function ActiveAlbum() {
     });
     const fullDate =
       alphaMonth + " " + date.substring(8, 10) + ", " + date.substring(0, 4);
-      setReleaseTime(fullDate);
+    setReleaseTime(fullDate);
   };
 
   const getCatTracks = async () => {
     await fetch(`https://api.spotify.com/v1/albums/${trackId}`, searchParams)
       .then(res => res.json())
       .then(res => {
-          setAlbumTracks(res.tracks)
-          getReleaseDate(res.release_date);
+        setAlbumTracks(res.tracks)
+        getReleaseDate(res.release_date);
 
-          let timeCounter = 0;
-          if (res.album_type === "album") {
-            res.tracks?.items.map(track => {
-              timeCounter += track.duration_ms;
-            });
-            const durationTime = msToTime(timeCounter);
-            setDuration(durationTime[0]);
-          } else {
-            const activeTime = msToTime(album.duration_ms);
-            setDuration(activeTime[0]);
-          }
+        let timeCounter = 0;
+        if (res.album_type === "album") {
+          res.tracks?.items.map(track => {
+            timeCounter += track.duration_ms;
+          });
+          const durationTime = msToTime(timeCounter);
+          setDuration(durationTime[0]);
+        } else {
+          const activeTime = msToTime(album.duration_ms);
+          setDuration(activeTime[0]);
+        }
 
-       
+
       });
-  }; 
-  
+  };
+
   const getArtistInfo = async () => {
     await fetch(
       `https://api.spotify.com/v1/artists/${artistId}`,
@@ -108,14 +106,6 @@ export default function ActiveAlbum() {
       })
     );
   };
-
-  useEffect(() => {
-    console.log('scroll')
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }, [album])
 
   useEffect(() => {
     fetchColor();
@@ -143,7 +133,7 @@ export default function ActiveAlbum() {
   }, [isActive]);
 
   return (
-    <div className={classes.main}>
+    <div id='album-main' className={classes.main}>
       {album && colors && (
         <div>
           <Bouncer dependencies={[album]} />
@@ -169,7 +159,7 @@ export default function ActiveAlbum() {
                     alt="artist_image"
                     className={classes["artist_image"]}
                   />
-                {
+                  {
                     album.artists.map((artist, index) => {
                       return (
                         <React.Fragment key={index}>
@@ -178,14 +168,14 @@ export default function ActiveAlbum() {
                             className={classes.profileLink}
                             to="/artist"
                             key={index}
-                            state = {artist}
+                            state={{ artist }}
                           >
                             {artist.name}
                           </NavLink>
                         </React.Fragment>
                       );
                     })
-                }
+                  }
                   <span></span>
                   <p style={{ fontWeight: "bold" }}>
                     {album?.release_date.substring(0, 4)}{" "}
@@ -209,7 +199,7 @@ export default function ActiveAlbum() {
                   <div>#</div>
                   <div>TITLE</div>
                 </div>
-                
+
                 <div className={classes['song-time']}>
                   <FontAwesomeIcon icon={faClock} />
                 </div>
@@ -222,9 +212,8 @@ export default function ActiveAlbum() {
                       e.stopPropagation();
                       setIsActive(index);
                     }}
-                    className={`${isActive === index ? classes.active : ''} ${
-                      classes['playlist-container']
-                    } `}
+                    className={`${isActive === index ? classes.active : ''} ${classes['playlist-container']
+                      } `}
                   >
                     <div className={classes.playlistInfo} key={index}>
                       <div className={classes.trackImg}>
@@ -234,7 +223,7 @@ export default function ActiveAlbum() {
                         <NavLink
                           className={classes['track-nav']}
                           to="/single"
-                         state = {{singleTrack: track}}
+                          state={{ singleTrack: track, album: album }}
                         >
                           {track.name}
                         </NavLink>
@@ -246,7 +235,7 @@ export default function ActiveAlbum() {
                                 className={classes['track-navName']}
                                 to="/artist"
                                 key={index}
-                               state = {artist}
+                                state={{ artist }}
                               >
                                 {(index ? ', ' : '') + artist.name}
                               </NavLink>
@@ -255,8 +244,8 @@ export default function ActiveAlbum() {
                         </div>
                       </div>
                     </div>
-                        <div className={classes['album-date']}>
-                        </div>{' '}
+                    <div className={classes['album-date']}>
+                    </div>{' '}
                     <div className={classes['track-duration']}>
                       {msToTime(track.duration_ms)[1]}
                     </div>
@@ -276,6 +265,7 @@ export default function ActiveAlbum() {
           </div>
         </div>
       )}
+      <Outlet />
     </div>
   );
 }

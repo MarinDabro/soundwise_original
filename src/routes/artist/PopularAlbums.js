@@ -25,7 +25,7 @@ export default function PopularAlbums({ artistId }) {
   };
   useEffect(() => {
     getPopularAlbums();
-  }, []);
+  }, [artistId]);
 
   return (
     <div className={style.main}>
@@ -40,6 +40,13 @@ export default function PopularAlbums({ artistId }) {
                     state={{ album: album.album}}
                     key={index}
                     className={style.albumBox}
+                    onClick={() => {
+                      const routes = document.getElementById('routes')
+                      routes.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                      })
+                    }}
                   >
                     <div className={style.albumImage}>
                       <img

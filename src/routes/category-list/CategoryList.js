@@ -42,29 +42,27 @@ export default function CategoryList() {
             <h2 className={classes.header}> {catName} </h2>
             <div className={style.albumContainer}>
               {playLists?.playlists?.items?.map((playlist, index) => {
+
                 return (
-                  <NavLink
-                    to="/activePlaylist"
-                    onClick={() => {
-                      dispatch({
-                        type: "SET_ACTIVE_PLAYLIST",
-                        activePlaylist: playlist,
-                      });
-                    }}
-                    key={index}
-                    className={style.albumBox}
-                  >
-                    <div className={style.albumImage}>
-                      <img
-                        src={playlist.images[0].url}
-                        alt="/ playlist_image"
-                      />
-                    </div>
-                    <div className={style.albumName}>
-                      {playlist.name}
-                    </div>
-                    <div className={style.artistName}>{playlist.owner.display_name}</div>
-                  </NavLink>
+                  playlist && (
+                    <NavLink
+                      to="/activePlaylist"
+                      state = {{activePlaylist : playlist}}
+                      key={index}
+                      className={style.albumBox}
+                    >
+                      <div className={style.albumImage}>
+                        <img
+                          src={playlist.images[0].url}
+                          alt="/ playlist_image"
+                        />
+                      </div>
+                      <div className={style.albumName}>
+                        {playlist.description}
+                      </div>
+                      <div className={style.artistName}>{playlist.name}</div>
+                    </NavLink>
+                  )
                 );
               })}
             </div>

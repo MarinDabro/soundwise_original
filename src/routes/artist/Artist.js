@@ -1,26 +1,22 @@
 import React, { useRef, useEffect, useState } from 'react';
 
 import { useToken } from '../../spotify.js';
-
 import classes from '../../routes/category-list/CategoryTracks.module.css';
 import { NavLink, Outlet } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
-
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import { prominent } from 'color.js';
-
-
 import PopularAlbums from '../artist/PopularAlbums.js';
 import RelatedArtists from '../artist/RelatedArtists.js';
 import style from './Artist.module.css';
+import Bouncer from '../../functions/bouncer.js';
 
 export default function Artist() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const [colors, setColors] = useState(null);
 
+  const [colors, setColors] = useState(null);
   const [isActive, setIsActive] = useState(-1);
   const [artistInfo, setArtistInfo] = useState(null);
   const [popularTrack, setPopularTrack] = useState(null);
@@ -30,10 +26,12 @@ export default function Artist() {
   const searchParams = useToken();
 
   let trackArr = [];
-  const artistName = state.name;
+  const { artist } = state;
+  console.log('This is coming from artist',artist);
+  const artistName = artist.name;
 
   //get the artist Id to fetch artist api
-  const artistId = state.id;
+  const artistId = artist.id;
 
   //get artist info
   const getArtistInfo = async () => {
@@ -123,7 +121,9 @@ export default function Artist() {
   }, [isActive]);
 
   return (
-    <div className={classes.main}>
+    <div className={classes.main} translate="no">
+      <Bouncer dependencies={[artist]} />
+
       {state && colors && artistInfo && (
         <div>
           <div className={classes.headerNav}>The ARTIST page</div>
@@ -157,13 +157,8 @@ export default function Artist() {
               </div>
             </div>
           </div>
-          <div>
-            <div className={classes['single_lyrics']}>
-              <h4>Sign in to see lyrics and listen to the full track</h4>
-              <button>Log in</button>
-              <button>Sign up</button>
-            </div>
-          </div>
+
+          <div></div>
           <div className={classes['artist_info']}>
             <img
               src={artistInfo.images[1].url}
