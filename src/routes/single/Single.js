@@ -221,7 +221,7 @@ export default function Single() {
           </div>
           <div>
             <div className={classes["single_lyrics"]}>
-              <p>{parse(lyrics)} </p>
+              {parse(lyrics)}
             </div>
           </div>
           <div className={classes["artist_info"]}>
