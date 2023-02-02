@@ -15,7 +15,7 @@ export default function CategoryTracks() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const album = state.album;
-console.log(album , ' this is from album.js');
+  console.log(album, " this is from album.js");
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState("");
   const [isActive, setIsActive] = useState(-1);
@@ -41,11 +41,13 @@ console.log(album , ' this is from album.js');
     d = Math.floor(h / 24);
     h = h % 24;
     h += d * 24;
+
     const duration = h + " h " + m + " min";
     if (s < 10) {
       s = "0" + s;
     }
     const trackTime = m + ":" + s;
+
     let albumDuration = "";
     if (h > 0) {
       albumDuration = h + " h " + m + " min " + s + " sec";
@@ -163,7 +165,7 @@ console.log(album , ' this is from album.js');
   }, [isActive]);
 
   return (
-    <div className={classes.main}>
+    <div className={classes.main} translate="no">
       {singleAlbum && colors && (
         <div>
           <div className={classes.headerNav}>The ALBUM</div>

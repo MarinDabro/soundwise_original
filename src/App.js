@@ -70,7 +70,7 @@ function App() {
     <div className={classes.main}>
       <Nav />
 
-      <div className={classes.routes}>
+      <div id='routes' className={classes.routes}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="search" element={<Search />} />

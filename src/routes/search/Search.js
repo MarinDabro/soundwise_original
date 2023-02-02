@@ -72,13 +72,13 @@ export default function Search() {
         if (res.error) {
           navigate("/");
         } else {
-          setActiveCat(res); // add "?" to avoid the error of no artist
+          setActiveCat(res);
         }
       });
   }
 
   return (
-    <div>
+    <div translate="no">
       {catPlaylist ? (
         <CategoryList />
       ) : (

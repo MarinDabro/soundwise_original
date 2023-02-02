@@ -1,7 +1,5 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useToken } from "../../spotify.js";
-import DisplayContext from "../../context/DisplayContext.js";
 import classes from "../category-list/CategoryTracks.module.css";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -84,8 +82,8 @@ export default function ActiveAlbum() {
           const durationTime = msToTime(timeCounter);
           setDuration(durationTime[0]);
         } else {
-          const activeTime = msToTime(album.duration_ms);
-          setDuration(activeTime[0]);
+          const activeTime = msToTime(res.tracks.items[0].duration_ms);
+          setDuration(activeTime[2]);
         }
       });
   };
@@ -105,17 +103,7 @@ export default function ActiveAlbum() {
     );
   };
 
-  /*  useEffect(() => {
-    console.log("scroll");
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }, [album]); */
-
   useEffect(() => {
-    document.body.scrollTop = 0;
-
     fetchColor();
     if (trackId) {
       getCatTracks();
@@ -141,10 +129,10 @@ export default function ActiveAlbum() {
   }, [isActive]);
 
   return (
-    <div className={classes.main}>
+    <div id="album-main" className={classes.main}>
       {album && colors && (
         <div>
-          <Bouncer dependencies={[album]} />
+          <Bouncer dependencies={["album", album]} />
           <div className={classes.headerNav}>The top nav</div>
 
           <div
@@ -175,7 +163,7 @@ export default function ActiveAlbum() {
                           className={classes.profileLink}
                           to="/artist"
                           key={index}
-                          state={artist}
+                          state={{ artist }}
                         >
                           {artist.name}
                         </NavLink>
@@ -230,7 +218,7 @@ export default function ActiveAlbum() {
                         <NavLink
                           className={classes["track-nav"]}
                           to="/single"
-                          state={{ singleTrack: track }}
+                          state={{ singleTrack: track, album: album }}
                         >
                           {track.name}
                         </NavLink>
@@ -242,7 +230,7 @@ export default function ActiveAlbum() {
                                 className={classes["track-navName"]}
                                 to="/artist"
                                 key={index}
-                                state={artist}
+                                state={{ artist }}
                               >
                                 {(index ? ", " : "") + artist.name}
                               </NavLink>
@@ -271,6 +259,7 @@ export default function ActiveAlbum() {
           </div>
         </div>
       )}
+      <Outlet />
     </div>
   );
 }

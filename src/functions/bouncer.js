@@ -7,6 +7,7 @@ const Bouncer = ({ dependencies }) => {
   useEffect(() => {
     dependencies?.map(dep => {
       if (!dep) {
+        console.log("fuck me", dep);
         navigate("/");
       }
     });
