@@ -1,22 +1,22 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import parse from "html-react-parser";
-import toast, { Toaster } from "react-hot-toast";
+import React, { useContext, useRef, useEffect, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+
+import Lyrics from './Lyrics.js';
 /* import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons"; */
 
-import { useToken } from "../../spotify.js";
-import DisplayContext from "../../context/DisplayContext.js";
-import PopularAlbums from "../artist/PopularAlbums.js";
-import RelatedArtists from "../artist/RelatedArtists.js";
-import classes from "./Single.module.css";
+import { useToken } from '../../spotify.js';
+import DisplayContext from '../../context/DisplayContext.js';
+import PopularAlbums from '../artist/PopularAlbums.js';
+import RelatedArtists from '../artist/RelatedArtists.js';
+import classes from './Single.module.css';
 
-import { prominent } from "color.js";
-import Bouncer from "../../functions/bouncer.js";
+import { prominent } from 'color.js';
+import Bouncer from '../../functions/bouncer.js';
 
 export default function Single() {
   const [display, dispatch] = useContext(DisplayContext);
-  const { activePlaylist, singleTrack } = display;
+  const { singleTrack } = display;
   const [colors, setColors] = useState(null);
   const navigate = useNavigate();
 
@@ -24,14 +24,13 @@ export default function Single() {
   const [artistInfo, setArtistInfo] = useState(null);
   const [popularTrack, setPopularTrack] = useState(null);
   const [showMore, setShowMore] = useState(false);
-  const [lyrics, setLyrics] = useState("");
 
   //search params for fetching data{
   const searchParams = useToken();
 
   let trackArr = [];
   const artistName = singleTrack?.track.artists[0].name;
-
+  const songName = singleTrack?.track.name;
   //get the artist Id to fetch artist api
   const artistId = singleTrack.track.artists[0].id;
 
@@ -43,7 +42,7 @@ export default function Single() {
     ).then(res =>
       res.json().then(res => {
         if (res.error) {
-          navigate("/");
+          navigate('/');
         } else {
           setArtistInfo(res);
         }
@@ -58,7 +57,7 @@ export default function Single() {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          navigate("/");
+          navigate('/');
         } else {
           setPopularTrack(res);
         }
@@ -83,58 +82,22 @@ export default function Single() {
     d = Math.floor(h / 24);
     h = h % 24;
     h += d * 24;
-    const duration = h + " h " + m + " min";
+    const duration = h + ' h ' + m + ' min';
     if (s < 10) {
-      s = "0" + s;
+      s = '0' + s;
     }
-    const trackTime = m + ":" + s;
+    const trackTime = m + ':' + s;
     return [duration, trackTime];
   }
 
   //store the colors from album cover
   const fetchColor = async () => {
     prominent(singleTrack?.track?.album.images[1].url, {
-      format: "hex",
+      format: 'hex',
       amount: 5,
     }).then(color => {
       setColors(color);
     });
-  };
-
-  //get the song lyrics
-  const getLyrics = async () => {
-    const songParams = singleTrack?.track.name;
-    const options = {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": process.env.REACT_APP_GENIUS_KEY,
-        "X-RapidAPI-Host": "genius-song-lyrics1.p.rapidapi.com",
-      },
-    };
-
-    const fetchSong = await fetch(
-      `https://genius-song-lyrics1.p.rapidapi.com/search/?q=${songParams}&per_page=1&page=1`,
-      options
-    );
-    const songData = await fetchSong.json();
-    let songId = "";
-    if (songData.hits.length > 0) {
-      songId = songData.hits[0].result.id;
-    } else {
-      toast.error(songData.error);
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
-    }
-
-    songId &&
-      (await fetch(
-        `https://genius-song-lyrics1.p.rapidapi.com/song/lyrics/?id=${songId}`,
-        options
-      )
-        .then(res => res.json())
-        .then(res => setLyrics(res.lyrics.lyrics.body.html))
-        .catch(err => toast.error(err)));
   };
 
   useEffect(() => {
@@ -143,24 +106,23 @@ export default function Single() {
       getArtistInfo();
       getPopularTrack();
       fetchColor();
-      getLyrics();
     }
   }, []);
 
   const googleTranslateElementInit = () => {
     new window.google.translate.TranslateElement(
       {
-        pageLanguage: "en",
+        pageLanguage: 'en',
         autoDisplay: false,
       },
-      "google_translate_element"
+      'google_translate_element'
     );
   };
   useEffect(() => {
-    var addScript = document.createElement("script");
+    var addScript = document.createElement('script');
     addScript.setAttribute(
-      "src",
-      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+      'src',
+      '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
     );
     document.body.appendChild(addScript);
     window.googleTranslateElementInit = googleTranslateElementInit;
@@ -175,20 +137,20 @@ export default function Single() {
       }
     };
     const timeoutId = setTimeout(() => {
-      document.addEventListener("click", handleOutsideClick, false);
+      document.addEventListener('click', handleOutsideClick, false);
     }, 0);
     return () => {
       clearTimeout(timeoutId);
-      document.removeEventListener("click", handleOutsideClick, false);
+      document.removeEventListener('click', handleOutsideClick, false);
     };
   }, [isActive]);
 
   return (
     <div className={classes.main}>
-      <Toaster position="top-center" />
+     
       {singleTrack && colors && artistInfo && (
         <div>
-          <Bouncer dependencies={[activePlaylist]} />
+          <Bouncer dependencies={[singleTrack]} />
           <div translate="no" className={classes.headerNav}>
             The SINGLE page
           </div>
@@ -200,7 +162,7 @@ export default function Single() {
             }}
           >
             <img
-              className={classes["album_cover"]}
+              className={classes['album_cover']}
               src={singleTrack?.track?.album.images[1].url}
               alt="track_image"
             />
@@ -212,7 +174,7 @@ export default function Single() {
                   <img
                     src={artistInfo.images[1].url}
                     alt="artist_image"
-                    className={classes["artist_image"]}
+                    className={classes['artist_image']}
                   />
                   <NavLink className={classes.profileLink} to="/profile">
                     {artistName}
@@ -225,28 +187,27 @@ export default function Single() {
               </div>
             </div>
           </div>
-          <div>
-            <div className={classes["single_lyrics"]}>
-              <div
-                id="google_translate_element"
-                style={{ margin: "1rem 0 0 1.5rem" }}
-              ></div>
-              <p>{parse(lyrics)} </p>
-            </div>
-          </div>
-          <div translate="no" className={classes["artist_info"]}>
-            <img
-              src={artistInfo.images[1].url}
-              alt="artist_image"
-              className={classes["artist_profile_image"]}
+          <div  className={classes['song-container']}>
+            <Lyrics
+              singleTrack={singleTrack}
+              colors={colors}
+              songName={songName}
             />
-            <div>
-              <h5 style={{ padding: "0.5rem 0" }}>ARTIST</h5>
-              <h4> {artistName}</h4>
+
+            <div translate="no" className={classes['artist_info']}>
+              <img
+                src={artistInfo.images[1].url}
+                alt="artist_image"
+                className={classes['artist_profile_image']}
+              />
+              <div>
+                <h5 style={{ padding: '0.5rem 0' }}>ARTIST</h5>
+                <h4> {artistName}</h4>
+              </div>
             </div>
           </div>
           <div translate="no">
-            <div className={classes["popular_track"]}>
+            <div className={classes['popular_track']}>
               <p>Popular Tracks by</p>
               <h3>{artistName}</h3>
             </div>
@@ -260,13 +221,13 @@ export default function Single() {
                         e.stopPropagation();
                         setIsActive(index);
                       }}
-                      className={`${isActive === index ? classes.active : ""} ${
-                        classes["playlist-container"]
+                      className={`${isActive === index ? classes.active : ''} ${
+                        classes['playlist-container']
                       } `}
                     >
                       <div className={classes.playlistInfo} key={index}>
                         <div className={classes.trackImg}>
-                          <div className={classes["track_index"]}>
+                          <div className={classes['track_index']}>
                             {index + 1}
                           </div>
                           {
@@ -277,13 +238,13 @@ export default function Single() {
                           }
                         </div>
                       </div>
-                      <div className={classes["album-info"]}>
+                      <div className={classes['album-info']}>
                         <div>{track.name}</div>
                       </div>
-                      <div className={classes["album-date"]}>
+                      <div className={classes['album-date']}>
                         {track.album.release_date}
-                      </div>{" "}
-                      <div className={classes["track-duration"]}>
+                      </div>{' '}
+                      <div className={classes['track-duration']}>
                         {msToTime(track.duration_ms)[1]}
                       </div>
                     </div>
@@ -293,9 +254,9 @@ export default function Single() {
             {popularTrack?.tracks.length > 5 && (
               <button
                 onClick={() => setShowMore(!showMore)}
-                className={classes["show_btn"]}
+                className={classes['show_btn']}
               >
-                {showMore ? "SHOW LESS" : "SEE MORE"}
+                {showMore ? 'SHOW LESS' : 'SEE MORE'}
               </button>
             )}
           </div>
