@@ -84,8 +84,8 @@ export default function ActiveAlbum() {
           const durationTime = msToTime(timeCounter);
           setDuration(durationTime[0]);
         } else {
-          const activeTime = msToTime(album.duration_ms);
-          setDuration(activeTime[0]);
+          const activeTime = msToTime(res.tracks.items[0].duration_ms);
+          setDuration(activeTime[2]);
         }
 
 
@@ -136,7 +136,7 @@ export default function ActiveAlbum() {
     <div id='album-main' className={classes.main}>
       {album && colors && (
         <div>
-          <Bouncer dependencies={[album]} />
+          <Bouncer dependencies={['album', album]} />
           <div className={classes.headerNav}>The top nav</div>
 
           <div
