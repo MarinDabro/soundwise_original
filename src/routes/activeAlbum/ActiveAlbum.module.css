@@ -11,7 +11,7 @@
   padding: 2rem;
   color: white;
   background-color: blue;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
 }
 
 .header h2 {
@@ -47,13 +47,6 @@
   border: 1px solid white;
 }
 
-
-.artist_image {
-  max-width: 2rem;
-  max-height: 2rem;
-  border-radius: 50%;
-}
-
 .profileLink {
   text-decoration: none;
   color: white;
@@ -83,46 +76,42 @@
   text-decoration: none;
 }
 
-.song-info,
-.album-name,
-.album-date,
-.track-navName {
-  font-size: 0.8rem;
-  color: rgb(168, 162, 162);
+
+.song-info,.album-info,.album-date,.track-navName{
+    font-size: .8rem;
+    color: rgb(168, 162, 162);
 }
 
-.track-duration {
-  color: rgb(168, 162, 162);
+.track-duration{
+    color: rgb(168, 162, 162);
 }
 
-.playlist-container:hover {
-  background-color: var(--color-backGround-hover);
-  border-radius: 2.5px;
+.playlist-container:hover{
+    background-color: var( --color-backGround-hover);
+    border-radius: 2.5px;
+
 }
 
 .playlist-container:visited {
   color: white;
 
-  border-radius: 2.5px;
+   
+    border-radius: 2.5px;
+    
 }
 
-.active {
-  border-radius: 2.5px;
-  background-color: #444444bb;
+.active{
+     border-radius: 2.5px;
+    background-color: #444444bb;
+
 }
 
 .active:hover {
   background-color: #252424bb;
- 
 }
 
 .playlist-container {
   margin-bottom: 0.5rem;
-}
-
-.playlist-container:hover .album-name, 
-.playlist-container:hover .track-navName{
-  color:white;
 }
 
 .song-info {
@@ -138,7 +127,6 @@
   align-items: center;
 }
 
-
 .trackImg img {
   width: 3rem;
   height: 3rem;
@@ -150,22 +138,22 @@
   gap: 0.3rem;
 }
 
-.track-nav,
-.track-navName,.album-name {
-  text-decoration: none;
+
+.track-nav,.track-navName{
+    text-decoration: none;
 }
 
-.track-navName:hover,
-.album-name:hover{
-  text-decoration: underline;
+.track-nav{
+    color:white;
 }
 
-.track-nav {
-  color: white;
-}
 
-.song-release {
-  width: 21.5%;
+
+
+
+.song-release{
+    width: 21.5%;
+
 }
 
 .playlistInfo,
@@ -173,10 +161,6 @@
 .song-title,
 .song-album {
   width: 35%;
-}
-
-.album-name{
-  width: fit-content;
 }
 
 .album-date {

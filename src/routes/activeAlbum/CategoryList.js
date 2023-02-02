@@ -1,14 +1,15 @@
-import React, { useContext, useEffect } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { useEffect } from "react";
 import { useToken } from "../../spotify.js";
 import DisplayContext from "../../context/DisplayContext.js";
 import classes from "./CategoryList.module.css";
 import style from "../MusicBox.module.css";
-//import Bouncer from "../../functions/bouncer.js";
+import { NavLink, Outlet } from "react-router-dom";
+
 
 export default function CategoryList() {
   const searchParams = useToken();
-  const navigate = useNavigate();
+
   const [display, dispatch] = useContext(DisplayContext);
   const { playLists, catId, catName } = display;
 
@@ -18,19 +19,14 @@ export default function CategoryList() {
       searchParams
     )
       .then(res => res.json())
-      .then(res => {
-        if (res.error) {
-          navigate("/");
-        } else {
-          dispatch({
-            type: "SET_PLAYLISTS",
-            playLists: res,
-          });
-        }
-      });
+      .then(res =>
+        dispatch({
+          type: "SET_PLAYLISTS",
+          playLists: res,
+        })
+      );
   };
   useEffect(() => {
-    window.scrollTo(0, 0);
     getCatPlaylist();
   }, []);
 

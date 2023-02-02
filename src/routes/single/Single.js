@@ -1,25 +1,19 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-
+import { NavLink, useNavigate,useLocation } from 'react-router-dom';
 import Lyrics from './Lyrics.js';
-/* import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons"; */
-
 import { useToken } from '../../spotify.js';
-import DisplayContext from '../../context/DisplayContext.js';
 import PopularAlbums from '../artist/PopularAlbums.js';
 import RelatedArtists from '../artist/RelatedArtists.js';
 import classes from './Single.module.css';
 
 import { prominent } from 'color.js';
 import Bouncer from '../../functions/bouncer.js';
-
 export default function Single() {
-  const [display, dispatch] = useContext(DisplayContext);
-  const { singleTrack } = display;
   const [colors, setColors] = useState(null);
   const navigate = useNavigate();
-
+  const {state} = useLocation()
+  const singleTrack = state.singleTrack
+  const album = state.album
   const [isActive, setIsActive] = useState(-1);
   const [artistInfo, setArtistInfo] = useState(null);
   const [popularTrack, setPopularTrack] = useState(null);
@@ -29,7 +23,8 @@ export default function Single() {
   const searchParams = useToken();
 
   let trackArr = [];
-  const artistName = singleTrack?.track.artists[0].name;
+  console.log(singleTrack)
+  const artistName = singleTrack?.artists[0].name;
   const songName = singleTrack?.track.name;
   //get the artist Id to fetch artist api
   const artistId = singleTrack.track.artists[0].id;
@@ -92,7 +87,7 @@ export default function Single() {
 
   //store the colors from album cover
   const fetchColor = async () => {
-    prominent(singleTrack?.track?.album.images[1].url, {
+    prominent(album?.images[1]?.url, {
       format: 'hex',
       amount: 5,
     }).then(color => {
@@ -109,24 +104,6 @@ export default function Single() {
     }
   }, []);
 
-  const googleTranslateElementInit = () => {
-    new window.google.translate.TranslateElement(
-      {
-        pageLanguage: 'en',
-        autoDisplay: false,
-      },
-      'google_translate_element'
-    );
-  };
-  useEffect(() => {
-    var addScript = document.createElement('script');
-    addScript.setAttribute(
-      'src',
-      '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
-    );
-    document.body.appendChild(addScript);
-    window.googleTranslateElementInit = googleTranslateElementInit;
-  }, []);
 
   // handle selected track to be active and lost focus by click outside of playlist
   const ref = useRef(null);
@@ -147,7 +124,6 @@ export default function Single() {
 
   return (
     <div className={classes.main}>
-     
       {singleTrack && colors && artistInfo && (
         <div>
           <Bouncer dependencies={[singleTrack]} />
@@ -187,12 +163,10 @@ export default function Single() {
               </div>
             </div>
           </div>
-          <div  className={classes['song-container']}>
-            <Lyrics
-              singleTrack={singleTrack}
-              colors={colors}
-              songName={songName}
-            />
+          <div className={classes['song-container']}>
+         
+              <Lyrics  colors={colors} songName={songName} />
+            
 
             <div translate="no" className={classes['artist_info']}>
               <img

@@ -26,7 +26,7 @@ export default function RelatedArtists({ artistId }) {
   };
   useEffect(() => {
     getRelatedArtists();
-  }, []);
+  }, [artistId]);
 
   return (
     <div className={style.main}>
@@ -34,23 +34,30 @@ export default function RelatedArtists({ artistId }) {
         {relatedArtist && (
           <div>
             <div className={style.albumContainer}>
-              {relatedArtist?.artists?.map((artists, index) => {
+              {relatedArtist?.artists?.map((artist, index) => {
                 return (
                   <NavLink
                     to="/artist"
-                    state={artists}
+                    state={{artist}}
                     key={index}
                     className={style.albumBox}
+                    onClick={() => {
+                      const routes = document.getElementById('routes')
+                      routes.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                      })
+                    }}
                   >
                     <div className={style.albumImage}>
                       <img
-                        src={artists.images[1].url}
+                        src={artist.images[1].url}
                         alt="/related_artists_image"
                       />
                     </div>
-                    <div className={style.albumName}>{artists.name}</div>
+                    <div className={style.albumName}>{artist.name}</div>
                     <div className={style.artistName}>
-                      {artists.followers.total.toLocaleString()}{" "}
+                      {artist.followers.total.toLocaleString()}{" "}
                       <FontAwesomeIcon
                         icon={faHeart}
                         style={{ color: "pink", marginLeft: "5px" }}

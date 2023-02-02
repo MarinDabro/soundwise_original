@@ -15,7 +15,7 @@ export default function CategoryTracks() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const album = state.album;
-
+console.log(album , ' this is from album.js');
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState("");
   const [isActive, setIsActive] = useState(-1);

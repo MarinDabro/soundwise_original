@@ -7,7 +7,8 @@ import MainContext from "../../context/MainContext";
 import DisplayContext from "../../context/DisplayContext";
 import style from "../MusicBox.module.css";
 import { useToken } from "../../spotify.js";
-import SearchNav from "./SearchNav.js";
+import SearchNav from './searchComponents/SearchNav.js'
+import SearchResults from "./searchComponents/SearchResults";
 import CategoryList from "../category-list/CategoryList";
 
 export default function Search() {
@@ -16,16 +17,14 @@ export default function Search() {
   const { albums, catPlaylist } = STATE;
   const [searchInput, setSearchInput] = useState("");
   const [browseAll, setBrowseAll] = useState({});
-  const [activeCat, setActiveCat] = useState("all");
-
+  const [activeType, setActiveType] = useState("album,artist,playlist,track,show,episode,audiobook")
+  const [activeCat, setActiveCat] = useState(false)
   const navigate = useNavigate();
-
   //get the return params from useToken function
   const searchParams = useToken();
 
-  /*  console.log(albums); 
+  console.log(albums); 
   console.log(browseAll);
-  */
 
   /* ===> Trying the categories api */
   function categoriesPlaylist() {
@@ -59,38 +58,26 @@ export default function Search() {
 
   //using useEffect to refresh new input value
   useEffect(() => {
-    if (searchInput !== "") getSearch();
-  }, [searchInput]);
+
+    if (searchInput !== '') getSearch();
+
+  }, [searchInput, activeType]);
 
   async function getSearch() {
-    const artistID = await fetch(
-      `https://api.spotify.com/v1/search?q=${searchInput}&type=artist`,
-      searchParams
-    )
-      .then(res => res.json())
-      .then(res => {
-        if (res.error) {
-          navigate("/");
-        } else {
-          return res.artists?.items[0].id; // add "?" to avoid the error of no artist
-        }
-      });
 
     await fetch(
-      `https://api.spotify.com/v1/artists/${artistID}/albums/?include_groups=album&market=US&limit=50`,
+      `https://api.spotify.com/v1/search?q=${searchInput}&type=${activeType}&limit=${activeType.length > 30 ? '7' : '49'}`,
       searchParams
     )
-      .then(res => res.json())
-      .then(res => {
-        if (res.error) {
-          navigate("/");
-        } else {
-          DISPATCH({
-            type: "SET_ALBUMS",
-            albums: res.items,
-          });
-        }
-      });
+    .then(res => res.json())
+    .then(res => {
+      console.log('test',res)
+      if (res.error) {
+        navigate("/");
+      } else {
+        setActiveCat(res); // add "?" to avoid the error of no artist
+      }
+    });
   }
 
   return (
@@ -98,7 +85,7 @@ export default function Search() {
       {catPlaylist ? (
         <CategoryList />
       ) : (
-        <div className={classes.main}>
+        <div className={`${classes.main} ${searchInput && classes.mainScroll}`}>
           <div className={classes.searchBar}>
             <input
               placeholder="&#xF002; What do you want to listen to"
@@ -106,52 +93,33 @@ export default function Search() {
               onChange={e => setSearchInput(e.target.value)}
             />
           </div>
-          {searchInput && (
-            <SearchNav activeCat={activeCat} setActiveCat={setActiveCat} />
-          )}
+
+          {searchInput && <SearchNav activeType={activeType} setActiveType={setActiveType} />}
+          {searchInput && activeCat? <SearchResults activeCat={activeCat} activeType={activeType} /> : ''}
           <div>
-            {searchInput ? (
-              <div>
-                <h3>Albums</h3>
-                <div className={style.albumContainer}>
-                  {albums.map((album, index) => {
-                    return (
-                      <div key={index} className={style.albumBox}>
-                        <div className={style.albumImage}>
-                          <img
-                            src={album.images[0].url}
-                            alt="/playlist images"
-                          />
-                        </div>
-                        <div className={style.albumName}>{album.name}</div>
-                        <div className={style.artistName}>
-                          {album.artists[0].name}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : (
+            {!searchInput ? (
+              
               //if no searchInput then show all categories
               <div className={style.albumContainer}>
+                
                 {browseAll.categories?.items.map((cat, idx) => {
                   return (
                     <div
+                    
                       style={{ backgroundColor: randomColor() }}
                       className={classes.categoryBox}
                       key={idx}
                       //change category status to "true" to get to category playlist page and set cat_id and cat_name to send to playlist page
                       onClick={() => {
                         dispatch({
-                          type: "SET_CAT_NAME",
-                          catName: cat.name,
-                        });
+                          type: 'SET_CAT_NAME',
+                          catName: cat.name
+                        })
                         dispatch({
-                          type: "SET_CAT_ID",
-                          catId: cat.id,
-                        });
-                        /*  setCatId(cat.id);
+                          type: 'SET_CAT_ID',
+                          catId: cat.id
+                        })
+                       /*  setCatId(cat.id);
                         setCatName(cat.name); */
                         DISPATCH({
                           type: "SET_CAT_PLAYLIST",
@@ -173,8 +141,9 @@ export default function Search() {
                   );
                 })}
               </div>
-            )}
+            ) : <div></div> }
           </div>
+
         </div>
       )}
     </div>
