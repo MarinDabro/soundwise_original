@@ -183,8 +183,7 @@ export default function Single() {
           </div>
           <div className={style['song-container']}>
          
-          <Lyrics  colors={colors} songName={songName} />
-            
+            <Lyrics  colors={colors} songName={songName} />
 
             <div translate="no" className={style['artist_info']}>
               <img
