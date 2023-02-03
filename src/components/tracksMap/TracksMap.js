@@ -14,7 +14,7 @@ const TracksMap = ({target, picture, artists, album, release, info}) => {
   console.log(target)
 
   const realMap = target.tracks ? target.tracks.items : target
-
+  console.log('This is the real map',realMap)
   const ref = useRef(null);
   useEffect(() => {
     const handleOutsideClick = e => {
@@ -54,6 +54,7 @@ const TracksMap = ({target, picture, artists, album, release, info}) => {
           : ''
         }
         {realMap?.map((track, index) => {
+          console.log('This is coming from the map',track)
           const realTrack = track.track ? track.track : track
 
           return (
