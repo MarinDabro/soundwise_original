@@ -25,7 +25,6 @@ export default function ActiveAlbum() {
       const newAlbum = await getDetails(album.type, album.id, searchParams)
       const newArtist = await getDetails(album.artists[0].type, album.artists[0].id, searchParams)
 
-      console.log('artis', newArtist)
       setAlbumInfo(newAlbum)
       setArtistInfo(newArtist)
     }
@@ -35,7 +34,7 @@ export default function ActiveAlbum() {
     <div className={classes.main}>
       {albumInfo && artistInfo && (
         <div>
-          <Bouncer dependencies={[album]} />
+          <Bouncer dependencies={['album', album]} />
           <div className={classes.headerNav}>The top nav</div>
 
           <Header target={albumInfo} artistInfo={artistInfo} />
