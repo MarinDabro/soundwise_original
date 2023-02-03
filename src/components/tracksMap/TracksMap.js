@@ -8,10 +8,12 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ArtistsMap from '../../routes/components/artistsMap/ArtistsMap.js';
 
-const TracksMap = ({target}) => {
-  const [isActive, setIsActive] = useState(-1);
+const TracksMap = ({target, picture, artists, album, release, info}) => {
 
-  const realMap = target?.tracks ? target.tracks.items : target?.track ? target.track.items : target
+  const [isActive, setIsActive] = useState(-1);
+  console.log(target)
+
+  const realMap = target.tracks ? target.tracks.items : target
 
   const ref = useRef(null);
   useEffect(() => {
@@ -32,17 +34,28 @@ const TracksMap = ({target}) => {
   return (
    <div>
       <div className={classes.mainContainer}>
-        <div className={classes['song-info']}>
-          <div className={classes['song-title']}>
-            <div>#</div>
-            <div>TITLE</div>
+        {info ? 
+          <div className={classes['song-info']}>
+            <div className={classes['song-title']}>
+              <div>#</div>
+              <div>TITLE</div>
+            </div>
+            {album ? 
+              <React.Fragment>
+                <div className={classes['song-album']}>ALBUM</div>
+                {release ? <div className={classes['song-release']}>RELEASE DATE</div> : '' }
+              </React.Fragment>
+              : ''
+            }
+            <div className={classes['song-time']}>
+              <FontAwesomeIcon icon={faClock} />
+            </div>
           </div>
-
-          <div className={classes['song-time']}>
-            <FontAwesomeIcon icon={faClock} />
-          </div>
-        </div>
+          : ''
+        }
         {realMap?.map((track, index) => {
+          const realTrack = track.track ? track.track : track
+
           return (
             <div
               key={index}
@@ -56,26 +69,53 @@ const TracksMap = ({target}) => {
               <div className={classes.playlistInfo} key={index}>
                 <div className={classes.trackImg}>
                   <div>{index + 1}</div>
+                  {picture ?
+                    <img
+                      src={realTrack.album.images[2].url}
+                      alt="album_image"
+                    />
+                    : ''
+                  }
                 </div>
                 <div className={classes.trackInfo}>
                   <NavLink
                     className={classes['track-nav']}
                     to="/single"
-                    state={{ singleTrack: track, album: target }}
+                    state={{ track: realTrack}}
                   >
-                    {track.name}
+                    {realTrack.name}
                   </NavLink>
-                  <div style={{display: 'flex', gap: '.2rem'}}>
-                    {' '}
-                    <ArtistsMap artists={track.artists} />
-                    {' '}
-                  </div>
+                  {artists ? 
+                    <div style={{display: 'flex', gap: '.3rem'}}>
+                      <ArtistsMap artists={realTrack.artists} />
+                    </div>
+                    : ''
+                  }
                 </div>
               </div>
-              <div className={classes['album-date']}>
-              </div>{' '}
+              {
+                album ?
+                <React.Fragment>
+                  <div className={classes['album-info']}>
+                    <NavLink
+                      to='/album'
+                      className={classes['album-name']}
+                      state={{album: realTrack.album}}
+                    >
+                      {realTrack.album.name}
+                    </NavLink>
+                  </div>
+                  {release ? 
+                    <div className={classes['album-date']}>
+                      {realTrack.album.release_date}
+                    </div>
+                    : ''
+                  }
+                </React.Fragment>
+                : ''
+              }
               <div className={classes['track-duration']}>
-                {msToTime(track.duration_ms)[1]}
+                {msToTime(realTrack.duration_ms)[1]}
               </div>
             </div>
           );

@@ -39,7 +39,7 @@ export default function ActiveAlbum() {
 
           <Header target={albumInfo} artistInfo={artistInfo} />
 
-          <TracksMap target={albumInfo} />
+          <TracksMap target={albumInfo} picture={false} artists={true} album={false} info={true}/>
 
           <div>
             <h2>{artistInfo.name} Albums</h2>
