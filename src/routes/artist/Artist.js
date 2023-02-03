@@ -1,8 +1,7 @@
-import React, { useRef, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import { useToken } from "../../spotify.js";
-import msToTime from "../../functions/timer.js";
 import getDetails from "../../functions/getDetails.js";
 
 import Header from "../components/header/Header.js";
@@ -33,19 +32,20 @@ export default function Artist() {
       : popularTrack?.tracks.slice(0, 5);
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (artistId) {
-      const newArtist = await getDetails(artist.type, artist.id, searchParams);
-      setArtistInfo(newArtist);
-      const popularTracks = await getDetails(
+      getDetails(artist.type, artist.id, searchParams).then(res => {
+        setArtistInfo(res);
+        console.log(res);
+      });
+
+      getDetails(
         artist.type,
         artist.id,
         searchParams,
         "/top-tracks?country=DE&limit=10"
-      );
-      console.log(popularTracks);
-      setPopularTrack(popularTracks);
+      ).then(res => setPopularTrack(res));
     }
   }, [state]);
 

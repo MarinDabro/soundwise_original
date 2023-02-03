@@ -17,16 +17,13 @@ export default function CategoryTracks() {
 
   const searchParams = useToken();
 
-  useEffect(async () => {
+  useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     if (playlist) {
-      const newPlaylist = await getDetails(
-        playlist.type,
-        playlist.id,
-        searchParams
+      getDetails(playlist.type, playlist.id, searchParams).then(res =>
+        setPlaylistInfo(res)
       );
-      setPlaylistInfo(newPlaylist);
     }
   }, [playlist]);
 

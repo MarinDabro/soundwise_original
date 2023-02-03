@@ -20,17 +20,14 @@ export default function ActiveAlbum() {
 
   const searchParams = useToken();
 
-  useEffect(async () => {
+  useEffect(() => {
     if (album) {
-      const newAlbum = await getDetails(album.type, album.id, searchParams);
-      const newArtist = await getDetails(
-        album.artists[0].type,
-        album.artists[0].id,
-        searchParams
+      getDetails(album.type, album.id, searchParams).then(res =>
+        setAlbumInfo(res)
       );
-
-      setAlbumInfo(newAlbum);
-      setArtistInfo(newArtist);
+      getDetails(album.artists[0].type, album.artists[0].id, searchParams).then(
+        res => setArtistInfo(res)
+      );
     }
   }, [album]);
 
