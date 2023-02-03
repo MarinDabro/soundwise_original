@@ -16,10 +16,8 @@ const Header = ({ target, artistInfo }) => {
 
   const total = target.total_tracks ? target.total_tracks : target.tracks?.total ? target.tracks.total : ''
 
-  useEffect(async () => {
-    const color = await fetchColor(target.images[0].url)
-    console.log(color)
-    setColors(color)
+  useEffect(() => {
+    fetchColor(target.images[0].url).then(res => setColors(res))
     if (target.type !== 'artist') {
       const duration2 = getDuration(target)
       setDuration(duration2)
