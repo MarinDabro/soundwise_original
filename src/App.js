@@ -82,10 +82,8 @@ function App() {
           <Route path="artist" element={<Artist />} />
           <Route path="single" element={<Single />} />
           <Route path="profile" element={<Profile />} />
-          {/* <Route path="login" element={<Login />} /> */}
-
           {/*  <Route path="album" element={<Album />} />  */}
-          {/* <Route path="login" element={<Login />} /> */}
+         
         </Routes>
       </div>
       <Player />
