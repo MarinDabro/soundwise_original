@@ -1,6 +1,7 @@
 export const initialState = {
   contextUri: false,
   contextUris: false,
+  context:false,
   offset: '',
   currentObject: false,  
 };
@@ -22,6 +23,12 @@ export const playerReducer = (state, action) => {
       return{
         ...state,
         offset: action.offset
+      }
+    }
+    case "SET_CONTEXT":{
+      return{
+        ...state,
+        context: action.context
       }
     }
     default: {
