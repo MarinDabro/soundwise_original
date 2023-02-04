@@ -21,6 +21,11 @@ export default function ActiveAlbum() {
   const searchParams = useToken();
 
   useEffect(() => {
+    const routes = document.getElementById('routes')
+    routes.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
     if (album) {
       getDetails(album.type, album.id, searchParams).then(res =>
         setAlbumInfo(res)
@@ -48,12 +53,12 @@ export default function ActiveAlbum() {
             info={true}
           />
 
-          <div>
-            <h2>{artistInfo.name} Albums</h2>
+          <div className={classes.moreInfo} translate="no">
+            <h2>{artistInfo.name}'s Albums</h2>
             <PopularAlbums artistId={artistInfo.id} />
           </div>
 
-          <div>
+          <div className={classes.moreInfo} translate="no">
             <h2>{artistInfo.name} Related Artists</h2>
             <RelatedArtists artistId={artistInfo.id} />
           </div>

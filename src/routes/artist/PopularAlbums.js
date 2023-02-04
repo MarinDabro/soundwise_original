@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useToken } from "../../spotify.js";
 
 import style from "../MusicBox.module.css";
+import PlaylistResults from "../search/searchComponents/PlaylistResults.js";
 
 export default function PopularAlbums({ artistId }) {
   const searchParams = useToken();
@@ -11,7 +12,7 @@ export default function PopularAlbums({ artistId }) {
 
   const getPopularAlbums = async () => {
     await fetch(
-      `https://api.spotify.com/v1/artists/${artistId}/top-tracks?country=DE&limit=10`,
+      `https://api.spotify.com/v1/artists/${artistId}/albums?country=DE&limit=7&include_groups=album,single`,
       searchParams
     )
       .then(res => res.json())
@@ -28,47 +29,14 @@ export default function PopularAlbums({ artistId }) {
   }, [artistId]);
 
   return (
-    <div className={style.main}>
-      <div>
+    <div className={style.main} style={{marginTop: 0, marginBottom: 0, paddingBottom: 0}}>
         {albums && (
           <div>
             <div className={style.albumContainer}>
-              {albums?.tracks?.map((album, index) => {
-                return (
-                  <NavLink
-                    to="/album"
-                    state={{ album: album.album}}
-                    key={index}
-                    className={style.albumBox}
-                    onClick={() => {
-                      const routes = document.getElementById('routes')
-                      routes.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                      })
-                    }}
-                  >
-                    <div className={style.albumImage}>
-                      <img
-                        src={album.album.images[1].url}
-                        alt="/album_cover_image"
-                      />
-                    </div>
-                    <div className={style.albumName}>{album.album.name}</div>
-                    <div className={style.artistName}>
-                      {album.album.release_date.substring(0, 4)} .{" "}
-                      {album.album.type}
-                    </div>
-                  </NavLink>
-                );
-              })}
+              <PlaylistResults playlists={albums}/>
             </div>
           </div>
         )}
-      </div>
-      <div>
-        <Outlet />
-      </div>
     </div>
   );
 }

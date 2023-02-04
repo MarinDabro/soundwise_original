@@ -33,7 +33,11 @@ export default function Artist() {
   }
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const routes = document.getElementById('routes')
+    routes.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
     if (artistId) {
       getDetails(artist.type, artist.id, searchParams).then(res => {
         setArtistInfo(res);
@@ -75,12 +79,12 @@ export default function Artist() {
               </button>
             )}
           </div>
-          <div>
-            <h2>{artistName} Albums</h2>
+          <div className={classes.moreInfo} translate="no">
+            <h2>{artistName}'s Albums</h2>
             <PopularAlbums artistId={artistId} />
           </div>
-          <div>
-            <h2>{artistName} Related Artists</h2>
+          <div className={classes.moreInfo} translate="no">
+            <h2>Related Artists</h2>
             <RelatedArtists artistId={artistId} />
           </div>
         </div>

@@ -136,6 +136,14 @@
   color:white;
 }
 
+.moreInfo {
+  margin-bottom: 4rem;
+}
+
+.moreInfo h2 {
+  margin-bottom: 2rem;
+}
+
 .song-info {
   margin: 2rem 0;
   border-bottom: 1px solid gray;

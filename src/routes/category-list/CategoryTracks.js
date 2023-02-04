@@ -18,7 +18,11 @@ export default function CategoryTracks() {
   const searchParams = useToken();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const routes = document.getElementById('routes')
+    routes.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
 
     if (playlist) {
       getDetails(playlist.type, playlist.id, searchParams).then(res =>

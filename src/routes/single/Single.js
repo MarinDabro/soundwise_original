@@ -57,7 +57,7 @@ export default function Single() {
     if (artist.id) {
       getInfo()
     }
-  }, [state]);
+  }, [track]);
 
 
   return (
@@ -75,7 +75,7 @@ export default function Single() {
           <div className={style['song-container']}>
 
          
-            <Lyrics colors={colors} songName={songName} />
+            <Lyrics colors={colors} songName={realTrack.name} />
 
             <div translate="no" className={style["artist_info"]}>
               <img
@@ -106,12 +106,12 @@ export default function Single() {
               </button>
             )}
           </div>
-          <div translate="no">
-            <h2>{artistInfo.name} Albums</h2>
+          <div className={classes.moreInfo} translate="no">
+            <h2>{artistInfo.name}'s Albums</h2>
             <PopularAlbums artistId={artistInfo.id} />
           </div>
 
-          <div translate="no">
+          <div className={classes.moreInfo} translate="no">
             <h2>{artistInfo.name} Related Artists</h2>
             <RelatedArtists artistId={artistInfo.id} />
           </div>
