@@ -46,7 +46,7 @@ export const spotify = new SpotifyWebApi();
 
 //===> Use Token
 
-export const UseToken = () => {
+/* export const UseToken = () => {
   const [STATE, DISPATCH] = useContext(MainContext);
   const { token } = STATE;
 
@@ -58,4 +58,4 @@ export const UseToken = () => {
       Authorization: `Bearer ${token}`,
     },
   };
-};
+}; */

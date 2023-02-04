@@ -9,7 +9,7 @@ import UserHome from "./routes/user_playList/UserPlayList";
 import Search from "./routes/search/Search";
 import Library from "./routes/library/Library";
 import Playlist from "./routes/playlist/Playlist";
-import Login from "./routes/login/Login";
+import Login from "../src/components/login/Login.js";
 import Songs from "./routes/songs/Songs";
 import CategoryTracks from "./routes/category-list/CategoryTracks";
 import Profile from "./routes/profile/Profile";
@@ -23,6 +23,7 @@ import { useToken } from "./spotify.js";
 
 function App() {
   const [{ token, user }, DISPATCH] = useContext(MainContext);
+  console.log('This is before hashing ',token)
   const searchParams = useToken();
   useEffect(() => {
     async function getData() {
@@ -30,6 +31,7 @@ function App() {
       window.location.hash = "";
 
       let _token = hash.access_token;
+      console.log(_token)
 
       if (_token) {
         spotify.setAccessToken(_token);
@@ -69,7 +71,7 @@ function App() {
   return (
     <div className={classes.main}>
       <Nav />
-
+      <Login/>
       <div id='routes' className={classes.routes}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -87,7 +89,7 @@ function App() {
         </Routes>
       </div>
       <Player />
-      <Login />
+
       {user ? <UserHome /> : <div></div>}
     </div>
   );
