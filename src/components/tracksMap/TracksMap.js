@@ -12,8 +12,8 @@ const TracksMap = ({target, picture, artists, album, release, info}) => {
   const [isActive, setIsActive] = useState(-1);
   console.log(target)
 
-  const realMap = target.tracks ? target.tracks.items : target
-  console.log('This is the real map',realMap)
+  const realMap = target.tracks ? target.tracks.items : target.items ? target.items : target
+
   const ref = useRef(null);
   useEffect(() => {
     const handleOutsideClick = e => {
@@ -53,8 +53,8 @@ const TracksMap = ({target, picture, artists, album, release, info}) => {
           : ''
         }
         {realMap?.map((track, index) => {
-          console.log('This is coming from the map',track)
-          const realTrack = track.track ? track.track : track
+          const realTrack = track?.track?.id ? track.track : track
+          console.log('realTrack', realTrack)
 
           return (
             <div
@@ -106,14 +106,14 @@ const TracksMap = ({target, picture, artists, album, release, info}) => {
                     <NavLink
                       to='/album'
                       className={classes['album-name']}
-                      state={{album: realTrack.album}}
+                      state={{album: realTrack.album ? realTrack.album : album}}
                     >
-                      {realTrack.album.name}
+                      {realTrack.album ? realTrack.album.name : album.name}
                     </NavLink>
                   </div>
                   {release ? 
                     <div className={classes['album-date']}>
-                      {realTrack.album.release_date}
+                      {realTrack.album ? realTrack.album.release_date : album.release_date}
                     </div>
                     : ''
                   }
