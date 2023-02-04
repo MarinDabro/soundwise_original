@@ -4,6 +4,7 @@ import ArtistsResults from './ArtistsResults.js';
 import PlaylistResults from './PlaylistResults.js';
 import TracksMap from '../../../components/tracksMap/TracksMap.js'
 /* import classes from './SearchResults.module.css'; */
+import classes from '../../category-list/CategoryTracks.module.css'
 const SearchResults = ({ activeCat, activeType }) => {
   const { albums, artists, audiobooks, episodes, playlists, shows, tracks } =
     activeCat;
@@ -18,7 +19,7 @@ const SearchResults = ({ activeCat, activeType }) => {
   };
 
   return (
-    <div>
+    <div className={classes.main}>
       {activeType === "album,artist,playlist,track,show,episode,audiobook" && activeCat ? <AllResults categories={categories}/> : ''}
       {activeType === 'playlist' && playlists ? <PlaylistResults playlists={playlists}/> : ''}
       {activeType === 'album' && albums ? <PlaylistResults playlists={albums} /> : '' }
