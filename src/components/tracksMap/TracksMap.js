@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useRef} from 'react'
+import React, { useState, useEffect, useRef, useContext} from 'react'
 import { NavLink } from 'react-router-dom'
-
 import msToTime from '../../functions/timer.js'
-
 import classes from '../../routes/category-list/CategoryTracks.module.css'
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ArtistsMap from '../../routes/components/artistsMap/ArtistsMap.js';
+import PlayerContext from '../../context/PlayerContext.js';
 
 const TracksMap = ({target, picture, artists, album, release, info}) => {
-
+  const [player, playerDispatch] = useContext(PlayerContext)
   const [isActive, setIsActive] = useState(-1);
   console.log(target)
 
@@ -64,6 +63,12 @@ const TracksMap = ({target, picture, artists, album, release, info}) => {
                 e.stopPropagation();
                 setIsActive(index);
               }}
+              onDoubleClick={e => {
+                playerDispatch({
+                  type: "SET_CONTEXT",
+                  context: realTrack,
+                });
+              }}
               className={`${isActive === index ? classes.active : ''} ${classes['playlist-container']
                 } `}
             >
@@ -72,7 +77,7 @@ const TracksMap = ({target, picture, artists, album, release, info}) => {
                   <div>{index + 1}</div>
                   {picture ?
                     <img
-                      src={realTrack.album.images[2].url}
+                      src={realTrack?.album?.images[2].url}
                       alt="album_image"
                     />
                     : ''

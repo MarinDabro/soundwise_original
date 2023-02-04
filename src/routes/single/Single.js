@@ -68,9 +68,12 @@ export default function Single() {
           <div translate="no" className={classes.headerNav}>
             The SINGLE page
           </div>
+
           <Header target={albumInfo} artistInfo={artistInfo} songInfo={realTrack} />
           <TracksMap target={[track]} artists={true} info={true} release={true} album={albumInfo}/>
+
           <div className={style['song-container']}>
+
          
             <Lyrics colors={colors} songName={songName} />
 
