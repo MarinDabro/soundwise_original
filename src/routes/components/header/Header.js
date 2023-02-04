@@ -39,7 +39,7 @@ const Header = ({ target, artistInfo, songInfo}) => {
             alt="track_image"
           />
           <div>
-            <h2>{songInfo ? songInfo.name : target.name}</h2>
+            <h2>{songInfo && songInfo.name ? songInfo.name : target.name}</h2>
             {songInfo ? <h4> - {target.name}</h4> : ''}
             <div className={classes.headerInfo}>
               <div>
