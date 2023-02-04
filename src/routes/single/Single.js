@@ -19,10 +19,11 @@ import Bouncer from "../../functions/bouncer.js";
 export default function Single() {
 
   const {state} = useLocation()
-  const track = state.track
+  const {track} = state
 
   const [trackInfo, setTrackInfo] = useState(null);
   const [artistInfo, setArtistInfo] = useState(null);
+  const [albumInfo, setAlbumInfo] = useState(null);
   const [popularTrack, setPopularTrack] = useState(null);
   const [showMore, setShowMore] = useState(false);
   const [colors, setColors] = useState(null);
@@ -40,16 +41,21 @@ export default function Single() {
       : popularTrack?.tracks.slice(0, 5);
   }
 
+  const getInfo = async() => {
+      const newTrack = await getDetails('track', track.id, searchParams).then(res => res)
+      setTrackInfo(newTrack)
+      await fetchColor(newTrack.album.images[0].url).then(res => setColors(res))
+      await getDetails('album', newTrack.album.id, searchParams).then(res => setAlbumInfo(res))
+      await getDetails('artist', artist.id, searchParams).then(res => setArtistInfo(res))
+      await getDetails('artist', artist.id, searchParams, '/top-tracks?country=DE&limit=10').then(res => setPopularTrack(res))
+  }
 
-  useEffect(async() => {
+  useEffect(() => {
     const routes = document.getElementById('routes')
     routes.scrollTo({top: 0, behavior: 'smooth'});
+
     if (artist.id) {
-      const newTrack = getDetails(realTrack.type, realTrack.id, searchParams).then(res => res)
-      setTrackInfo(newTrack)
-      fetchColor(newTrack.album.images[0].url).then(res => setColors(res))
-      getDetails(artist.type, artist.id, searchParams).then(res => setArtistInfo(res))
-      getDetails(artist.type, artist.id, searchParams, '/top-tracks?country=DE&limit=10').then(res => setPopularTrack(res))
+      getInfo()
     }
   }, [state]);
 
@@ -62,7 +68,8 @@ export default function Single() {
           <div translate="no" className={classes.headerNav}>
             The SINGLE page
           </div>
-          <Header target={trackInfo.album} artistInfo={artistInfo} />
+          <Header target={albumInfo} artistInfo={artistInfo} songInfo={realTrack} />
+          <TracksMap target={[track]} artists={true} info={true} release={true} album={albumInfo}/>
           <div className={style['song-container']}>
          
             <Lyrics colors={colors} songName={songName} />
@@ -75,17 +82,17 @@ export default function Single() {
               />
               <div>
                 <h5 style={{ padding: '0.5rem 0' }}>ARTIST</h5>
-                <h4> {artist.name}</h4>
+                <h4> {artistInfo.name}</h4>
               </div>
             </div>
           </div>
           <div translate="no">
             <div className={style["popular_track"]}>
               <p>Popular Tracks by</p>
-              <h3>{artist.name}</h3>
+              <h3>{artistInfo.name}</h3>
             </div>
               {popularTrack &&
-              <TracksMap target={trackArr} picture={true} artists={true} album={true} release={true}/>
+              <TracksMap target={trackArr} picture={true} artists={true} album={true} release={true} info={true}/>
               }
             {popularTrack?.tracks.length > 5 && (
               <button
@@ -97,13 +104,13 @@ export default function Single() {
             )}
           </div>
           <div translate="no">
-            <h2>{artist.name} Albums</h2>
-            <PopularAlbums artistId={artist.id} />
+            <h2>{artistInfo.name} Albums</h2>
+            <PopularAlbums artistId={artistInfo.id} />
           </div>
 
           <div translate="no">
-            <h2>{artist.name} Related Artists</h2>
-            <RelatedArtists artistId={artist.id} />
+            <h2>{artistInfo.name} Related Artists</h2>
+            <RelatedArtists artistId={artistInfo.id} />
           </div>
         </div>
       )}

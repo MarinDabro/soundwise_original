@@ -7,7 +7,7 @@ import fetchColor from '../../../functions/getColor.js'
 
 import classes from '../../category-list/CategoryTracks.module.css'
 
-const Header = ({ target, artistInfo }) => {
+const Header = ({ target, artistInfo, songInfo}) => {
 
   const [colors, setColors] = useState(null);
   const [duration, setDuration] = useState('');
@@ -30,7 +30,7 @@ const Header = ({ target, artistInfo }) => {
         <div
           className={classes.header}
           style={{
-            backgroundImage: `linear-gradient(to bottom left, ${colors ? colors[3] : 'black'},  ${colors ? colors[1] : 'black'})`,
+            backgroundImage: `linear-gradient(to bottom left, ${colors ? colors[3] : 'black'},  ${colors ? colors[4] : 'black'})`,
           }}
         >
           <img
@@ -39,7 +39,8 @@ const Header = ({ target, artistInfo }) => {
             alt="track_image"
           />
           <div>
-            <h2>{target.name}</h2>
+            <h2>{songInfo ? songInfo.name : target.name}</h2>
+            {songInfo ? <h4> - {target.name}</h4> : ''}
             <div className={classes.headerInfo}>
               <div>
                 {artistInfo ? 
