@@ -4,9 +4,9 @@ export const initialState = {
   context: false,
   offset: "",
   currentObject: false,
-  isLyric: false,
+  seeLyrics: false,
   currentPlaying: null,
-  playState: false,
+  playerState: false,
   playingTrack: null,
 };
 
@@ -36,16 +36,17 @@ export const playerReducer = (state, action) => {
         context: action.context,
       };
     }
-    case "SET_IS_LYRIC": {
+    case "SET_SEE_LYRICS": {
       return {
         ...state,
-        isLyric: !state.isLyric,
+        seeLyrics: !state.seeLyrics,
       };
     }
-    case "SET_PLAYING_TRACK": {
+
+    case "SET_PLAYING": {
       return {
         ...state,
-        playingTrack: action.playingTrack,
+        currentPlaying: action.currentPlaying,
       };
     }
     case "SET_CURRENT_PLAYING": {
@@ -57,7 +58,7 @@ export const playerReducer = (state, action) => {
     case "SET_PLAY_STATE": {
       return {
         ...state,
-        playState: action.playState,
+        playerState: action.playerState,
       };
     }
     default: {

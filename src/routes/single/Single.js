@@ -21,7 +21,7 @@ import Songs from "../songs/Songs.js";
 export default function Single() {
   //for the lyrics to pop up
   const [player, playerDispatch] = useContext(PlayerContext);
-  const { isLyric, context } = player;
+  const { seeLyrics, context } = player;
 
   const { state } = useLocation();
   const { track } = state;
@@ -75,7 +75,7 @@ export default function Single() {
     }
   }, [state]);
 
-  return isLyric ? (
+  return seeLyrics ? (
     <Songs songName={context.name} />
   ) : (
     <div className={classes.main}>

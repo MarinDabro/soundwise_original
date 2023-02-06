@@ -8,6 +8,7 @@ import parse from "html-react-parser";
 export default function Lyrics({ songName }) {
   const [lyrics, setLyrics] = useState("");
   const navigate = useNavigate();
+
   //get the song lyrics
   const getLyrics = async () => {
     const options = {
@@ -39,8 +40,12 @@ export default function Lyrics({ songName }) {
         options
       )
         .then(res => res.json())
-        .then(res => setLyrics(res.lyrics.lyrics.body.html))
-        .catch(err => toast.error(err)));
+        .then(res => {
+          setLyrics(res.lyrics.lyrics.body.html);
+        })
+        .catch(err => {
+          toast.error("There are no lyrics for this song");
+        }));
   };
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -66,14 +71,18 @@ export default function Lyrics({ songName }) {
     window.googleTranslateElementInit = googleTranslateElementInit;
   }, []);
 
-  return (
+  return lyrics ? (
     <div className={classes["song-main"]}>
+      <Toaster position="top-center" />
       <div className={classes["single_lyrics"]}>
-        <h3 translate="no">{songName}</h3>
         <div id="google_translate_element"></div>
         {parse(lyrics)}
       </div>
       <Toaster position="top-center" />
+    </div>
+  ) : (
+    <div className={classes["song-main"]}>
+      <h4>No song lyrics</h4>
     </div>
   );
 }

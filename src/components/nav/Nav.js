@@ -36,12 +36,6 @@ export default function Nav() {
           height: state.height + d.height,
         });
       }}
-      onClick={state => {
-        playerDispatch({
-          type: "SET_IS_LYRIC",
-          isLyric: !state.isLyric,
-        });
-      }}
     >
       <div className={classes.main} translate="no">
         <div className={classes.logo}>
@@ -50,7 +44,14 @@ export default function Nav() {
         </div>
 
         <nav className={classes.navLinks}>
-          <div>
+          <div
+            onClick={state => {
+              playerDispatch({
+                type: "SET_SEE_LYRICS",
+                seeLyrics: !state.seeLyrics,
+              });
+            }}
+          >
             <NavLink
               className={({ isActive }) =>
                 isActive ? `${classes.active}` : `${classes.link}`
@@ -71,6 +72,10 @@ export default function Nav() {
                 DISPATCH({
                   type: "SET_CAT_PLAYLIST",
                   catPlaylist: false,
+                });
+                playerDispatch({
+                  type: "SET_SEE_LYRICS",
+                  seeLyrics: !state.seeLyrics,
                 });
               }}
               to="search"
@@ -117,10 +122,6 @@ export default function Nav() {
             </NavLink>
           </div>
         </nav>
-        {/*        <div
-          id="google_translate_element"
-          style={{ margin: "1rem 0 0 1.5rem" }}
-        ></div> */}
       </div>
       <Outlet />
     </Resizable>

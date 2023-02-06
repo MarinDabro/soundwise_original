@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { NavLink } from "react-router-dom";
-import msToTime from "../../functions/timer.js";
 import classes from "../../routes/category-list/CategoryTracks.module.css";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,9 +8,11 @@ import PlayerContext from "../../context/PlayerContext.js";
 
 import Songs from "../../routes/songs/Songs.js";
 
+import msToTime from "../../functions/timer.js";
+
 const TracksMap = ({ target, picture, artists, album, release, info }) => {
   const [player, playerDispatch] = useContext(PlayerContext);
-  const { isLyric, context } = player;
+  const { seeLyrics, context } = player;
 
   const [isActive, setIsActive] = useState(-1);
 
@@ -37,7 +38,7 @@ const TracksMap = ({ target, picture, artists, album, release, info }) => {
     };
   }, [isActive]);
 
-  return isLyric ? (
+  return seeLyrics ? (
     <Songs songName={context.name} />
   ) : (
     <div>
@@ -69,6 +70,7 @@ const TracksMap = ({ target, picture, artists, album, release, info }) => {
         )}
         {realMap?.map((track, index) => {
           const realTrack = track?.track?.id ? track.track : track;
+          /*  console.log('realTrack', realTrack) */
 
           return (
             <div
