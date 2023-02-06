@@ -23,7 +23,7 @@ import { useToken } from "./spotify.js";
 
 function App() {
   const [{ token, user }, DISPATCH] = useContext(MainContext);
-  console.log('This is before hashing ',token)
+
   const searchParams = useToken();
   useEffect(() => {
     async function getData() {
@@ -31,13 +31,13 @@ function App() {
       window.location.hash = "";
 
       let _token = hash.access_token;
-      console.log(_token)
-
+      /*       console.log("hash token", _token);
+       */
       if (_token) {
         spotify.setAccessToken(_token);
         DISPATCH({
-          type: "SET_TOKEN",
-          token: _token,
+          type: "SET_HASH_TOKEN",
+          hashToken: _token,
         });
 
         spotify.getMe().then(user => {
@@ -71,8 +71,8 @@ function App() {
   return (
     <div className={classes.main}>
       <Nav />
-      <Login/>
-      <div id='routes' className={classes.routes}>
+      <Login />
+      <div id="routes" className={classes.routes}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="search" element={<Search />} />
@@ -85,7 +85,6 @@ function App() {
           <Route path="single" element={<Single />} />
           <Route path="profile" element={<Profile />} />
           {/*  <Route path="album" element={<Album />} />  */}
-         
         </Routes>
       </div>
       <Player />

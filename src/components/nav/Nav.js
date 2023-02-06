@@ -13,10 +13,12 @@ import {
 /* import logo1 from '../media/soundwise2.png' */
 import classes from "../../components/nav/Nav.module.css";
 import MainContext from "../../context/MainContext.js";
+import PlayerContext from "../../context/PlayerContext.js";
 import { useContext } from "react";
 
 export default function Nav() {
   const [STATE, DISPATCH] = useContext(MainContext);
+  const [player, playerDispatch] = useContext(PlayerContext);
 
   const [state, setState] = useState({ width: "15vw", height: "200" });
   return (
@@ -32,6 +34,12 @@ export default function Nav() {
         setState({
           width: state.width + d.width,
           height: state.height + d.height,
+        });
+      }}
+      onClick={state => {
+        playerDispatch({
+          type: "SET_IS_LYRIC",
+          isLyric: !state.isLyric,
         });
       }}
     >

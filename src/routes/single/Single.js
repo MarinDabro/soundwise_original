@@ -1,25 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from "react";
+import { useLocation } from "react-router-dom";
 
-import Lyrics from './Lyrics.js';
-import Header from '../components/header/Header.js';
-import TracksMap from '../../components/tracksMap/TracksMap.js';
-import PopularAlbums from '../artist/PopularAlbums.js';
-import RelatedArtists from '../artist/RelatedArtists.js';
+import Lyrics from "./Lyrics.js";
+import Header from "../components/header/Header.js";
+import TracksMap from "../../components/tracksMap/TracksMap.js";
+import PopularAlbums from "../artist/PopularAlbums.js";
+import RelatedArtists from "../artist/RelatedArtists.js";
 
-import getDetails from '../../functions/getDetails.js';
-import fetchColor from '../../functions/getColor.js';
-import { useToken } from '../../spotify.js';
+import getDetails from "../../functions/getDetails.js";
+import fetchColor from "../../functions/getColor.js";
+import { useToken } from "../../spotify.js";
 
-import style from './Single.module.css';
-import classes from '../category-list/CategoryTracks.module.css'
+import style from "./Single.module.css";
+import classes from "../category-list/CategoryTracks.module.css";
 
 import Bouncer from "../../functions/bouncer.js";
+import PlayerContext from "../../context/PlayerContext";
+import Songs from "../songs/Songs.js";
 
 export default function Single() {
+  //for the lyrics to pop up
+  const [player, playerDispatch] = useContext(PlayerContext);
+  const { isLyric, context } = player;
 
-  const {state} = useLocation()
-  const {track} = state
+  const { state } = useLocation();
+  const { track } = state;
 
   const [trackInfo, setTrackInfo] = useState(null);
   const [artistInfo, setArtistInfo] = useState(null);
@@ -30,9 +35,9 @@ export default function Single() {
 
   const searchParams = useToken();
 
-  const realTrack = track.track ? track.track : track
+  const realTrack = track.track ? track.track : track;
   const songName = realTrack?.name;
-  const artist = track.artists[0]
+  const artist = track.artists[0];
 
   let trackArr = [];
   if (popularTrack) {
@@ -41,41 +46,61 @@ export default function Single() {
       : popularTrack?.tracks.slice(0, 5);
   }
 
-  const getInfo = async() => {
-      const newTrack = await getDetails('track', track.id, searchParams).then(res => res)
-      setTrackInfo(newTrack)
-      await fetchColor(newTrack.album.images[0].url).then(res => setColors(res))
-      await getDetails('album', newTrack.album.id, searchParams).then(res => setAlbumInfo(res))
-      await getDetails('artist', artist.id, searchParams).then(res => setArtistInfo(res))
-      await getDetails('artist', artist.id, searchParams, '/top-tracks?country=DE&limit=10').then(res => setPopularTrack(res))
-  }
+  const getInfo = async () => {
+    const newTrack = await getDetails("track", track.id, searchParams).then(
+      res => res
+    );
+    setTrackInfo(newTrack);
+    await fetchColor(newTrack.album.images[0].url).then(res => setColors(res));
+    await getDetails("album", newTrack.album.id, searchParams).then(res =>
+      setAlbumInfo(res)
+    );
+    await getDetails("artist", artist.id, searchParams).then(res =>
+      setArtistInfo(res)
+    );
+    await getDetails(
+      "artist",
+      artist.id,
+      searchParams,
+      "/top-tracks?country=DE&limit=10"
+    ).then(res => setPopularTrack(res));
+  };
 
   useEffect(() => {
-    const routes = document.getElementById('routes')
-    routes.scrollTo({top: 0, behavior: 'smooth'});
+    const routes = document.getElementById("routes");
+    routes.scrollTo({ top: 0, behavior: "smooth" });
 
     if (artist.id) {
-      getInfo()
+      getInfo();
     }
   }, [state]);
 
-
-  return (
+  return isLyric ? (
+    <Songs songName={context.name} />
+  ) : (
     <div className={classes.main}>
       {track && colors && artistInfo && (
         <div>
-          <Bouncer dependencies={['single', track]} />
+          <Bouncer dependencies={["single", track]} />
           <div translate="no" className={classes.headerNav}>
             The SINGLE page
           </div>
 
-          <Header target={albumInfo} artistInfo={artistInfo} songInfo={realTrack} />
-          <TracksMap target={[track]} artists={true} info={true} release={true} album={albumInfo}/>
+          <Header
+            target={albumInfo}
+            artistInfo={artistInfo}
+            songInfo={realTrack}
+          />
+          <TracksMap
+            target={[track]}
+            artists={true}
+            info={true}
+            release={true}
+            album={albumInfo}
+          />
 
-          <div className={style['song-container']}>
-
-         
-            <Lyrics colors={colors} songName={songName} />
+          <div className={style["song-container"]}>
+            <Lyrics songName={songName} />
 
             <div translate="no" className={style["artist_info"]}>
               <img
@@ -84,7 +109,7 @@ export default function Single() {
                 className={style["artist_profile_image"]}
               />
               <div>
-                <h5 style={{ padding: '0.5rem 0' }}>ARTIST</h5>
+                <h5 style={{ padding: "0.5rem 0" }}>ARTIST</h5>
                 <h4> {artistInfo.name}</h4>
               </div>
             </div>
@@ -94,9 +119,16 @@ export default function Single() {
               <p>Popular Tracks by</p>
               <h3>{artistInfo.name}</h3>
             </div>
-              {popularTrack &&
-              <TracksMap target={trackArr} picture={true} artists={true} album={true} release={true} info={true}/>
-              }
+            {popularTrack && (
+              <TracksMap
+                target={trackArr}
+                picture={true}
+                artists={true}
+                album={true}
+                release={true}
+                info={true}
+              />
+            )}
             {popularTrack?.tracks.length > 5 && (
               <button
                 onClick={() => setShowMore(!showMore)}
