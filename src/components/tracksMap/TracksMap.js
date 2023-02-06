@@ -54,7 +54,7 @@ const TracksMap = ({target, picture, artists, album, release, info}) => {
         }
         {realMap?.map((track, index) => {
           const realTrack = track?.track?.id ? track.track : track
-          console.log('realTrack', realTrack)
+         /*  console.log('realTrack', realTrack) */
 
           return (
             <div

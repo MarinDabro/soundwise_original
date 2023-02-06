@@ -9,7 +9,7 @@ import UserHome from "./routes/user_playList/UserPlayList";
 import Search from "./routes/search/Search";
 import Library from "./routes/library/Library";
 import Playlist from "./routes/playlist/Playlist";
-import Login from "../src/components/login/Login.js";
+ /* import Login from "../src/components/login/Login.js";  */
 import Songs from "./routes/songs/Songs";
 import CategoryTracks from "./routes/category-list/CategoryTracks";
 import Profile from "./routes/profile/Profile";
@@ -17,7 +17,7 @@ import Player from "./components/player/Player";
 import Artist from "./routes/artist/Artist";
 import Single from "./routes/single/Single";
 import ActiveAlbum from "./routes/activeAlbum/ActiveAlbum";
-import Album from "./routes/albums/Album";
+/* import Album from "./routes/albums/Album"; */
 import classes from "./App.module.css";
 import { useToken } from "./spotify.js";
 
@@ -71,7 +71,7 @@ function App() {
   return (
     <div className={classes.main}>
       <Nav />
-      <Login/>
+     
       <div id='routes' className={classes.routes}>
         <Routes>
           <Route path="/" element={<Home />} />

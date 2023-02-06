@@ -20,7 +20,7 @@ export default function Single() {
 
   const {state} = useLocation()
   const {track} = state
-
+console.log('THis is what i need in player',track);
   const [trackInfo, setTrackInfo] = useState(null);
   const [artistInfo, setArtistInfo] = useState(null);
   const [albumInfo, setAlbumInfo] = useState(null);
