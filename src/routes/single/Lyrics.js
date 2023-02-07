@@ -75,7 +75,6 @@ export default function Lyrics({ songName }) {
 
   return lyrics ? (
     <div className={classes["song-main"]}>
-      <Toaster position="top-center" />
       <div className={classes["single_lyrics"]}>
         <div id="google_translate_element"></div>
         {parse(lyrics)}

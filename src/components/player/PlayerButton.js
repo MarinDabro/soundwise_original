@@ -9,15 +9,19 @@ import { faRepeat } from "@fortawesome/free-solid-svg-icons";
 
 import PlayerContext from "../../context/PlayerContext";
 import MainContext from "../../context/MainContext.js";
+import PlayerTest from "./player-functions/PlayerTest";
 
 import classes from "./PlayerButton.module.css";
+import { useEffect } from "react";
+import SpotifyWebApi from "spotify-web-api-js";
 /* import ChangeTrack from "./player-functions/changeTrack";
 import ChangeState from "./player-functions/changeState";
  */ export default function PlayerButton() {
   const [{ hashToken }, DISPATCH] = useContext(MainContext);
   const [player, playerDispatch] = useContext(PlayerContext);
 
-  const { playerState } = player;
+  const { playerState, context } = player;
+  console.log("context ", context);
   const headersParam = {
     "Content-Type": "application/json",
     Authorization: "Bearer " + hashToken,
@@ -96,6 +100,10 @@ import ChangeState from "./player-functions/changeState";
       </div>
       <div className={classes["repeat-button"]}>
         <FontAwesomeIcon icon={faRepeat} />
+
+        <div>
+          <PlayerTest accessToken={hashToken} trackUri={context.uri} />
+        </div>
       </div>
     </div>
   );
