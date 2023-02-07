@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import classes from "./Single.module.css";
 import parse from "html-react-parser";
+import PlayerContext from "../../context/PlayerContext";
 
 export default function Lyrics({ songName }) {
+  const [player, playerDispatch] = useContext(PlayerContext);
   const [lyrics, setLyrics] = useState("");
   const navigate = useNavigate();
 

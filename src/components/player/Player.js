@@ -35,6 +35,7 @@ const Player = () => {
           }}
           className={classes.lyrics}
           icon={faBook}
+          title="Lyrics"
         />
       </div>
     </div>
