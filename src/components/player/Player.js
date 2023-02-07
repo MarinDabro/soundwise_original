@@ -25,7 +25,7 @@ const Player = () => {
       <div className={classes["player-container"]}>
         <PlayerTrackInfo />
         <PlayerButton />
-        {/*  <PlayTrack /> */}
+      
         <FontAwesomeIcon
           onClick={state => {
             playerDispatch({
