@@ -55,7 +55,7 @@ export const playerReducer = (state, action) => {
         currentTrack: action.currentTrack,
       };
     }
-    case "SET_PLAY_STATE": {
+    case "SET_PLAYER_STATE": {
       return {
         ...state,
         playerState: action.playerState,
