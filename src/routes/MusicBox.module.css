@@ -15,7 +15,8 @@
 
 .albumContainer{
     display: flex;
-    justify-content: center;
+    justify-content: left;
+    gap: auto;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1rem;

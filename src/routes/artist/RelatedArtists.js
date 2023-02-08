@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useToken } from "../../spotify.js";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import style from "../MusicBox.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import ArtistsResults from "../search/searchComponents/ArtistsResults.js";
 
 export default function RelatedArtists({ artistId }) {
   const searchParams = useToken();
@@ -12,7 +11,7 @@ export default function RelatedArtists({ artistId }) {
 
   const getRelatedArtists = async () => {
     await fetch(
-      `https://api.spotify.com/v1/artists/${artistId}/related-artists`,
+      `https://api.spotify.com/v1/artists/${artistId}/related-artists?`,
       searchParams
     )
       .then(res => res.json())
@@ -29,49 +28,15 @@ export default function RelatedArtists({ artistId }) {
   }, [artistId]);
 
   return (
-    <div className={style.main}>
+    <div className={style.main} style={{marginTop: 0, marginBottom: 0, paddingBottom: 0}}>
       <div>
         {relatedArtist && (
           <div>
             <div className={style.albumContainer}>
-              {relatedArtist?.artists?.map((artist, index) => {
-                return (
-                  <NavLink
-                    to="/artist"
-                    state={{artist}}
-                    key={index}
-                    className={style.albumBox}
-                    onClick={() => {
-                      const routes = document.getElementById('routes')
-                      routes.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                      })
-                    }}
-                  >
-                    <div className={style.albumImage}>
-                      <img
-                        src={artist.images[1].url}
-                        alt="/related_artists_image"
-                      />
-                    </div>
-                    <div className={style.albumName}>{artist.name}</div>
-                    <div className={style.artistName}>
-                      {artist.followers.total.toLocaleString()}{" "}
-                      <FontAwesomeIcon
-                        icon={faHeart}
-                        style={{ color: "pink", marginLeft: "5px" }}
-                      />
-                    </div>
-                  </NavLink>
-                );
-              })}
+              <ArtistsResults artists={relatedArtist.artists.slice(0, 14)} />
             </div>
           </div>
         )}
-      </div>
-      <div>
-        <Outlet />
       </div>
     </div>
   );
