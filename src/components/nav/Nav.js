@@ -44,14 +44,7 @@ export default function Nav() {
         </div>
 
         <nav className={classes.navLinks}>
-          <div
-            onClick={state => {
-              playerDispatch({
-                type: "SET_SEE_LYRICS",
-                seeLyrics: !state.seeLyrics,
-              });
-            }}
-          >
+          <div>
             <NavLink
               className={({ isActive }) =>
                 isActive ? `${classes.active}` : `${classes.link}`
@@ -72,10 +65,6 @@ export default function Nav() {
                 DISPATCH({
                   type: "SET_CAT_PLAYLIST",
                   catPlaylist: false,
-                });
-                playerDispatch({
-                  type: "SET_SEE_LYRICS",
-                  seeLyrics: !state.seeLyrics,
                 });
               }}
               to="search"

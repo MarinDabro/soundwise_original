@@ -73,17 +73,13 @@ export default function Lyrics({ songName }) {
     window.googleTranslateElementInit = googleTranslateElementInit;
   }, []);
 
-  return lyrics ? (
+  return (
     <div className={classes["song-main"]}>
       <div className={classes["single_lyrics"]}>
         <div id="google_translate_element"></div>
         {parse(lyrics)}
       </div>
       <Toaster position="top-center" />
-    </div>
-  ) : (
-    <div className={classes["song-main"]}>
-      <h4>No song lyrics</h4>
     </div>
   );
 }

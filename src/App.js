@@ -31,8 +31,6 @@ function App() {
       window.location.hash = "";
 
       let _token = hash.access_token;
-      /*       console.log("hash token", _token);
-       */
       if (_token) {
         spotify.setAccessToken(_token);
         DISPATCH({

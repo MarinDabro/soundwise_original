@@ -22,6 +22,7 @@ export default function Single() {
   //for the lyrics to pop up
   const [player, playerDispatch] = useContext(PlayerContext);
   const { seeLyrics, context } = player;
+  console.log("seelyrics", seeLyrics);
 
   const { state } = useLocation();
   const { track } = state;

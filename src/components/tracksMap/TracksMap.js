@@ -13,7 +13,7 @@ import msToTime from "../../functions/timer.js";
 const TracksMap = ({ target, picture, artists, album, release, info }) => {
   const [player, playerDispatch] = useContext(PlayerContext);
   const { seeLyrics, context } = player;
-
+  console.log("seelyrics", seeLyrics);
   const [isActive, setIsActive] = useState(-1);
 
   const realMap = target.tracks
