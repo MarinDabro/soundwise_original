@@ -43,10 +43,12 @@ export default function PlayerButton() {
     const deviceId = deviceRes.data.devices[0].id;
     console.log(deviceId);
 
+    //Basheer deviceId : 525f0c0b767681dad96177094f27f13464a33ce3
+
     const state = playerState ? "pause" : "play";
     deviceId &&
       (await axios.put(
-        `https://api.spotify.com/v1/me/player/${state}/volume?volume_percent=55&device_id=${deviceId}`,
+        `https://api.spotify.com/v1/me/player/${state}/volume?volume_percent=55&device_id="${deviceId}"`,
         {},
         {
           headers: headersParam,
