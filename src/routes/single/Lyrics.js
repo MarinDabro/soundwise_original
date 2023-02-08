@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import classes from "./Single.module.css";
 import parse from "html-react-parser";
+import PlayerContext from "../../context/PlayerContext";
 
-export default function Lyrics({ songName, singleTrack }) {
+export default function Lyrics({ songName }) {
+  const [player, playerDispatch] = useContext(PlayerContext);
   const [lyrics, setLyrics] = useState("");
   const navigate = useNavigate();
+
   //get the song lyrics
   const getLyrics = async () => {
     const options = {
@@ -39,8 +42,12 @@ export default function Lyrics({ songName, singleTrack }) {
         options
       )
         .then(res => res.json())
-        .then(res => setLyrics(res.lyrics.lyrics.body.html))
-        .catch(err => toast.error(err)));
+        .then(res => {
+          setLyrics(res.lyrics.lyrics.body.html);
+        })
+        .catch(err => {
+          toast.error("There are no lyrics for this song");
+        }));
   };
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -69,7 +76,6 @@ export default function Lyrics({ songName, singleTrack }) {
   return (
     <div className={classes["song-main"]}>
       <div className={classes["single_lyrics"]}>
-        <h3 translate="no">Lyrics</h3>
         <div id="google_translate_element"></div>
         {parse(lyrics)}
       </div>
