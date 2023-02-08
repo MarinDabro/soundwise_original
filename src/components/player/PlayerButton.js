@@ -32,31 +32,6 @@ export default function PlayerButton() {
     Authorization: "Bearer " + hashToken,
   };
 
-  /*   const getCurrentTrack = async () => {
-    const response = await axios.get(
-      "https://api.spotify.com/v1/me/player/currently-playing",
-      {
-        headers: {
-          Authorization: "Bearer " + hashToken,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    if (response.data !== "") {
-      const { item } = response.data;
-      const currentPlaying = {
-        id: item.id,
-        name: item.name,
-        artists: item.artists.map(artist => artist.name),
-        image: item.album.images[2].url,
-      };
-      playerDispatch({
-        type: "SET_CURRENT_PLAYING",
-        currentTrack: currentPlaying,
-      });
-    }
-  }; */
-
   const playSong = async () => {
     //get device info. to play songs
     const deviceRes = await axios.get(
@@ -66,6 +41,7 @@ export default function PlayerButton() {
       }
     );
     const deviceId = deviceRes.data.devices[0].id;
+    console.log(deviceId);
 
     const state = playerState ? "pause" : "play";
     deviceId &&
@@ -76,10 +52,6 @@ export default function PlayerButton() {
           headers: headersParam,
         }
       ));
-    /*  playerDispatch({
-      type: "SET_PLAYER_STATE",
-      playerState: !playerState,
-    }); */
   };
 
   const changeTrack = async type => {
