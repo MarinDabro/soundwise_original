@@ -71,7 +71,7 @@ export default function Artist() {
                 onClick={() => setShowMore(!showMore)}
                 className={style["show_btn"]}
               >
-                {showMore ? "less" : "more"}
+                {showMore ? "SHOW LESS" : "SEE MORE"}
               </button>
             )}
           </div>
