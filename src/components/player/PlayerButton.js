@@ -75,6 +75,10 @@ export default function PlayerButton() {
           headers: headersParam,
         }
       ));
+    playerDispatch({
+      type: "SET_PLAYER_STATE",
+      playerState: !playerState,
+    });
   };
 
   const changeTrack = async type => {
@@ -119,15 +123,7 @@ export default function PlayerButton() {
           onClick={() => changeTrack("previous")}
         />
       </div>
-      <div
-        className={classes["play-button"]}
-        onClick={() => {
-          playerDispatch({
-            type: "SET_PLAYER_STATE",
-            playerState: !playerState,
-          });
-        }}
-      >
+      <div className={classes["play-button"]}>
         {playerState ? (
           <FontAwesomeIcon
             className={classes["player-icon"]}
