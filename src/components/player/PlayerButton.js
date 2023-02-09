@@ -71,6 +71,8 @@ export default function PlayerButton() {
 
         {
           context_uri: uri,
+        },
+        {
           headers: headersParam,
         }
       ));

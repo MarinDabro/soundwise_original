@@ -27,6 +27,7 @@ import axios from "axios";
 function App() {
   const [{ token, hashToken, user }, DISPATCH] = useContext(MainContext);
   const [player, playerDispatch] = useContext(PlayerContext);
+
   const { musicPlayer } = player;
 
   const searchParams = useToken();
@@ -96,9 +97,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="search" element={<Search />} />
-          <Route path="library" element={<Library />} />
-          <Route path="playlist" element={<CreatePlaylist />} />
-          <Route path="songs" element={<Songs />} />
+          {user && <Route path="library" element={<Library />} />}
+          {user && <Route path="playlist" element={<CreatePlaylist />} />}
+          {user && <Route path="songs" element={<Songs />} />}
           <Route path="activePlaylist" element={<CategoryTracks />} />
           <Route path="album" element={<ActiveAlbum />} />
           <Route path="artist" element={<Artist />} />
