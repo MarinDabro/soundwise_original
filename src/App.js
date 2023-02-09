@@ -8,7 +8,7 @@ import Home from "./routes/home/Home";
 import UserHome from "./routes/user_playList/UserPlayList";
 import Search from "./routes/search/Search";
 import Library from "./routes/library/Library";
-import Playlist from "./routes/playlist/Playlist";
+import CreatePlaylist from "./routes/createPlaylist/CreatePlaylist";
 /* import Login from "../src/components/login/Login.js";  */
 import Songs from "./routes/songs/Songs";
 import CategoryTracks from "./routes/category-list/CategoryTracks";
@@ -75,7 +75,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="search" element={<Search />} />
           <Route path="library" element={<Library />} />
-          <Route path="playlist" element={<Playlist />} />
+          <Route path="playlist" element={<CreatePlaylist />} />
           <Route path="songs" element={<Songs />} />
           <Route path="activePlaylist" element={<CategoryTracks />} />
           <Route path="album" element={<ActiveAlbum />} />

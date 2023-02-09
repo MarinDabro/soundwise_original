@@ -32,6 +32,29 @@ export default function PlayerButton() {
     Authorization: "Bearer " + hashToken,
   };
 
+  useEffect(() => {
+    const getCurrentTrack = async () => {
+      const response = await axios.get(
+        "https://api.spotify.com/v1/me/player/currently-playing",
+        {
+          headers: headersParam,
+        }
+      );
+      if (response.data !== "") {
+        const currentPlaying = {
+          id: response.data.item.id,
+          name: response.data.item.name,
+          artists: response.data.item.artists.map(artist => artist.name),
+          image: response.data.item.album.images[2].url,
+        };
+        playerDispatch({ type: "SET_PLAYING", currentPlaying });
+      } else {
+        playerDispatch({ type: "SET_PLAYING", currentPlaying: null });
+      }
+    };
+    getCurrentTrack();
+  }, [hashToken, playerDispatch]);
+
   const playSong = async () => {
     //get device info. to play songs
     const deviceRes = await axios.get(
@@ -42,8 +65,6 @@ export default function PlayerButton() {
     );
     const deviceId = deviceRes.data.devices[0].id;
     console.log(deviceId);
-
-    //Basheer deviceId : 525f0c0b767681dad96177094f27f13464a33ce3
 
     const state = playerState ? "pause" : "play";
     deviceId &&

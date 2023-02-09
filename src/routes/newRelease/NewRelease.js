@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
-import classes from "../MusicBox.module.css";
 import MainContext from "../../context/MainContext";
 import style from "../MusicBox.module.css";
 //import Bouncer from "../../functions/bouncer.js";
@@ -36,23 +35,23 @@ export default function NewRelease(props) {
   }, []);
 
   return (
-    <div className={classes.main}>
+    <div className={style.main}>
       <h2>New Releases</h2>
       {newRelease && (
-        <div className={classes.albumContainer}>
+        <div className={style.albumContainer}>
           {newRelease?.albums?.items.map((album, index) => {
             return (
-              <div key={index} className={classes.albumBox}>
+              <div key={index} className={style.albumBox}>
                 <NavLink
                   to="/album"
-                  state={{ album: album}}
+                  state={{ album: album }}
                   className={style.albumBox}
                 >
-                  <div className={classes.albumImage}>
+                  <div className={style.albumImage}>
                     <img src={album.images[1].url} alt="/artist_image" />
                   </div>
-                  <div className={classes.albumName}>{album.name}</div>
-                  <div className={classes.artistName}>
+                  <div className={style.albumName}>{album.name}</div>
+                  <div className={style.artistName}>
                     BY: {album.artists[0].name}
                   </div>
                 </NavLink>
