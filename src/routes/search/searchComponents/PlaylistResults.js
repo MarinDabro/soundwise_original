@@ -13,7 +13,7 @@ const PlaylistResults = ({ playlists }) => {
   };
 
   return (
-    <div className={style.main}>
+    <div className={style.main} style={{marginTop: 0, marginBottom: 0, paddingBottom: 0}}>
       <div>
         {playlists && (
           <div>
