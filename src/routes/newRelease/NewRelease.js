@@ -1,12 +1,13 @@
 import React, { useEffect, useContext } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-
+import DisplayContext from "../../context/DisplayContext.js";
 import MainContext from "../../context/MainContext";
 import style from "../MusicBox.module.css";
 //import Bouncer from "../../functions/bouncer.js";
 
 export default function NewRelease(props) {
   const [STATE, DISPATCH] = useContext(MainContext);
+  const [{ navReminder }, dispatch] = useContext(DisplayContext);
   const navigate = useNavigate();
   const { newRelease, token } = STATE;
   useEffect(() => {
@@ -55,6 +56,20 @@ export default function NewRelease(props) {
                     BY: {album.artists[0].name}
                   </div>
                 </NavLink>
+                <button
+                  onClick={() => {
+                    dispatch({
+                      type: "SET_SONG_REMINDER",
+                      songReminder: true,
+                    });
+                    dispatch({
+                      type: "SET_SONG_IMAGE",
+                      songImage: album,
+                    });
+                  }}
+                >
+                  click
+                </button>
               </div>
             );
           })}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import logo from "../../media/headphones-gradient.png";
 import { NavLink, Outlet } from "react-router-dom";
+
 import { Resizable } from "re-resizable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

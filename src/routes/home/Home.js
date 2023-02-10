@@ -12,7 +12,7 @@ import SongReminder from "../../components/reminder/SongReminder";
 export default function Home(props) {
   const [{ songReminder, navReminder, navReminderMsg }, dispatch] =
     useContext(DisplayContext);
-  console.log(songReminder);
+
   const [STATE, DISPATCH] = useContext(MainContext);
   const { token } = STATE;
   const SPOTIFY_CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
