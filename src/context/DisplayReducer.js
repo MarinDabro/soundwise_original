@@ -4,6 +4,7 @@ export const initialState = {
   playLists: null,
   navReminder: false,
   navReminderMsg: "",
+  songReminder: true,
 };
 
 export const displayReducer = (state, action) => {
@@ -36,6 +37,12 @@ export const displayReducer = (state, action) => {
       return {
         ...state,
         navReminderMsg: action.navReminderMsg,
+      };
+    }
+    case "SET_SONG_REMINDER": {
+      return {
+        ...state,
+        songReminder: action.songReminder,
       };
     }
     default: {

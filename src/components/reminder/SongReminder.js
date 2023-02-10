@@ -3,28 +3,28 @@ import classes from "./NavReminder.module.css";
 
 import { loginUrl } from "../../spotify";
 import DisplayContext from "../../context/DisplayContext.js";
-
-export default function NavReminder({ title, message }) {
-  const [{ navReminder }, dispatch] = useContext(DisplayContext);
+import songImg from "../../media/headphones-gradient.png";
+export default function SongReminder({ title, message }) {
+  const [{ songReminder }, dispatch] = useContext(DisplayContext);
   return (
     <div translate="no" className={classes.main}>
       <div className={classes.reminderBox}>
-        <div className={classes.reminderText}>
-          <h4>{title}</h4>
-          <p>{message}</p>
+        <div className={classes.songImg}>
+          <img src={songImg} alt="/song_image" />
         </div>
         <div>
+          <h2>Start listening with a free Spotify account</h2>
+          <a href={loginUrl}>LOGIN TO SPOTIFY</a>
           <button
             onClick={() => {
               dispatch({
-                type: "SET_NAV_REMINDER",
+                type: "SET_SONG_REMINDER",
                 navReminder: false,
               });
             }}
           >
             Not now
           </button>
-          <a href={loginUrl}>LOGIN TO SPOTIFY</a>
         </div>
       </div>
     </div>

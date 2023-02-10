@@ -7,10 +7,12 @@ import NavReminder from "../../components/reminder/NavReminder";
 import classes from "./Home.module.css";
 import MainContext from "../../context/MainContext";
 import DisplayContext from "../../context/DisplayContext.js";
+import SongReminder from "../../components/reminder/SongReminder";
 
 export default function Home(props) {
-  const [{ navReminder, navReminderMsg }, dispatch] =
+  const [{ songReminder, navReminder, navReminderMsg }, dispatch] =
     useContext(DisplayContext);
+  console.log(songReminder);
   const [STATE, DISPATCH] = useContext(MainContext);
   const { token } = STATE;
   const SPOTIFY_CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
@@ -40,7 +42,6 @@ export default function Home(props) {
   return (
     <div className={classes.main} translate="no">
       <div className={classes["login-button"]}>
-        {" "}
         <Login />
       </div>
       {navReminder && navReminderMsg === "library" && (
@@ -65,6 +66,7 @@ export default function Home(props) {
           }
         />
       )}
+      {songReminder && <SongReminder />}
       {token !== "" && <NewRelease token={token} />}
       {token !== "" && <FeaturedPlaylists token={token} />}
     </div>
