@@ -2,6 +2,11 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import classes from "../../routes/category-list/CategoryTracks.module.css";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import {
+  faPlay,
+  faPause,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ArtistsMap from "../../routes/components/artistsMap/ArtistsMap.js";
 import PlayerContext from "../../context/PlayerContext.js";
@@ -12,8 +17,9 @@ import msToTime from "../../functions/timer.js";
 
 const TracksMap = ({ target, picture, artists, album, release, info }) => {
   const [player, playerDispatch] = useContext(PlayerContext);
-  const { seeLyrics, context } = player;
+  const { seeLyrics, context, playerState  } = player;
   const [isActive, setIsActive] = useState(-1);
+ 
 
   const realMap = target.tracks
     ? target.tracks.items
@@ -90,6 +96,13 @@ const TracksMap = ({ target, picture, artists, album, release, info }) => {
             >
               <div className={classes.playlistInfo} key={index}>
                 <div className={classes.trackImg}>
+                <div className={classes["play-button"]}>
+        {playerState ? (
+          <FontAwesomeIcon className={classes["player-icon"]} icon={faPause} />
+        ) : (
+          <FontAwesomeIcon className={classes["player-icon"]} icon={faPlay} />
+        )}
+      </div>
                   <div>{index + 1}</div>
                   {picture ? (
                     <img
@@ -144,6 +157,9 @@ const TracksMap = ({ target, picture, artists, album, release, info }) => {
                 ""
               )}
               <div className={classes["track-duration"]}>
+              <div>
+          <FontAwesomeIcon icon={faHeart} />
+        </div>
                 {msToTime(realTrack.duration_ms)[1]}
               </div>
             </div>

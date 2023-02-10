@@ -18,6 +18,7 @@ import DisplayContext from "../../context/DisplayContext.js";
 import { useContext } from "react";
 import UserPlayList from "../../routes/user_playList/UserPlayList";
 
+
 export default function Nav() {
   const [STATE, DISPATCH] = useContext(MainContext);
 
@@ -43,7 +44,7 @@ export default function Nav() {
     >
       <div className={classes.main} translate="no">
         <div className={classes.logo}>
-          <img src={logo} alt="logo" /> {/* move the width to css file  */}
+          <img src={logo} alt="logo" /> 
           <h2>Soundwise</h2>
         </div>
 
@@ -154,6 +155,7 @@ export default function Nav() {
               Liked Songs
             </NavLink>
           </div>
+          
         </nav>
         <UserPlayList />
       </div>

@@ -103,6 +103,8 @@
 }
 
 .track-duration {
+  display:flex;
+  gap:.5rem;
   color: rgb(168, 162, 162);
 }
 
