@@ -1,14 +1,45 @@
 import React, { useContext, useState, useEffect } from "react";
 import classes from "./Player.module.css";
 import PlayerContext from "../../context/PlayerContext";
-
+import MainContext from "../../context/MainContext.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 /* import { useToken } from '../../spotify';
 import getDetails from '../../functions/getDetails.js';  */
-import PlayerTrackInfo from "./PlayerTrackInfo.js";
+import CurrentTrack from "./CurrentTrack";
+import Volume from "./Volume";
 import PlayerButton from "./PlayerButton";
 
+const Player = () => {
+  const [player, playerDispatch] = useContext(PlayerContext);
+  const [{ hashToken }, DISPATCH] = useContext(MainContext);
+
+  return (
+    hashToken && (
+      <div className={classes.player}>
+        <div className={classes["player-container"]}>
+          <CurrentTrack />
+          <PlayerButton />
+          <FontAwesomeIcon
+            onClick={state => {
+              playerDispatch({
+                type: "SET_SEE_LYRICS",
+                seeLyrics: !state.seeLyrics,
+              });
+            }}
+            className={classes.lyrics}
+            icon={faBook}
+            title="Lyrics"
+          />
+          <Volume />
+        </div>
+      </div>
+    )
+  );
+};
+export default Player;
+
+/* 
 const Player = () => {
   const [player, playerDispatch] = useContext(PlayerContext);
 
@@ -34,3 +65,4 @@ const Player = () => {
   );
 };
 export default Player;
+*/

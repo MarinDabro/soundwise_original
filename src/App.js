@@ -10,11 +10,12 @@ import Home from "./routes/home/Home";
 import UserHome from "./routes/user_playList/UserPlayList";
 import Search from "./routes/search/Search";
 import Library from "./routes/library/Library";
-import CreatePlaylist from "./routes/createPlaylist/CreatePlaylist";
 /* import Login from "../src/components/login/Login.js";  */
 import Songs from "./routes/songs/Songs";
 import CategoryTracks from "./routes/category-list/CategoryTracks";
 import Profile from "./routes/profile/Profile";
+import MyPlaylist from "./components/musicPlayer/MyPlaylist";
+import MyPlayer from "./components/player/PlayerBody";
 import Player from "./components/player/Player";
 import Artist from "./routes/artist/Artist";
 import Single from "./routes/single/Single";
@@ -23,29 +24,35 @@ import ActiveAlbum from "./routes/activeAlbum/ActiveAlbum";
 import classes from "./App.module.css";
 import { useToken } from "./spotify.js";
 import axios from "axios";
+import UserPlayList from "./routes/user_playList/UserPlayList";
+import PlayerBody from "./components/player/PlayerBody";
 
 function App() {
   const [{ token, hashToken, user }, DISPATCH] = useContext(MainContext);
-  const [player, playerDispatch] = useContext(PlayerContext);
-
-  const { musicPlayer } = player;
+  const [{ musicPlayer, isPlayer }, playerDispatch] = useContext(PlayerContext);
 
   const searchParams = useToken();
 
   useEffect(() => {
-    const getPlaybackState = async () => {
-      const { data } = await axios.get("https://api.spotify.com/v1/me/player", {
-        headers: {
-          Authorization: "Bearer " + hashToken,
-          "Content-Type": "application/json",
-        },
-      });
-      playerDispatch({
-        type: "SET_PLAYER_STATE",
-        playerState: data.is_playing,
-      });
-    };
-    getPlaybackState();
+    if (hashToken) {
+      const getPlaybackState = async () => {
+        const { data } = await axios.get(
+          "https://api.spotify.com/v1/me/player",
+          {
+            headers: {
+              Authorization: "Bearer " + hashToken,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        playerDispatch({
+          type: "SET_PLAYER_STATE",
+          playerState: data.is_playing,
+        });
+      };
+
+      getPlaybackState();
+    }
   }, [playerDispatch, hashToken]);
 
   useEffect(() => {
@@ -90,28 +97,31 @@ function App() {
   }, []);
 
   return (
-    <div className={classes.main}>
-      <Nav />
-
-      <div id="routes" className={classes.routes}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="search" element={<Search />} />
-          {user && <Route path="library" element={<Library />} />}
-          {user && <Route path="playlist" element={<CreatePlaylist />} />}
-          {user && <Route path="songs" element={<Songs />} />}
-          <Route path="activePlaylist" element={<CategoryTracks />} />
-          <Route path="album" element={<ActiveAlbum />} />
-          <Route path="artist" element={<Artist />} />
-          <Route path="single" element={<Single />} />
-          <Route path="profile" element={<Profile />} />
-          {/*  <Route path="album" element={<Album />} />  */}
-        </Routes>
+    <div>
+      (
+      <div className={classes.main}>
+        <Nav />
+        <div id="routes" className={classes.routes}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="search" element={<Search />} />
+            {user && <Route path="library" element={<Library />} />}
+            {user && <Route path="playlist" element={<MyPlaylist />} />}
+            {user && <Route path="songs" element={<Songs />} />}
+            <Route path="activePlaylist" element={<CategoryTracks />} />
+            <Route path="album" element={<ActiveAlbum />} />
+            <Route path="artist" element={<Artist />} />
+            <Route path="single" element={<Single />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="player" element={<Player />} />
+            <Route path="myPlayer" element={<MyPlayer />} />
+          </Routes>
+        </div>
+        {isPlayer && hashToken && <PlayerBody />}
+        {user && <UserPlayList />}
       </div>
-      {hashToken && <Player />}
-      {user ? <UserHome /> : <div></div>}
+      )
     </div>
   );
 }
-
 export default App;

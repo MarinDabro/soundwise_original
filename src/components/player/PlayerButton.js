@@ -14,7 +14,6 @@ import axios from "axios";
 
 import PlayerContext from "../../context/PlayerContext";
 import MainContext from "../../context/MainContext.js";
-
 import classes from "./PlayerButton.module.css";
 /* import ChangeTrack from "./player-functions/changeTrack";
 import ChangeState from "./player-functions/changeState";
@@ -30,52 +29,30 @@ export default function PlayerButton() {
     Authorization: "Bearer " + hashToken,
   };
 
-  useEffect(() => {
-    const getCurrentTrack = async () => {
-      const response = await axios.get(
-        "https://api.spotify.com/v1/me/player/currently-playing",
+  //to play track - deviceId need to be provided
+  const changeState = async () => {
+    const state = playerState ? "pause" : "play";
+
+    console.log("play state :", state);
+    if (hashToken) {
+      const deviceRes = await axios.get(
+        "https://api.spotify.com/v1/me/player/devices ",
         {
           headers: headersParam,
         }
       );
-      if (response.data !== "") {
-        const currentPlaying = {
-          id: response.data.item.id,
-          name: response.data.item.name,
-          artists: response.data.item.artists.map(artist => artist.name),
-          image: response.data.item.album.images[2].url,
-        };
-        playerDispatch({ type: "SET_PLAYING", currentPlaying });
-      } else {
-        playerDispatch({ type: "SET_PLAYING", currentPlaying: null });
-      }
-    };
-    getCurrentTrack();
-  }, [hashToken, playerDispatch]);
+      const deviceId = deviceRes.data.devices[0].id;
 
-  const playSong = async () => {
-    //get device info. to play songs
-    const deviceRes = await axios.get(
-      "https://api.spotify.com/v1/me/player/devices ",
-      {
-        headers: headersParam,
-      }
-    );
-    const deviceId = deviceRes.data.devices[0].id;
-    console.log(deviceId);
+      deviceId &&
+        (await axios.put(
+          `https://api.spotify.com/v1/me/player/${state}/volume?volume_percent=55&device_id="${deviceId}"`,
 
-    const state = playerState ? "pause" : "play";
-    deviceId &&
-      (await axios.put(
-        `https://api.spotify.com/v1/me/player/${state}/volume?volume_percent=55&device_id="${deviceId}"`,
-
-        {
-          context_uri: uri,
-        },
-        {
-          headers: headersParam,
-        }
-      ));
+          {},
+          {
+            headers: headersParam,
+          }
+        ));
+    }
     playerDispatch({
       type: "SET_PLAYER_STATE",
       playerState: !playerState,
@@ -126,9 +103,17 @@ export default function PlayerButton() {
       </div>
       <div className={classes["play-button"]}>
         {playerState ? (
-          <FontAwesomeIcon className={classes["player-icon"]} icon={faPause} />
+          <FontAwesomeIcon
+            className={classes["player-icon"]}
+            icon={faPause}
+            onClick={changeState}
+          />
         ) : (
-          <FontAwesomeIcon className={classes["player-icon"]} icon={faPlay} />
+          <FontAwesomeIcon
+            className={classes["player-icon"]}
+            icon={faPlay}
+            onClick={changeState}
+          />
         )}
       </div>
       <div className={classes["forward-button"]}>

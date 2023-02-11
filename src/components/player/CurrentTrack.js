@@ -1,11 +1,11 @@
 import React, { useEffect, useContext } from "react";
+import axios from "axios";
 import PlayerContext from "../../context/PlayerContext";
 import MainContext from "../../context/MainContext.js";
-import axios from "axios";
+import classes from "./CurrentTrack.module.css";
 export default function CurrentTrack() {
   const [{ hashToken }, DISPATCH] = useContext(MainContext);
-  const [player, playerDispatch] = useContext(PlayerContext);
-  const { currentPlaying } = player;
+  const [{ currentPlaying }, playerDispatch] = useContext(PlayerContext);
 
   const getCurrentTrack = async () => {
     const response = await axios.get(
@@ -18,22 +18,36 @@ export default function CurrentTrack() {
       }
     );
     if (response.data !== "") {
-      const { item } = response.data;
       const currentPlaying = {
-        id: item.id,
-        name: item.name,
-        artists: item.artists.map(artist => artist.name),
-        image: item.album.images[2].url,
+        id: response.data.item.id,
+        name: response.data.item.name,
+        artists: response.data.item.artists.map(artist => artist.name),
+        image: response.data.item.album.images[2].url,
       };
-      playerDispatch({
-        type: "SET_CURRENT_PLAYING",
-        currentTrack: currentPlaying,
-      });
+      DISPATCH({ type: "SET_PLAYING", currentPlaying });
+    } else {
+      DISPATCH({ type: "SET_PLAYING", currentPlaying: null });
     }
   };
 
   useEffect(() => {
     getCurrentTrack();
   }, [hashToken, playerDispatch]);
-  return <div>CurrentTrack</div>;
+  return ( hashToken &&
+    <div>
+      {currentPlaying && (
+        <div className={classes.track}>
+          <div className={classes["track__image"]}>
+            <img src={currentPlaying.image} alt="currentPlaying" />
+          </div>
+          <div className={classes["track__info"]}>
+            <h4 className={classes["track__name"]}>{currentPlaying.name}</h4>
+            <h6 className={classes["track__artists"]}>
+              {currentPlaying.artists.join(", ")}
+            </h6>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }

@@ -17,10 +17,11 @@ import MainContext from "../../context/MainContext.js";
 import DisplayContext from "../../context/DisplayContext.js";
 import { useContext } from "react";
 import UserPlayList from "../../routes/user_playList/UserPlayList";
-
+import PlayerContext from "../../context/PlayerContext";
 
 export default function Nav() {
   const [STATE, DISPATCH] = useContext(MainContext);
+  const [{ playlists }, playerDispatch] = useContext(PlayerContext);
 
   const [{ navReminder }, dispatch] = useContext(DisplayContext);
   /* const [player, playerDispatch] = useContext(PlayerContext); */
@@ -44,12 +45,19 @@ export default function Nav() {
     >
       <div className={classes.main} translate="no">
         <div className={classes.logo}>
-          <img src={logo} alt="logo" /> 
+          <img src={logo} alt="logo" />
           <h2>Soundwise</h2>
         </div>
 
         <nav className={classes.navLinks}>
-          <div>
+          <div
+            onClick={() => {
+              playerDispatch({
+                type: "SET_IS_PLAYER",
+                isPlayer: true,
+              });
+            }}
+          >
             <NavLink
               className={({ isActive }) =>
                 isActive ? `${classes.active}` : `${classes.link}`
@@ -70,6 +78,10 @@ export default function Nav() {
                 DISPATCH({
                   type: "SET_CAT_PLAYLIST",
                   catPlaylist: false,
+                });
+                playerDispatch({
+                  type: "SET_IS_PLAYER",
+                  isPlayer: true,
                 });
               }}
               to="search"
@@ -117,6 +129,10 @@ export default function Nav() {
                   type: "SET_NAV_REMINDER_MSG",
                   navReminderMsg: "playlist",
                 });
+                playerDispatch({
+                  type: "SET_IS_PLAYER",
+                  isPlayer: true,
+                });
               }
             }}
           >
@@ -127,7 +143,7 @@ export default function Nav() {
               to={!user ? "/" : "playlist"}
             >
               <FontAwesomeIcon className={classes.awesome} icon={faPlus} />
-              Create Playlist
+              My Playlist
             </NavLink>
           </div>
 
@@ -142,6 +158,10 @@ export default function Nav() {
                   type: "SET_NAV_REMINDER_MSG",
                   navReminderMsg: "love",
                 });
+                playerDispatch({
+                  type: "SET_IS_PLAYER",
+                  isPlayer: true,
+                });
               }
             }}
           >
@@ -155,7 +175,6 @@ export default function Nav() {
               Liked Songs
             </NavLink>
           </div>
-          
         </nav>
         <UserPlayList />
       </div>
