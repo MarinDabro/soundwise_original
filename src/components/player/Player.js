@@ -38,31 +38,3 @@ const Player = () => {
   );
 };
 export default Player;
-
-/* 
-const Player = () => {
-  const [player, playerDispatch] = useContext(PlayerContext);
-
-  return (
-    <div className={classes.player}>
-      <div className={classes["player-container"]}>
-        <PlayerTrackInfo />
-        <PlayerButton />
-
-        <FontAwesomeIcon
-          onClick={state => {
-            playerDispatch({
-              type: "SET_SEE_LYRICS",
-              seeLyrics: !state.seeLyrics,
-            });
-          }}
-          className={classes.lyrics}
-          icon={faBook}
-          title="Lyrics"
-        />
-      </div>
-    </div>
-  );
-};
-export default Player;
-*/

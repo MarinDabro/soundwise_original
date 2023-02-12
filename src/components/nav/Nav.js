@@ -11,21 +11,15 @@ import {
   faPlus,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
-/* import logo1 from '../media/soundwise2.png' */
 import classes from "../../components/nav/Nav.module.css";
 import MainContext from "../../context/MainContext.js";
 import DisplayContext from "../../context/DisplayContext.js";
 import { useContext } from "react";
 import UserPlayList from "../../routes/user_playList/UserPlayList";
-import PlayerContext from "../../context/PlayerContext";
 
 export default function Nav() {
-  const [STATE, DISPATCH] = useContext(MainContext);
-  const [{ playlists }, playerDispatch] = useContext(PlayerContext);
-
+  const [{ user, hashToken }, DISPATCH] = useContext(MainContext);
   const [{ navReminder }, dispatch] = useContext(DisplayContext);
-  /* const [player, playerDispatch] = useContext(PlayerContext); */
-  const { user, login, hashToken } = STATE;
   const [state, setState] = useState({ width: "15vw", height: "200" });
   return (
     <Resizable
@@ -50,14 +44,7 @@ export default function Nav() {
         </div>
 
         <nav className={classes.navLinks}>
-          <div
-            onClick={() => {
-              playerDispatch({
-                type: "SET_IS_PLAYER",
-                isPlayer: true,
-              });
-            }}
-          >
+          <div>
             <NavLink
               className={({ isActive }) =>
                 isActive ? `${classes.active}` : `${classes.link}`
@@ -78,10 +65,6 @@ export default function Nav() {
                 DISPATCH({
                   type: "SET_CAT_PLAYLIST",
                   catPlaylist: false,
-                });
-                playerDispatch({
-                  type: "SET_IS_PLAYER",
-                  isPlayer: true,
                 });
               }}
               to="search"
@@ -129,10 +112,6 @@ export default function Nav() {
                   type: "SET_NAV_REMINDER_MSG",
                   navReminderMsg: "playlist",
                 });
-                playerDispatch({
-                  type: "SET_IS_PLAYER",
-                  isPlayer: true,
-                });
               }
             }}
           >
@@ -140,10 +119,10 @@ export default function Nav() {
               className={({ isActive }) =>
                 isActive ? `${classes.active}` : `${classes.link}`
               }
-              to={!user ? "/" : "playlist"}
+              to={!user ? "/" : "myPlaylist"}
             >
               <FontAwesomeIcon className={classes.awesome} icon={faPlus} />
-              My Playlist
+              Playlist
             </NavLink>
           </div>
 
@@ -157,10 +136,6 @@ export default function Nav() {
                 dispatch({
                   type: "SET_NAV_REMINDER_MSG",
                   navReminderMsg: "love",
-                });
-                playerDispatch({
-                  type: "SET_IS_PLAYER",
-                  isPlayer: true,
                 });
               }
             }}

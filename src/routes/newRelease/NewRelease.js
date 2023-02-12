@@ -41,7 +41,8 @@ export default function NewRelease(props) {
       {newRelease && (
         <div className={style.albumContainer}>
           {newRelease?.albums?.items.map((album, index) => {
-            return (
+            /*             console.log("album for reminder", album);
+             */ return (
               <div key={index} className={style.albumBox}>
                 <NavLink
                   to="/album"
@@ -63,8 +64,8 @@ export default function NewRelease(props) {
                       songReminder: true,
                     });
                     dispatch({
-                      type: "SET_SONG_IMAGE",
-                      songImage: album,
+                      type: "SET_SONG_INFO",
+                      songInfo: album,
                     });
                   }}
                 >

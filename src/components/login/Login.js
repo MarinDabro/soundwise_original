@@ -25,7 +25,9 @@ function Login() {
       );
   };
   useEffect(() => {
-    getUser();
+    if (hashToken) {
+      getUser();
+    }
   }, [hashToken]);
 
   return (

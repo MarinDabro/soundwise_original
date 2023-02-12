@@ -33,21 +33,23 @@ export default function CurrentTrack() {
   useEffect(() => {
     getCurrentTrack();
   }, [hashToken, playerDispatch]);
-  return ( hashToken &&
-    <div>
-      {currentPlaying && (
-        <div className={classes.track}>
-          <div className={classes["track__image"]}>
-            <img src={currentPlaying.image} alt="currentPlaying" />
+  return (
+    hashToken && (
+      <div>
+        {currentPlaying && (
+          <div className={classes.track}>
+            <div className={classes["track__image"]}>
+              <img src={currentPlaying.image} alt="currentPlaying" />
+            </div>
+            <div className={classes["track__info"]}>
+              <h4 className={classes["track__name"]}>{currentPlaying.name}</h4>
+              <h6 className={classes["track__artists"]}>
+                {currentPlaying.artists.join(", ")}
+              </h6>
+            </div>
           </div>
-          <div className={classes["track__info"]}>
-            <h4 className={classes["track__name"]}>{currentPlaying.name}</h4>
-            <h6 className={classes["track__artists"]}>
-              {currentPlaying.artists.join(", ")}
-            </h6>
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    )
   );
 }

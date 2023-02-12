@@ -5,7 +5,7 @@ export const initialState = {
   navReminder: false,
   navReminderMsg: "",
   songReminder: false,
-  songImg: null,
+  songInfo: null,
 };
 
 export const displayReducer = (state, action) => {
@@ -46,10 +46,10 @@ export const displayReducer = (state, action) => {
         songReminder: action.songReminder,
       };
     }
-    case "SET_SONG_IMAGE": {
+    case "SET_SONG_INFO": {
       return {
         ...state,
-        songImage: action.songImage,
+        songInfo: action.songInfo,
       };
     }
     default: {

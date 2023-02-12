@@ -6,12 +6,10 @@
   position: fixed;
   top: 8rem;
 
-
   bottom: 0;
 
   color: white;
-  z-index: 5000;
-  overflow: hidden;
+  z-index: 50;
 }
 .main h1 {
   color: white;

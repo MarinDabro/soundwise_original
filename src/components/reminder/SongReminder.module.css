@@ -31,7 +31,7 @@ h5 {
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
-  background-color: var(--color-album-backGround);
+
   border-radius: 10px;
   background-image: linear-gradient(
     to right,

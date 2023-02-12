@@ -7,54 +7,29 @@ import PlayerContext from "./context/PlayerContext";
 
 import Nav from "./components/nav/Nav";
 import Home from "./routes/home/Home";
-import UserHome from "./routes/user_playList/UserPlayList";
+
 import Search from "./routes/search/Search";
 import Library from "./routes/library/Library";
-/* import Login from "../src/components/login/Login.js";  */
+
 import Songs from "./routes/songs/Songs";
 import CategoryTracks from "./routes/category-list/CategoryTracks";
 import Profile from "./routes/profile/Profile";
-import MyPlaylist from "./components/musicPlayer/MyPlaylist";
+import MyPlaylist from "./routes/playlist/Playlist";
 import MyPlayer from "./components/player/PlayerBody";
 import Player from "./components/player/Player";
+import TrackPlayer from "./components/trackPlayer/Player";
 import Artist from "./routes/artist/Artist";
 import Single from "./routes/single/Single";
 import ActiveAlbum from "./routes/activeAlbum/ActiveAlbum";
-/* import Album from "./routes/albums/Album"; */
+
 import classes from "./App.module.css";
-import { useToken } from "./spotify.js";
-import axios from "axios";
+
 import UserPlayList from "./routes/user_playList/UserPlayList";
 import PlayerBody from "./components/player/PlayerBody";
 
 function App() {
-  const [{ token, hashToken, user }, DISPATCH] = useContext(MainContext);
-  const [{ musicPlayer, isPlayer }, playerDispatch] = useContext(PlayerContext);
-
-  const searchParams = useToken();
-
-  useEffect(() => {
-    if (hashToken) {
-      const getPlaybackState = async () => {
-        const { data } = await axios.get(
-          "https://api.spotify.com/v1/me/player",
-          {
-            headers: {
-              Authorization: "Bearer " + hashToken,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        playerDispatch({
-          type: "SET_PLAYER_STATE",
-          playerState: data.is_playing,
-        });
-      };
-
-      getPlaybackState();
-    }
-  }, [playerDispatch, hashToken]);
-
+  const [{ hashToken, user }, DISPATCH] = useContext(MainContext);
+  const [{ isPlayer, trackPlayer }, playerDispatch] = useContext(PlayerContext);
   useEffect(() => {
     async function getData() {
       const hash = GetTokenFromResponse();
@@ -98,16 +73,15 @@ function App() {
 
   return (
     <div>
-      (
       <div className={classes.main}>
         <Nav />
         <div id="routes" className={classes.routes}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="search" element={<Search />} />
-            {user && <Route path="library" element={<Library />} />}
-            {user && <Route path="playlist" element={<MyPlaylist />} />}
-            {user && <Route path="songs" element={<Songs />} />}
+            {hashToken && <Route path="library" element={<Library />} />}
+            {hashToken && <Route path="playlist" element={<UserPlayList />} />}
+            {hashToken && <Route path="songs" element={<Songs />} />}
             <Route path="activePlaylist" element={<CategoryTracks />} />
             <Route path="album" element={<ActiveAlbum />} />
             <Route path="artist" element={<Artist />} />
@@ -115,10 +89,12 @@ function App() {
             <Route path="profile" element={<Profile />} />
             <Route path="player" element={<Player />} />
             <Route path="myPlayer" element={<MyPlayer />} />
+            <Route path="myPlaylist" element={<MyPlaylist />} />
+            {/*        <Route path="trackPlayer" element={<TrackPlayer />} /> */}
           </Routes>
         </div>
         {isPlayer && hashToken && <PlayerBody />}
-        {user && <UserPlayList />}
+        {hashToken && trackPlayer && <TrackPlayer />}
       </div>
       )
     </div>

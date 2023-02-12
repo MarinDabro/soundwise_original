@@ -1,6 +1,6 @@
 .player {
   display: flex;
-  width: 90%;
+  width: 100vw;
   height: 5.7rem;
   position: absolute;
   bottom: 0;

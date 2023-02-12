@@ -1,21 +1,27 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import classes from "../../routes/category-list/CategoryTracks.module.css";
 
 import { faHeart, faClock } from "@fortawesome/free-regular-svg-icons";
 import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ArtistsMap from "../../routes/components/artistsMap/ArtistsMap.js";
-import PlayerContext from "../../context/PlayerContext.js";
 
+import MainContext from "../../context/MainContext.js";
+import PlayerContext from "../../context/PlayerContext.js";
+import DisplayContext from "../../context/DisplayContext.js";
 import Songs from "../../routes/songs/Songs.js";
 
 import msToTime from "../../functions/timer.js";
 
 const TracksMap = ({ target, picture, artists, album, release, info }) => {
-  const [player, playerDispatch] = useContext(PlayerContext);
-  const { seeLyrics, context, playerState } = player;
+  const [{ hashToken }, DISPATCH] = useContext(MainContext);
+  const [{ seeLyrics, context, playerState }, playerDispatch] =
+    useContext(PlayerContext);
+  const [{ navReminder }, dispatch] = useContext(DisplayContext);
   const [isActive, setIsActive] = useState(-1);
+
+  const navigate = useNavigate();
 
   const realMap = target.tracks
     ? target.tracks.items
@@ -71,8 +77,6 @@ const TracksMap = ({ target, picture, artists, album, release, info }) => {
         )}
         {realMap?.map((track, index) => {
           const realTrack = track?.track?.id ? track.track : track;
-          /*  console.log('realTrack', realTrack) */
-
           return (
             <div
               key={index}
@@ -81,10 +85,26 @@ const TracksMap = ({ target, picture, artists, album, release, info }) => {
                 setIsActive(index);
               }}
               onDoubleClick={e => {
-                playerDispatch({
-                  type: "SET_CONTEXT",
-                  context: realTrack,
-                });
+                e.preventDefault();
+                if (!hashToken) {
+                  dispatch({
+                    type: "SET_SONG_REMINDER",
+                    songReminder: true,
+                  });
+                  dispatch({
+                    type: "SET_SONG_INFO",
+                    songInfo: realTrack,
+                  });
+                } else {
+                  playerDispatch({
+                    type: "SET_CONTEXT",
+                    context: realTrack,
+                  });
+                  playerDispatch({
+                    type: "SET_TRACK_PLAYER",
+                    trackPlayer: true,
+                  });
+                }
               }}
               className={`${isActive === index ? classes.active : ""} ${
                 classes["playlist-container"]
@@ -93,17 +113,10 @@ const TracksMap = ({ target, picture, artists, album, release, info }) => {
               <div className={classes.playlistInfo} key={index}>
                 <div className={classes.trackImg}>
                   <div className={classes["play-button"]}>
-                    {playerState ? (
-                      <FontAwesomeIcon
-                        className={classes["player-icon"]}
-                        icon={faPause}
-                      />
-                    ) : (
-                      <FontAwesomeIcon
-                        className={classes["player-icon"]}
-                        icon={faPlay}
-                      />
-                    )}
+                    <FontAwesomeIcon
+                      className={classes["player-icon"]}
+                      icon={faPlay}
+                    />
                   </div>
                   <div>{index + 1}</div>
                   {picture ? (

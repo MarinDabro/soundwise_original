@@ -8,6 +8,7 @@ import axios from "axios";
 export default function UserPlayList() {
   const [{ hashToken }, DISPATCH] = useContext(MainContext);
   const [{ playlists }, playerDispatch] = useContext(PlayerContext);
+
   //get data from playlist to play
   const getPlaylistData = async () => {
     const response = await axios.get(
@@ -34,19 +35,6 @@ export default function UserPlayList() {
       getPlaylistData();
     }
   }, [hashToken, playerDispatch]);
-
-  const changeCurrentPlaylist = selectedPlaylistId => {
-    console.log("my playlist id", selectedPlaylistId);
-
-    playerDispatch({
-      type: "SET_PLAYLISTS_ID",
-      selectedPlaylistId,
-    });
-    playerDispatch({
-      type: "SET_IS_PLAYER",
-      isPlayer: true,
-    });
-  };
 
   return (
     hashToken && (

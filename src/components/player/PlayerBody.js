@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import PlayerContext from "../../context/PlayerContext";
@@ -8,11 +9,13 @@ import MainContext from "../../context/MainContext";
 import classes from "./PlayerBody.module.css";
 import msToTime from "../../functions/timer.js";
 import Player from "./Player";
+import Songs from "../../routes/songs/Songs";
 
 export default function PlayerBody() {
   const [{ hashToken }, DISPATCH] = useContext(MainContext);
-  const [player, playerDispatch] = useContext(PlayerContext);
+  const [{ seeLyrics, context }, playerDispatch] = useContext(PlayerContext);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  const [isActive, setIsActive] = useState(-1);
 
   const location = useLocation();
   const selectedPlaylistId = location.state.id;
@@ -91,87 +94,120 @@ export default function PlayerBody() {
     }
   };
 
+  const ref = useRef(null);
+  useEffect(() => {
+    const handleOutsideClick = e => {
+      if (!ref?.current?.contains(e.target)) {
+        setIsActive(-1);
+      }
+    };
+    const timeoutId = setTimeout(() => {
+      document.addEventListener("click", handleOutsideClick, false);
+    }, 0);
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener("click", handleOutsideClick, false);
+    };
+  }, [isActive]);
+
   return (
     hashToken && (
-      <div className={classes.mainContainer}>
+      <div className={classes.main} translate="no">
         {selectedPlaylist && (
           <div>
-            <div className={classes.playlist}>
-              <div className={classes.image}>
-                <img src={selectedPlaylist.image} alt="selected playlist" />
-              </div>
-              <div className={classes.details}>
-                <span className={classes.type}>PLAYLIST</span>
-                <h1 className={classes.title}>{selectedPlaylist.name}</h1>
-                <p className={classes.description}>
-                  {selectedPlaylist.description}
-                </p>
-              </div>
-            </div>
-            <div>
-              <div className={classes["song-info"]}>
-                <div className={classes["song-title"]}>
-                  <div>#</div>
-                  <div>TITLE</div>
+            {seeLyrics ? (
+              <Songs songName={context.name} />
+            ) : (
+              <div>
+                <div className={classes.playlist}>
+                  <div className={classes.image}>
+                    <img src={selectedPlaylist.image} alt="selected playlist" />
+                  </div>
+                  <div className={classes.details}>
+                    <span className={classes.type}>PLAYLIST</span>
+                    <h1 className={classes.title}>{selectedPlaylist.name}</h1>
+                    <p className={classes.description}>
+                      {selectedPlaylist.description}
+                    </p>
+                  </div>
                 </div>
-                <div className={classes["song-album"]}>
-                  <span>ALBUM</span>
-                </div>
-                <div className={classes["song-time"]}>
-                  <FontAwesomeIcon icon={faClock} />
-                </div>
-              </div>
+                <div>
+                  <div className={classes["song-info"]}>
+                    <div className={classes["song-title"]}>
+                      <div>#</div>
+                      <div>TITLE</div>
+                    </div>
+                    <div className={classes["song-album"]}>
+                      <span>ALBUM</span>
+                    </div>
+                    <div className={classes["song-time"]}>
+                      <FontAwesomeIcon icon={faClock} />
+                    </div>
+                  </div>
 
-              {selectedPlaylist.tracks.map(
-                (
-                  {
-                    id,
-                    name,
-                    artists,
-                    image,
-                    duration,
-                    album,
-                    context_uri,
-                    track_number,
-                  },
-                  index
-                ) => {
-                  return (
-                    <div
-                      className={classes["playlist-container"]}
-                      key={id}
-                      onClick={() =>
-                        playTrack(
-                          id,
-                          name,
-                          artists,
-                          image,
-                          context_uri,
-                          track_number
-                        )
-                      }
-                    >
-                      <div className={classes.playlistInfo} key={index}>
-                        <div lassName={classes.trackImg}>
-                          <div>{index + 1} </div>
-                          <img src={image} alt="track" />
+                  {selectedPlaylist.tracks.map(
+                    (
+                      {
+                        id,
+                        name,
+                        artists,
+                        image,
+                        duration,
+                        album,
+                        context_uri,
+                        track_number,
+                      },
+                      index
+                    ) => {
+                      return (
+                        <div
+                          className={`${
+                            isActive === index ? classes.active : ""
+                          } ${classes["playlist-container"]} `}
+                          key={id}
+                          onClick={e => {
+                            e.stopPropagation();
+                            setIsActive(index);
+                          }}
+                          onDoubleClick={() => {
+                            playTrack(
+                              id,
+                              name,
+                              artists,
+                              image,
+                              context_uri,
+                              track_number
+                            );
+                            playerDispatch({
+                              type: "SET_TRACK_PLAYER",
+                              trackPlayer: false,
+                            });
+                          }}
+                        >
+                          <div className={classes.playlistInfo} key={index}>
+                            <div lassName={classes.trackImg}>
+                              <span>{index + 1} </span>
+                              <img src={image} alt="track" />
+                            </div>
+                          </div>
                           <div className={classes.trackInfo}>
-                            <span className={classes["track-nav"]}>{name}</span>
-                            <span>{artists}</span>
+                            <div className={classes["track-nav"]}>{name}</div>
+                            <div>{artists}</div>
+                          </div>
+
+                          <div className={classes["album-info"]}>
+                            <div className={classes["album-name"]}>{album}</div>
+                          </div>
+                          <div className={classes["track-duration"]}>
+                            <div>{msToTime(duration)[1]}</div>
                           </div>
                         </div>
-                      </div>
-                      <div className={classes["album-info"]}>
-                        <span className={classes["album-name"]}>{album}</span>
-                      </div>
-                      <div className={classes["track-duration"]}>
-                        <span>{msToTime(duration)[1]}</span>
-                      </div>
-                    </div>
-                  );
-                }
-              )}
-            </div>
+                      );
+                    }
+                  )}
+                </div>
+              </div>
+            )}
             <Player />
           </div>
         )}
