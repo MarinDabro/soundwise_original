@@ -144,7 +144,7 @@ export default function Nav() {
               className={({ isActive }) =>
                 isActive ? `${classes.active}` : `${classes.link}`
               }
-              to={!user ? "/" : "songs"}
+              to={!user ? "/" : "likedSong"}
             >
               <FontAwesomeIcon className={classes.awesome} icon={faHeart} />
               Liked Songs

@@ -10,6 +10,7 @@ export const initialState = {
   login: false,
   catPlaylist: false,
   hashToken: null,
+  songName: "",
 };
 
 export const mainReducer = (state, action) => {
@@ -38,11 +39,11 @@ export const mainReducer = (state, action) => {
         playListTracks: action.playListTracks,
       };
     }
-    case 'SET_PLAYLIST':{
-      return{
+    case "SET_PLAYLIST": {
+      return {
         ...state,
-        playlist: action.playlist
-      }
+        playlist: action.playlist,
+      };
     }
     case "SET_NEW_RELEASE": {
       return {
@@ -72,6 +73,12 @@ export const mainReducer = (state, action) => {
       return {
         ...state,
         catPlaylist: action.catPlaylist,
+      };
+    }
+    case "SET_SONG_NAME": {
+      return {
+        ...state,
+        songName: action.songName,
       };
     }
     default: {

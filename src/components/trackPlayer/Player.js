@@ -10,7 +10,6 @@ import PlayerButton from "./PlayerButton.js";
 
 const Player = () => {
   const [player, playerDispatch] = useContext(PlayerContext);
-  console.log("trackInfo", player.context);
   return (
     <div className={classes.player}>
       <div className={classes["player-container"]}>

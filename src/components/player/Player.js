@@ -9,7 +9,7 @@ import getDetails from '../../functions/getDetails.js';  */
 import CurrentTrack from "./CurrentTrack";
 import Volume from "./Volume";
 import PlayerButton from "./PlayerButton";
-
+import Bouncer from "../../functions/bouncer.js";
 const Player = () => {
   const [player, playerDispatch] = useContext(PlayerContext);
   const [{ hashToken }, DISPATCH] = useContext(MainContext);
@@ -17,6 +17,7 @@ const Player = () => {
   return (
     hashToken && (
       <div className={classes.player}>
+        <Bouncer dependencies={["playlist"]} />
         <div className={classes["player-container"]}>
           <CurrentTrack />
           <PlayerButton />

@@ -16,6 +16,7 @@ export default function PlayerBody() {
   const [{ seeLyrics, context }, playerDispatch] = useContext(PlayerContext);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const [isActive, setIsActive] = useState(-1);
+  const [songName, setSongName] = useState("");
 
   const location = useLocation();
   const selectedPlaylistId = location.state.id;
@@ -110,13 +111,14 @@ export default function PlayerBody() {
     };
   }, [isActive]);
 
+  console.log(selectedPlaylist);
   return (
     hashToken && (
       <div className={classes.main} translate="no">
         {selectedPlaylist && (
           <div>
             {seeLyrics ? (
-              <Songs songName={context.name} />
+              <Songs songName={songName} />
             ) : (
               <div>
                 <div className={classes.playlist}>
@@ -182,6 +184,7 @@ export default function PlayerBody() {
                               type: "SET_TRACK_PLAYER",
                               trackPlayer: false,
                             });
+                            setSongName(name);
                           }}
                         >
                           <div className={classes.playlistInfo} key={index}>

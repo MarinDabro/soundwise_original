@@ -22,7 +22,8 @@ import ChangeState from "./player-functions/changeState";
 
 export default function PlayerButton() {
   const [{ hashToken }, DISPATCH] = useContext(MainContext);
-  const [{ playerState }, playerDispatch] = useContext(PlayerContext);
+  const [player, playerDispatch] = useContext(PlayerContext);
+  const [playerState, setPlayerState] = useState(true);
 
   const headersParam = {
     "Content-Type": "application/json",
@@ -120,7 +121,10 @@ export default function PlayerButton() {
           onClick={() => changeTrack("previous")}
         />
       </div>
-      <div className={classes["play-button"]}>
+      <div
+        className={classes["play-button"]}
+        onClick={() => setPlayerState(!playerState)}
+      >
         {playerState ? (
           <FontAwesomeIcon
             className={classes["player-icon"]}

@@ -21,6 +21,7 @@ import TrackPlayer from "./components/trackPlayer/Player";
 import Artist from "./routes/artist/Artist";
 import Single from "./routes/single/Single";
 import ActiveAlbum from "./routes/activeAlbum/ActiveAlbum";
+import LikedSong from "./routes/likedSong/LikedSong";
 
 import classes from "./App.module.css";
 
@@ -90,7 +91,7 @@ function App() {
             <Route path="player" element={<Player />} />
             <Route path="myPlayer" element={<MyPlayer />} />
             <Route path="myPlaylist" element={<MyPlaylist />} />
-            {/*        <Route path="trackPlayer" element={<TrackPlayer />} /> */}
+            {<Route path="likedSong" element={<LikedSong />} />}
           </Routes>
         </div>
         {isPlayer && hashToken && <PlayerBody />}

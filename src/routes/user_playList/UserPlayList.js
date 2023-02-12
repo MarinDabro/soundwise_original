@@ -39,15 +39,18 @@ export default function UserPlayList() {
   return (
     hashToken && (
       <div className={classes.main}>
-        <ul>
-          {playlists?.map(({ name, id }) => {
-            return (
-              <NavLink key={id} to="/myPlayer" state={{ id: id }}>
-                {name}
-              </NavLink>
-            );
-          })}
-        </ul>
+        {playlists?.map(({ name, id }) => {
+          return (
+            <NavLink
+              key={id}
+              to="/myPlayer"
+              state={{ id: id }}
+              className={classes.navlink}
+            >
+              {name}
+            </NavLink>
+          );
+        })}
       </div>
     )
   );

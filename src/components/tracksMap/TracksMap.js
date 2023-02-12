@@ -113,10 +113,17 @@ const TracksMap = ({ target, picture, artists, album, release, info }) => {
               <div className={classes.playlistInfo} key={index}>
                 <div className={classes.trackImg}>
                   <div className={classes["play-button"]}>
-                    <FontAwesomeIcon
-                      className={classes["player-icon"]}
-                      icon={faPlay}
-                    />
+                    {isActive === index ? (
+                      <FontAwesomeIcon
+                        className={classes["player-icon"]}
+                        icon={faPause}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        className={classes["player-icon"]}
+                        icon={faPlay}
+                      />
+                    )}
                   </div>
                   <div>{index + 1}</div>
                   {picture ? (
