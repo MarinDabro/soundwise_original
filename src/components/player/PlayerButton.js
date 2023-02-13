@@ -51,23 +51,23 @@ export default function PlayerButton() {
   const changeState = async () => {
     const state = playerState ? "pause" : "play";
     if (hashToken) {
-      const deviceRes = await axios.get(
+      /* const deviceRes = await axios.get(
         "https://api.spotify.com/v1/me/player/devices ",
         {
           headers: headersParam,
         }
       );
-      const deviceId = deviceRes.data.devices[0].id;
-      /* /volume?volume_percent=55&device_id="${deviceId}" */
-      deviceId &&
-        (await axios.put(
-          `https://api.spotify.com/v1/me/player/${state}`,
+      const deviceId = deviceRes.data.devices[0].id; */
+      /* /volume?volume_percent=55&device_id="${deviceId}" 
+      deviceId &&*/
+      await axios.put(
+        `https://api.spotify.com/v1/me/player/${state}`,
 
-          {},
-          {
-            headers: headersParam,
-          }
-        ));
+        {},
+        {
+          headers: headersParam,
+        }
+      );
     }
     playerDispatch({
       type: "SET_PLAYER_STATE",

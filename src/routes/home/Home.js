@@ -66,7 +66,8 @@ export default function Home(props) {
           }
         />
       )}
-      {songReminder && !hashToken && <SongReminder />}
+      {/*       {songReminder && !hashToken && <SongReminder />}
+       */}{" "}
       {token !== "" && <NewRelease token={token} />}
       {token !== "" && <FeaturedPlaylists token={token} />}
     </div>

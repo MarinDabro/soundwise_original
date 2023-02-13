@@ -6,10 +6,9 @@ import style from "../MusicBox.module.css";
 //import Bouncer from "../../functions/bouncer.js";
 
 export default function NewRelease(props) {
-  const [STATE, DISPATCH] = useContext(MainContext);
+  const [{ newRelease, token, hashToken }, DISPATCH] = useContext(MainContext);
   const [{ navReminder }, dispatch] = useContext(DisplayContext);
   const navigate = useNavigate();
-  const { newRelease, token } = STATE;
   useEffect(() => {
     async function getNewRelease() {
       await fetch("https://api.spotify.com/v1/browse/new-releases?&limit=12", {
@@ -59,14 +58,16 @@ export default function NewRelease(props) {
                 </NavLink>
                 <button
                   onClick={() => {
-                    dispatch({
-                      type: "SET_SONG_REMINDER",
-                      songReminder: true,
-                    });
-                    dispatch({
-                      type: "SET_SONG_INFO",
-                      songInfo: album,
-                    });
+                    if (!hashToken) {
+                      dispatch({
+                        type: "SET_SONG_REMINDER",
+                        songReminder: true,
+                      });
+                      dispatch({
+                        type: "SET_SONG_INFO",
+                        songInfo: album,
+                      });
+                    }
                   }}
                 >
                   click
