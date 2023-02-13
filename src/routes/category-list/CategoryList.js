@@ -62,17 +62,7 @@ export default function CategoryList() {
                           alt="/ playlist_image"
                         />
                         <div className={classes['play-button']}>
-                          {playerState ? (
-                            <FontAwesomeIcon
-                              className={classes['player-icon']}
-                              icon={faPause}
-                            />
-                          ) : (
-                            <FontAwesomeIcon
-                              className={classes['player-icon']}
-                              icon={faPlay}
-                            />
-                          )}
+                       
                         </div>
                       </div>
                       <div className={style.albumName}>
