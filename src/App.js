@@ -11,7 +11,6 @@ import Nav from "./components/nav/Nav";
 import MyPlayer from "./components/player/PlayerBody";
 import Player from "./components/player/Player";
 
-
 import Home from "./routes/home/Home";
 import Search from "./routes/search/Search";
 import Library from "./routes/library/Library";
@@ -23,6 +22,7 @@ import Artist from "./routes/artist/Artist";
 import Single from "./routes/single/Single";
 import ActiveAlbum from "./routes/activeAlbum/ActiveAlbum";
 import LikedSong from "./routes/likedSong/LikedSong";
+import CurrentTrack from "./components/player/CurrentTrack";
 
 import classes from "./App.module.css";
 
@@ -32,9 +32,9 @@ import PlayerBody from "./components/player/PlayerBody";
 function App() {
   const [{ songReminder }, dispatch] = useContext(DisplayContext);
   const [{ hashToken, user }, DISPATCH] = useContext(MainContext);
-  const [{ isPlayer, trackPlayer }, playerDispatch] = useContext(PlayerContext);
+  const [{ playerState, trackPlayer }, playerDispatch] =
+    useContext(PlayerContext);
 
-  console.log(songReminder);
   useEffect(() => {
     async function getData() {
       const hash = GetTokenFromResponse();
@@ -99,10 +99,11 @@ function App() {
               <Route path="myPlayer" element={<MyPlayer />} />
               <Route path="myPlaylist" element={<MyPlaylist />} />
               {<Route path="likedSong" element={<LikedSong />} />}
+              <Route path="currentTrack" element={<CurrentTrack />} />
             </Routes>
           </div>
-          {isPlayer && hashToken && <PlayerBody />}
-          {hashToken && trackPlayer && <Player />}
+          {/*  {playerState && hashToken && <PlayerBody />} */}
+          {hashToken && <Player />}
         </div>
       ) : (
         <div className={classes["songReminder_container"]}>

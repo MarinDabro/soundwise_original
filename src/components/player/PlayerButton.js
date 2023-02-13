@@ -84,6 +84,10 @@ export default function PlayerButton() {
       }
     );
     playerDispatch({ type: "SET_PLAYER_STATE", playerState: true });
+    playerDispatch({
+      type: "SET_TRACK_PLAYER",
+      trackPlayer: false,
+    });
     const response1 = await axios.get(
       "https://api.spotify.com/v1/me/player/currently-playing",
       {

@@ -10,12 +10,14 @@ import getDetails from "../../functions/getDetails.js";
 import { useToken } from "../../spotify";
 
 export default function PlayerTrackInfo() {
-  const [player, playerDispatch] = useContext(PlayerContext);
-  const { context } = player;
+  const [{ context, currentPlaying }, playerDispatch] =
+    useContext(PlayerContext);
   const [trackInfo, setTrackInfo] = useState(null);
   const [artistInfo, setArtistInfo] = useState(null);
   const searchParams = useToken();
   const artist = context ? context?.artists[0] : false;
+
+  console.log("player track info", currentPlaying);
   useEffect(() => {
     const data = async () => {
       const routes = document.getElementById("routes");
@@ -47,7 +49,7 @@ export default function PlayerTrackInfo() {
             <img
               src={trackInfo?.album?.images[2].url}
               alt="/artist_image"
-            /*   style={{ width: "4rem", height: "4rem", margin: "0.7rem" }} */
+              /*   style={{ width: "4rem", height: "4rem", margin: "0.7rem" }} */
             />
           </div>
         </div>

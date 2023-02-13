@@ -6,10 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import PlayerContext from "../../context/PlayerContext";
 import MainContext from "../../context/MainContext";
-import classes from "./PlayerBody.module.css"; 
+import classes from "./PlayerBody.module.css";
 
 import msToTime from "../../functions/timer.js";
- import Player from "./Player"; 
+import Player from "./Player";
 import Songs from "../../routes/songs/Songs";
 
 export default function PlayerBody() {
@@ -21,6 +21,8 @@ export default function PlayerBody() {
 
   const location = useLocation();
   const selectedPlaylistId = location.state.id;
+
+  console.log("selectedPlaylistId:", selectedPlaylistId);
 
   const headerParams = {
     Authorization: "Bearer " + hashToken,
@@ -89,6 +91,7 @@ export default function PlayerBody() {
         artists,
         image,
       };
+      console.log("player body currentPlaying");
       playerDispatch({ type: "SET_PLAYING", currentPlaying });
       playerDispatch({ type: "SET_PLAYER_STATE", playerState: true });
     } else {
@@ -112,7 +115,6 @@ export default function PlayerBody() {
     };
   }, [isActive]);
 
-  console.log(selectedPlaylist);
   return (
     hashToken && (
       <div className={classes.main} translate="no">
@@ -181,10 +183,6 @@ export default function PlayerBody() {
                               context_uri,
                               track_number
                             );
-                            playerDispatch({
-                              type: "SET_TRACK_PLAYER",
-                              trackPlayer: false,
-                            });
                             setSongName(name);
                           }}
                         >
@@ -212,7 +210,7 @@ export default function PlayerBody() {
                 </div>
               </div>
             )}
-             <Player /> 
+            <Player />
           </div>
         )}
       </div>

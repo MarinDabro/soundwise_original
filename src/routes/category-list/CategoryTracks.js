@@ -24,11 +24,11 @@ export default function CategoryTracks() {
   const searchParams = useToken();
 
   useEffect(() => {
-    const routes = document.getElementById('routes')
+    const routes = document.getElementById("routes");
     routes.scrollTo({
       top: 0,
-      behavior: 'smooth'
-    })
+      behavior: "smooth",
+    });
 
     if (playlist) {
       getDetails(playlist.type, playlist.id, searchParams).then(res =>
@@ -59,7 +59,6 @@ export default function CategoryTracks() {
         </div>
       )}
       <Outlet />
-      
     </div>
   );
 }

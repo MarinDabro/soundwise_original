@@ -58,7 +58,7 @@ export default function Nav() {
           <div>
             <NavLink
               className={({ isActive }) =>
-                isActive ? `${classes.active}` : `${classes.link}`
+                !isActive ? `${classes.active}` : `${classes.link}`
               }
               //changing the status of categories to false to get back to main category page
               onClick={() => {

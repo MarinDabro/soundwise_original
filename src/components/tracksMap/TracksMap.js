@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import classes from "../../routes/category-list/CategoryTracks.module.css";
-
 import { faHeart, faClock } from "@fortawesome/free-regular-svg-icons";
 import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
