@@ -1,14 +1,14 @@
-import React, { useContext, useEffect } from "react";
+
+import React, { useContext, useEffect, useState } from "react";
 import MainContext from "../../context/MainContext";
 import PlayerContext from "../../context/PlayerContext";
 import { NavLink } from "react-router-dom";
 import classes from "./UserPlayList.module.css";
 import axios from "axios";
-
 export default function UserPlayList() {
   const [{ hashToken }, DISPATCH] = useContext(MainContext);
   const [{ playlists }, playerDispatch] = useContext(PlayerContext);
-
+  const [activeId, setActiveId] = useState(null);
   //get data from playlist to play
   const getPlaylistData = async () => {
     const response = await axios.get(
@@ -29,13 +29,11 @@ export default function UserPlayList() {
       playlists,
     });
   };
-
   useEffect(() => {
     if (hashToken) {
       getPlaylistData();
     }
   }, [hashToken, playerDispatch]);
-
   return (
     hashToken && (
       <div className={classes.main} translate="no">
@@ -45,7 +43,10 @@ export default function UserPlayList() {
               key={id}
               to="/activePlaylist"
               state={{ playlist: playlist }}
-              className={classes.navLink}
+              className={
+                activeId === id ? `${classes.active}` : `${classes.navLink}`
+              }
+              onClick={() => setActiveId(id)}
             >
               {playlist.name}
             </NavLink>
@@ -55,12 +56,6 @@ export default function UserPlayList() {
     )
   );
 }
-/* 
-  <NavLink
-            to="/activePlaylist"
-            state={{ playlist: playlist }}
-            key={index}
-          >
-            {playlist.name}
-          </NavLink>
-*/
+
+
+

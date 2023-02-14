@@ -13,7 +13,11 @@
   color: var(--color-green);
 }
 
-.navLink:hover, .active{
+.navLink:hover{
   color: white;
 }
 
+.active{
+  text-decoration: none;
+  color: white;
+}
