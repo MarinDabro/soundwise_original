@@ -1,6 +1,7 @@
 .main {
   width: 100%;
   color: white;
+  font-family:  Helvetica, sans-serif;
 }
 
 .header {
@@ -22,7 +23,6 @@
 }
 .header h4 {
   text-transform: uppercase;
-
   letter-spacing: 1;
   margin-left: 1rem;
   margin-top: 2.5rem;

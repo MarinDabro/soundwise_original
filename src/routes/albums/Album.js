@@ -182,21 +182,7 @@ export default function CategoryTracks() {
               src={singleAlbum?.images[1].url}
               alt="track_image"
             />
-            <div className={classes["play-button"]}>
-              {playerState ? (
-                <FontAwesomeIcon
-                  className={classes["player-icon"]}
-                  icon={faPause}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  className={classes["player-icon"]}
-                  icon={faPlay}
-                />
-              )}{" "}
-              {/* ===> On hover both the play button and the heart should be visible */}{" "}
-              {/* important */}
-            </div>
+       
             <div>
               <h4>{singleAlbum?.album_type}</h4>
               <h2>{singleAlbum?.name}</h2>
