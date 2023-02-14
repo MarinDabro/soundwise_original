@@ -3,8 +3,3 @@
     background-color: var( --color-backGround);
 }
 
-.login-button{
-    display: flex;
-    justify-content: flex-end;
-    margin: 1rem 1rem auto auto;
-}

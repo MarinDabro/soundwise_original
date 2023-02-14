@@ -44,7 +44,7 @@ export default function CategoryTracks() {
       {playlistInfo && (
         <div>
           <Bouncer dependencies={["playlist", playlist]} />
-          <div className={classes.headerNav}>The top nav</div>
+       
 
           <Header target={playlistInfo} />
 

@@ -1,4 +1,4 @@
-.main {
+.main{
   background-color: var(--color-backGround);
   display: flex;
   flex-direction: row;
@@ -19,3 +19,12 @@
   justify-content: center;
   align-items: center;
 }
+.login-button{
+  position: fixed;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 2rem auto auto;
+  z-index: 200
+}
+

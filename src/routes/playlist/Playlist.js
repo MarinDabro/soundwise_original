@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
-import "font-awesome/css/font-awesome.min.css";
-import axios from "axios";
-import MainContext from "../../context/MainContext";
-import classes from "./Playlist.module.css";
-import logo from "../../media/headphones-gradient.png";
-import fetchColor from "../../functions/getColor.js";
+import React, { useState, useEffect, useContext } from 'react';
+import 'font-awesome/css/font-awesome.min.css';
+import axios from 'axios';
+import MainContext from '../../context/MainContext';
+import classes from './Playlist.module.css';
+import logo from '../../media/headphones-gradient.png';
+import fetchColor from '../../functions/getColor.js';
 export default function MyPlaylist() {
   const [{ user, hashToken }, DISPATCH] = useContext(MainContext);
   const [colors, setColors] = useState(null);
@@ -17,8 +17,8 @@ export default function MyPlaylist() {
       await axios
         .get(`https://api.spotify.com/v1/users/${userId}/playlists`, {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + hashToken,
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + hashToken,
           },
         })
         .then(function (response) {
@@ -36,25 +36,22 @@ export default function MyPlaylist() {
       <div className={classes.main} translate="no">
         {colors && (
           <div>
-            <div translate="no" className={classes.headerNav}>
-              The CREATE PLAYLIST page
-            </div>
             <div
               className={classes.header}
               style={{
                 backgroundImage: `linear-gradient(to bottom left, ${
-                  colors ? colors[3] : "black"
-                },  ${colors ? colors[4] : "black"})`,
+                  colors ? colors[3] : 'black'
+                },  ${colors ? colors[4] : 'black'})`,
               }}
             >
               <div>
                 <img
-                  className={classes["album_cover"]}
+                  className={classes['album_cover']}
                   src={logo}
                   alt="logo_image"
                 />
               </div>
-              <div className={classes["banner_text"]}>
+              <div className={classes['banner_text']}>
                 <h4>PLAYLIST</h4>
                 <h1>My Playlist #{playlists > 0 ? playlists + 1 : 1}</h1>
                 <h5>{user.display_name} </h5>
@@ -63,7 +60,7 @@ export default function MyPlaylist() {
             <div className={classes.dotArea}>
               <h2>...</h2>
             </div>
-            <div className={classes["song-container"]}>
+            <div className={classes['song-container']}>
               <div>
                 <h3>Let's find something fro your playlist</h3>
               </div>

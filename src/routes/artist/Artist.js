@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import { useToken } from "../../spotify.js";
-import getDetails from "../../functions/getDetails.js";
+import { useToken } from '../../spotify.js';
+import getDetails from '../../functions/getDetails.js';
 
-import Header from "../components/header/Header.js";
-import TracksMap from "../../components/tracksMap/TracksMap.js";
-import PopularAlbums from "../artist/PopularAlbums.js";
-import RelatedArtists from "../artist/RelatedArtists.js";
-import Bouncer from "../../functions/bouncer.js";
+import Header from '../components/header/Header.js';
+import TracksMap from '../../components/tracksMap/TracksMap.js';
+import PopularAlbums from '../artist/PopularAlbums.js';
+import RelatedArtists from '../artist/RelatedArtists.js';
+import Bouncer from '../../functions/bouncer.js';
 
-import classes from "../category-list/CategoryTracks.module.css";
-import style from "./Artist.module.css";
+import classes from '../category-list/CategoryTracks.module.css';
+import style from './Artist.module.css';
 
 export default function Artist() {
   const { state } = useLocation();
@@ -33,10 +33,10 @@ export default function Artist() {
   }
 
   useEffect(() => {
-    const routes = document.getElementById("routes");
+    const routes = document.getElementById('routes');
     routes.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
     if (artistId) {
       getDetails(artist.type, artist.id, searchParams).then(res => {
@@ -47,7 +47,7 @@ export default function Artist() {
         artist.type,
         artist.id,
         searchParams,
-        "/top-tracks?country=DE&limit=10"
+        '/top-tracks?country=DE&limit=10'
       ).then(res => setPopularTrack(res));
     }
   }, [state]);
@@ -57,7 +57,6 @@ export default function Artist() {
       <Bouncer dependencies={[artist]} />
       {state && artistInfo && (
         <div translate="no">
-          <div className={classes.headerNav}>The ARTIST page</div>
           <Header target={artistInfo} />
           <div>
             {popularTrack && (
@@ -72,9 +71,9 @@ export default function Artist() {
             {popularTrack?.tracks.length > 5 && (
               <button
                 onClick={() => setShowMore(!showMore)}
-                className={style["show_btn"]}
+                className={style['show_btn']}
               >
-                {showMore ? "SHOW LESS" : "SEE MORE"}
+                {showMore ? 'SHOW LESS' : 'SEE MORE'}
               </button>
             )}
           </div>

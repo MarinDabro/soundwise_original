@@ -1,24 +1,24 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import "font-awesome/css/font-awesome.min.css";
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import 'font-awesome/css/font-awesome.min.css';
 
-import classes from "./Search.module.css";
-import MainContext from "../../context/MainContext";
-import DisplayContext from "../../context/DisplayContext";
-import style from "../MusicBox.module.css";
-import { useToken } from "../../spotify.js";
-import SearchNav from "./searchComponents/SearchNav.js";
-import SearchResults from "./searchComponents/SearchResults";
-import CategoryList from "../category-list/CategoryList";
+import classes from './Search.module.css';
+import MainContext from '../../context/MainContext';
+import DisplayContext from '../../context/DisplayContext';
+import style from '../MusicBox.module.css';
+import { useToken } from '../../spotify.js';
+import SearchNav from './searchComponents/SearchNav.js';
+import SearchResults from './searchComponents/SearchResults';
+import CategoryList from '../category-list/CategoryList';
 
 export default function Search() {
   const [STATE, DISPATCH] = useContext(MainContext);
   const [display, dispatch] = useContext(DisplayContext);
   const { albums, catPlaylist } = STATE;
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
   const [browseAll, setBrowseAll] = useState({});
   const [activeType, setActiveType] = useState(
-    "album,artist,playlist,track,show,episode,audiobook"
+    'album,artist,playlist,track,show,episode,audiobook'
   );
   const [activeCat, setActiveCat] = useState(false);
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function Search() {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          navigate("/");
+          navigate('/');
         } else {
           setBrowseAll(res);
         }
@@ -44,7 +44,7 @@ export default function Search() {
 
   const toHex = c => {
     const hex = c.toString(16);
-    return hex.length === 1 ? "0" + hex : hex;
+    return hex.length === 1 ? '0' + hex : hex;
   };
 
   const randomColor = () => {
@@ -57,20 +57,20 @@ export default function Search() {
 
   //using useEffect to refresh new input value
   useEffect(() => {
-    if (searchInput !== "") getSearch();
+    if (searchInput !== '') getSearch();
   }, [searchInput, activeType]);
 
   async function getSearch() {
     await fetch(
       `https://api.spotify.com/v1/search?q=${searchInput}&type=${activeType}&limit=${
-        activeType.length > 30 ? "7" : "49"
+        activeType.length > 30 ? '7' : '49'
       }`,
       searchParams
     )
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          navigate("/");
+          navigate('/');
         } else {
           setActiveCat(res);
         }
@@ -86,6 +86,7 @@ export default function Search() {
           className={`${classes.main} ${searchInput && classes.mainScroll}`}
           translate="no"
         >
+          <h3>Browse all</h3>
           <div className={classes.searchBar}>
             <input
               placeholder="&#xF002; What do you want to listen to"
@@ -100,7 +101,7 @@ export default function Search() {
           {searchInput && activeCat ? (
             <SearchResults activeCat={activeCat} activeType={activeType} />
           ) : (
-            ""
+            ''
           )}
           <div>
             {!searchInput ? (
@@ -115,17 +116,17 @@ export default function Search() {
                       //change category status to "true" to get to category playlist page and set cat_id and cat_name to send to playlist page
                       onClick={() => {
                         dispatch({
-                          type: "SET_CAT_NAME",
+                          type: 'SET_CAT_NAME',
                           catName: cat.name,
                         });
                         dispatch({
-                          type: "SET_CAT_ID",
+                          type: 'SET_CAT_ID',
                           catId: cat.id,
                         });
                         /*  setCatId(cat.id);
                         setCatName(cat.name); */
                         DISPATCH({
-                          type: "SET_CAT_PLAYLIST",
+                          type: 'SET_CAT_PLAYLIST',
                           catPlaylist: true,
                         });
                       }}

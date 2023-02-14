@@ -1,12 +1,18 @@
-.main {
+.main  {
   color: white;
+  
+   background-color:white;
+ 
+}
+
+.main, .login-button{
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 3rem;
-  width: 10rem;
+  height: 2.3rem;
+  width: 8.5rem;
   z-index: 1000;
-   background-color: rgb(28, 190, 28);
+  text-align: center;
   border-radius: 1.5rem;
 }
 
@@ -15,11 +21,41 @@
   height: 3rem;
 }
 
-.main > a {
-  text-align: center;
-  font-size: .7rem;
-  color: white;
+.main:hover{
+  background-color: rgb(28, 190, 28)
+}
+
+.main > a, .login-button > a {
+  
+  font-size: .6rem;
+  color: black;
   padding: 1rem;
   text-decoration: none;
  
+
+}
+
+
+.userImg{
+  overflow: hidden;
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 50%;
+ 
+}
+
+.login-button > a {
+  font-family:  Helvetica, sans-serif;
+  font-size: 1rem;
+}
+.login-button{
+  justify-content: space-between;
+  background-color: var(--color-orange);
+  color: white;
+  
+}
+
+.login-button:hover{
+  cursor: pointer;
+  background-color: var( --color-gold)
 }
