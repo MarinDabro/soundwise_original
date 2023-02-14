@@ -1,16 +1,11 @@
 export const initialState = {
   catId: "",
   catName: "",
-  tracks: null,
   playLists: null,
-  activePlaylist: null,
-  artistId: "",
-  singleId: "",
-  singleTrack: null,
-  artist: null,
-  profileID: null,
-  activeAlbum: null,
-  albumTracks: null,
+  navReminder: false,
+  navReminderMsg: "",
+  songReminder: false,
+  songInfo: null,
 };
 
 export const displayReducer = (state, action) => {
@@ -33,58 +28,28 @@ export const displayReducer = (state, action) => {
         catName: action.catName,
       };
     }
-    case "SET_TRACKS": {
+    case "SET_NAV_REMINDER": {
       return {
         ...state,
-        tracks: action.tracks,
+        navReminder: action.navReminder,
       };
     }
-    case "SET_ACTIVE_PLAYLIST": {
+    case "SET_NAV_REMINDER_MSG": {
       return {
         ...state,
-        activePlaylist: action.activePlaylist,
+        navReminderMsg: action.navReminderMsg,
       };
     }
-    case "SET_ALBUM_TRACKS": {
+    case "SET_SONG_REMINDER": {
       return {
         ...state,
-        albumTracks: action.albumTracks,
+        songReminder: action.songReminder,
       };
     }
-    case "SET_ACTIVE_ALBUM": {
+    case "SET_SONG_INFO": {
       return {
         ...state,
-        activeAlbum: action.activeAlbum,
-      };
-    }
-    case "SET_ARTIST_ID": {
-      return {
-        ...state,
-        artistId: action.artistId,
-      };
-    }
-    case "SET_SINGLE_ID": {
-      return {
-        ...state,
-        singleId: action.singleId,
-      };
-    }
-    case "SET_ARTIST": {
-      return {
-        ...state,
-        artist: action.artist,
-      };
-    }
-    case "SET_SINGLE_TRACK": {
-      return {
-        ...state,
-        singleTrack: action.singleTrack,
-      };
-    }
-    case "SET_PROFILE_ID": {
-      return {
-        ...state,
-        profileID: action.profileID,
+        songInfo: action.songInfo,
       };
     }
     default: {

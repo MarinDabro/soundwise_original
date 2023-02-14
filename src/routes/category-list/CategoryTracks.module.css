@@ -20,6 +20,11 @@
   margin-top: 3rem;
   font-size: calc(3rem + 2vw);
 }
+.header h4 {
+  letter-spacing: 1;
+  margin-left: 1rem;
+  font-size: calc(.1rem + 1vw);
+}
 
 .header img {
   width: 15rem;
@@ -45,6 +50,19 @@
   height: 0.2rem;
   background-color: white;
   border: 1px solid white;
+}
+
+.artist_info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.artist_image {
+  max-width: 2rem;
+  max-height: 2rem;
+  border-radius: 50%;
 }
 
 .profileLink {
@@ -85,6 +103,8 @@
 }
 
 .track-duration {
+  display:flex;
+  gap:.5rem;
   color: rgb(168, 162, 162);
 }
 
@@ -95,7 +115,6 @@
 
 .playlist-container:visited {
   color: white;
-
   border-radius: 2.5px;
 }
 
@@ -118,6 +137,14 @@
   color:white;
 }
 
+.moreInfo {
+  margin-bottom: 4rem;
+}
+
+.moreInfo h2 {
+  margin-bottom: 2rem;
+}
+
 .song-info {
   margin: 2rem 0;
   border-bottom: 1px solid gray;
@@ -131,6 +158,7 @@
   align-items: center;
 }
 
+
 .trackImg img {
   width: 3rem;
   height: 3rem;
@@ -139,6 +167,7 @@
 .trackInfo {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 0.3rem;
 }
 
@@ -172,5 +201,5 @@
 }
 
 .album-date {
-  width: 20%;
+  width: 17.5%;
 }

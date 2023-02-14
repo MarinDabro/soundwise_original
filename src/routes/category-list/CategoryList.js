@@ -1,17 +1,22 @@
-import React, { useContext } from "react";
-import { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useToken } from "../../spotify.js";
 import DisplayContext from "../../context/DisplayContext.js";
+import PlayerContext from "../../context/PlayerContext.js";
 import classes from "./CategoryList.module.css";
 import style from "../MusicBox.module.css";
-import { NavLink, Outlet } from "react-router-dom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
+//import Bouncer from "../../functions/bouncer.js";
 
 export default function CategoryList() {
   const searchParams = useToken();
-
+  const navigate = useNavigate();
+  const [player, playerDispatch] = useContext(PlayerContext);
   const [display, dispatch] = useContext(DisplayContext);
   const { playLists, catId, catName } = display;
+
+  const { context, playerState } = player;
 
   const getCatPlaylist = async () => {
     await fetch(
@@ -19,19 +24,24 @@ export default function CategoryList() {
       searchParams
     )
       .then(res => res.json())
-      .then(res =>
-        dispatch({
-          type: "SET_PLAYLISTS",
-          playLists: res,
-        })
-      );
+      .then(res => {
+        if (res.error) {
+          navigate("/");
+        } else {
+          dispatch({
+            type: "SET_PLAYLISTS",
+            playLists: res,
+          });
+        }
+      });
   };
   useEffect(() => {
+    window.scrollTo(0, 0);
     getCatPlaylist();
   }, []);
 
   return (
-    <div className={style.main}>
+    <div className={style.main} translate="no">
       <div>
         {playLists && (
           <div>
@@ -39,28 +49,38 @@ export default function CategoryList() {
             <div className={style.albumContainer}>
               {playLists?.playlists?.items?.map((playlist, index) => {
                 return (
-                  <NavLink
-                    to="/activePlaylist"
-                    onClick={() => {
-                      dispatch({
-                        type: "SET_ACTIVE_PLAYLIST",
-                        activePlaylist: playlist,
-                      });
-                    }}
-                    key={index}
-                    className={style.albumBox}
-                  >
-                    <div className={style.albumImage}>
-                      <img
-                        src={playlist.images[0].url}
-                        alt="/ playlist_image"
-                      />
-                    </div>
-                    <div className={style.albumName}>
-                      {playlist.name}
-                    </div>
-                    <div className={style.artistName}>{playlist.owner.display_name}</div>
-                  </NavLink>
+                  playlist && (
+                    <NavLink
+                      to="/activePlaylist"
+                      state={{ playlist: playlist }}
+                      key={index}
+                      className={style.albumBox}
+                    >
+                      <div className={style.albumImage}>
+                        <img
+                          src={playlist.images[0].url}
+                          alt="/ playlist_image"
+                        />
+                        <div className={classes["play-button"]}>
+                          {playerState ? (
+                            <FontAwesomeIcon
+                              className={classes["player-icon"]}
+                              icon={faPause}
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              className={classes["player-icon"]}
+                              icon={faPlay}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      <div className={style.albumName}>
+                        {playlist.description}
+                      </div>
+                      <div className={style.artistName}>{playlist.name}</div>
+                    </NavLink>
+                  )
                 );
               })}
             </div>

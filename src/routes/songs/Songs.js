@@ -1,7 +1,6 @@
-import React from 'react'
+import React from "react";
+import Lyrics from "../single/Lyrics";
 
-export default function Songs() {
-  return (
-    <div>Songs</div>
-  )
+export default function Songs({ songName }) {
+  return <div>{<Lyrics songName={songName} />}</div>;
 }

@@ -1,15 +1,44 @@
-import React from 'react'
-import classes from './Player.module.css'
-
-
+import React, { useContext } from "react";
+import classes from "./Player.module.css";
+import PlayerContext from "../../context/PlayerContext";
+import MainContext from "../../context/MainContext.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBook } from "@fortawesome/free-solid-svg-icons";
+/* import { useToken } from '../../spotify';
+import getDetails from '../../functions/getDetails.js';  */
+import CurrentTrack from "./CurrentTrack";
+import Volume from "./Volume";
+import PlayerButton from "./PlayerButton";
+import Bouncer from "../../functions/bouncer.js";
+import SoundwiseInfo from "./SoundwiseInfo";
 const Player = () => {
+  const [player, playerDispatch] = useContext(PlayerContext);
+  const [{ hashToken, firstLoad }, DISPATCH] = useContext(MainContext);
 
   return (
-    <div className={classes.player}>
-      hi
-
-    </div>
-  )
-}
-
-export default Player
+    hashToken && (
+      <div className={classes.player} translate="no">
+        <Bouncer dependencies={["playlist"]} />
+        <div className={classes["player-container"]}>
+          {firstLoad ? <SoundwiseInfo /> : <CurrentTrack />}
+          <PlayerButton />
+          <div className={classes["volume-lyrics"]}>
+            <FontAwesomeIcon
+              onClick={state => {
+                playerDispatch({
+                  type: "SET_SEE_LYRICS",
+                  seeLyrics: !state.seeLyrics,
+                });
+              }}
+              className={classes.lyrics}
+              icon={faBook}
+              title="Lyrics"
+            />
+            <Volume />
+          </div>
+        </div>
+      </div>
+    )
+  );
+};
+export default Player;

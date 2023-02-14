@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import logo from "../../media/headphones-gradient.png";
 import { NavLink, Outlet } from "react-router-dom";
+
 import { Resizable } from "re-resizable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,17 +11,19 @@ import {
   faPlus,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
-/* import logo1 from '../media/soundwise2.png' */
 import classes from "../../components/nav/Nav.module.css";
 import MainContext from "../../context/MainContext.js";
+import DisplayContext from "../../context/DisplayContext.js";
 import { useContext } from "react";
+import UserPlayList from "../../routes/user_playList/UserPlayList";
 
 export default function Nav() {
-  const [STATE, DISPATCH] = useContext(MainContext);
-
+  const [{ user, hashToken }, DISPATCH] = useContext(MainContext);
+  const [{ navReminder }, dispatch] = useContext(DisplayContext);
   const [state, setState] = useState({ width: "15vw", height: "200" });
   return (
     <Resizable
+      translate="yes"
       style={{ border: "1px solid black" }}
       minHeight="100vh"
       /* set minWidth to be wider */
@@ -34,9 +37,9 @@ export default function Nav() {
         });
       }}
     >
-      <div className={classes.main}>
+      <div className={classes.main} translate="no">
         <div className={classes.logo}>
-          <img src={logo} alt="logo" /> {/* move the width to css file  */}
+          <img src={logo} alt="logo" />
           <h2>Soundwise</h2>
         </div>
 
@@ -73,41 +76,82 @@ export default function Nav() {
               Search
             </NavLink>
           </div>
-          <div>
+          <div
+            onClick={() => {
+              if (!hashToken) {
+                dispatch({
+                  type: "SET_NAV_REMINDER",
+                  navReminder: true,
+                });
+                dispatch({
+                  type: "SET_NAV_REMINDER_MSG",
+                  navReminderMsg: "library",
+                });
+              }
+            }}
+          >
             <NavLink
               className={({ isActive }) =>
                 isActive ? `${classes.active}` : `${classes.link}`
               }
-              to="library"
+              to={!user ? "/" : "library"}
             >
               <FontAwesomeIcon className={classes.awesome} icon={faBookOpen} />
               Library
             </NavLink>
           </div>
 
-          <div>
+          <div
+            onClick={() => {
+              if (!hashToken) {
+                dispatch({
+                  type: "SET_NAV_REMINDER",
+                  navReminder: true,
+                });
+                dispatch({
+                  type: "SET_NAV_REMINDER_MSG",
+                  navReminderMsg: "playlist",
+                });
+              }
+            }}
+          >
             <NavLink
               className={({ isActive }) =>
                 isActive ? `${classes.active}` : `${classes.link}`
               }
-              to="playlist"
+              to={!user ? "/" : "myPlaylist"}
             >
               <FontAwesomeIcon className={classes.awesome} icon={faPlus} />
-              Create Playlist
+              Playlist
             </NavLink>
           </div>
-          <div>
+
+          <div
+            onClick={() => {
+              if (!hashToken) {
+                dispatch({
+                  type: "SET_NAV_REMINDER",
+                  navReminder: true,
+                });
+                dispatch({
+                  type: "SET_NAV_REMINDER_MSG",
+                  navReminderMsg: "love",
+                });
+              }
+            }}
+          >
             <NavLink
               className={({ isActive }) =>
                 isActive ? `${classes.active}` : `${classes.link}`
               }
-              to="songs"
+              to={!user ? "/" : "likedSong"}
             >
               <FontAwesomeIcon className={classes.awesome} icon={faHeart} />
               Liked Songs
             </NavLink>
           </div>
         </nav>
+        <UserPlayList />
       </div>
       <Outlet />
     </Resizable>

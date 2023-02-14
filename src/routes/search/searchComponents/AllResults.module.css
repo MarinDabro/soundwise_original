@@ -17,6 +17,8 @@
   padding: 2rem;
   border-radius: 10px;
   background-color: var(--color-album-backGround);
+  color: white;
+  text-decoration: none;
 }
 .top-artist:hover {
   background-color: var(--color-backGround-hover);

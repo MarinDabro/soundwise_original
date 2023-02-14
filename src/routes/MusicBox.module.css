@@ -15,7 +15,8 @@
 
 .albumContainer{
     display: flex;
-    justify-content: center;
+    justify-content: left;
+    gap: auto;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1rem;
@@ -77,3 +78,6 @@
 .artistImage img {
   border-radius: 50%;
 }
+
+/* ===> player button on music box  */
+

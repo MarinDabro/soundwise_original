@@ -1,221 +1,147 @@
-import React, { useContext } from "react";
-import { useEffect, useState } from "react";
-import { useToken } from "../../spotify.js";
-import DisplayContext from "../../context/DisplayContext.js";
-import classes from "./Single.module.css";
-import { NavLink, Outlet } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
+import React, { useEffect, useState, useContext } from "react";
+import { useLocation } from "react-router-dom";
 
-import { prominent } from "color.js";
+import Lyrics from "./Lyrics.js";
+import Header from "../components/header/Header.js";
+import TracksMap from "../../components/tracksMap/TracksMap.js";
+import PopularAlbums from "../artist/PopularAlbums.js";
+import RelatedArtists from "../artist/RelatedArtists.js";
+
+import getDetails from "../../functions/getDetails.js";
+import fetchColor from "../../functions/getColor.js";
+import { useToken } from "../../spotify.js";
+
+import style from "./Single.module.css";
+import classes from "../category-list/CategoryTracks.module.css";
+
 import Bouncer from "../../functions/bouncer.js";
-import { useRef } from "react";
+import PlayerContext from "../../context/PlayerContext";
+import Songs from "../songs/Songs.js";
 
 export default function Single() {
-  const [display, dispatch] = useContext(DisplayContext);
-  const { tracks, activePlaylist } = display;
-  const [colors, setColors] = useState(null);
-  const [duration, setDuration] = useState("");
-  const [isActive, setIsActive] = useState(-1);
+  //for the lyrics to pop up
+  const [{ seeLyrics, context }, playerDispatch] = useContext(PlayerContext);
 
-  const trackId = activePlaylist?.id;
-  const trackName = activePlaylist?.name;
-  //search params for fetching data
+  const { state } = useLocation();
+  const { track } = state;
+
+  const [trackInfo, setTrackInfo] = useState(null);
+  const [artistInfo, setArtistInfo] = useState(null);
+  const [albumInfo, setAlbumInfo] = useState(null);
+  const [popularTrack, setPopularTrack] = useState(null);
+  const [showMore, setShowMore] = useState(false);
+  const [colors, setColors] = useState(null);
+
   const searchParams = useToken();
 
-  //convert duration time to hours and minutes
-  function msToTime(ms) {
-    let d, h, m, s;
+  const realTrack = track.track ? track.track : track;
+  const songName = realTrack?.name;
+  const artist = track.artists[0];
 
-    s = Math.floor(ms / 1000);
-    m = Math.floor(s / 60);
-    s = s % 60;
-    h = Math.floor(m / 60);
-    m = m % 60;
-    d = Math.floor(h / 24);
-    h = h % 24;
-    h += d * 24;
-    const duration = h + " h " + m + " min";
-    if (s < 10) {
-      s = "0" + s;
-    }
-    const trackTime = m + ":" + s;
-    return [duration, trackTime];
+  let trackArr = [];
+  if (popularTrack) {
+    trackArr = showMore
+      ? popularTrack?.tracks.slice(0, 10)
+      : popularTrack?.tracks.slice(0, 5);
   }
 
-  //store the colors from album cover
-  const fetchColor = async () => {
-    prominent(activePlaylist?.images[0]?.url, {
-      format: "hex",
-
-      amount: 5,
-    }).then(color => {
-      setColors(color);
-    });
-  };
-
-  const getCatTracks = async () => {
-    await fetch(`https://api.spotify.com/v1/playlists/${trackId}`, searchParams)
-      .then(res => res.json())
-      .then(res => {
-        let timeCounter = 0;
-        res.tracks.items.map(track => {
-          timeCounter += track.track.duration_ms;
-          const durationTime = msToTime(timeCounter);
-          setDuration(durationTime[0]);
-          return durationTime;
-        });
-        dispatch({
-          type: "SET_TRACKS",
-          tracks: res,
-        });
-      });
+  const getInfo = async () => {
+    const newTrack = await getDetails("track", track.id, searchParams).then(
+      res => res
+    );
+    setTrackInfo(newTrack);
+    await fetchColor(newTrack.album.images[0].url).then(res => setColors(res));
+    await getDetails("album", newTrack.album.id, searchParams).then(res =>
+      setAlbumInfo(res)
+    );
+    await getDetails("artist", artist.id, searchParams).then(res =>
+      setArtistInfo(res)
+    );
+    await getDetails(
+      "artist",
+      artist.id,
+      searchParams,
+      "/top-tracks?country=DE&limit=10"
+    ).then(res => setPopularTrack(res));
   };
 
   useEffect(() => {
-    if (trackId) {
-      getCatTracks();
-      fetchColor();
+    const routes = document.getElementById("routes");
+    routes.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (artist.id) {
+      getInfo();
     }
-    fetch(
-      `https://www.stands4.com/services/v2/lyrics.php?uid=1001&tokenid=tk324324&term=forever%20young&artist=Alphaville&format=xml`
-    )
-      .then(res => res.json())
-      .then(res => console.log(res));
-  }, []);
+  }, [track]);
 
-  // handle selected track to be active and lost focus by click outside of playlist
-  const ref = useRef(null);
-  useEffect(() => {
-    const handleOutsideClick = e => {
-      if (!ref?.current?.contains(e.target)) {
-        setIsActive(-1);
-      }
-    };
-    const timeoutId = setTimeout(() => {
-      document.addEventListener("click", handleOutsideClick, false);
-    }, 0);
-    return () => {
-      clearTimeout(timeoutId);
-      document.removeEventListener("click", handleOutsideClick, false);
-    };
-  }, [isActive]);
-
-  return (
+  return seeLyrics ? (
+    <Songs songName={context.name} />
+  ) : (
     <div className={classes.main}>
-      {tracks && colors && activePlaylist && (
+      {track && colors && artistInfo && (
         <div>
-          <Bouncer dependencies={[activePlaylist]} />
-          <div className={classes.headerNav}>The SINGLE page</div>
-          <div
-            className={classes.header}
-            style={{
-              backgroundImage: `linear-gradient(to bottom left, ${colors[3]},  ${colors[4]})`,
-            }}
-          >
-            <img src={activePlaylist.images[0].url} alt="track_image" />
-            <div>
-              <h2>{trackName}</h2>
-              <div className={classes.headerInfo}>
-                <p>{activePlaylist.description}</p>
-                <div>
-                  <NavLink className={classes.profileLink} to="/profile">
-                    Spotify
-                  </NavLink>
-                  <span></span>
-                  <p>{tracks.followers.total} likes </p>
-                  <span></span>
-                  <p>about {duration}</p>
-                </div>
+          <Bouncer dependencies={["single", track]} />
+          <div translate="no" className={classes.headerNav}>
+            The SINGLE page
+          </div>
+          <Header
+            target={albumInfo}
+            artistInfo={artistInfo}
+            songInfo={realTrack}
+          />
+          <TracksMap
+            target={[track]}
+            artists={true}
+            info={true}
+            release={true}
+            album={albumInfo}
+          />
+          <div className={style["song-container"]}>
+            <Lyrics colors={colors} songName={realTrack.name} />
+            <div translate="no" className={style["artist_info"]}>
+              <img
+                src={artistInfo.images[1].url}
+                alt="artist_image"
+                className={style["artist_profile_image"]}
+              />
+              <div translate="no">
+                <h5 style={{ padding: "0.5rem 0" }}>ARTIST</h5>
+                <h4> {artistInfo.name}</h4>
               </div>
             </div>
           </div>
-          <div>
-            <div className={classes.mainContainer}>
-              <div className={classes["song-info"]}>
-                <div className={classes["song-title"]}>
-                  <div>#</div>
-                  <div>TITLE</div>
-                </div>
-                <div className={classes["song-album"]}>ALBUM</div>
-                <div className={classes["song-release"]}>RELEASE DATE</div>
-                <div className={classes["song-time"]}>
-                  <FontAwesomeIcon icon={faClock} />
-                </div>
-              </div>
-              {tracks?.tracks?.items.map((track, index) => {
-                return (
-                  <div
-                    key={index}
-                    onClick={e => {
-                      e.stopPropagation();
-                      setIsActive(index);
-                    }}
-                    className={`${isActive === index ? classes.active : ""} ${
-                      classes["playlist-container"]
-                    } `}
-                    /*       onFocus={e => e.target.classList.add(classes.active)}
-                    onBlur={e => e.target.classList.remove(classes.active)} */
-                  >
-                    <div className={classes.playlistInfo} key={index}>
-                      <div className={classes.trackImg}>
-                        <div>{index + 1}</div>
-                        {
-                          <img
-                            src={track.track.album.images[2].url}
-                            alt="playlist_image"
-                          />
-                        }
-                      </div>
-                      <div className={classes.trackInfo}>
-                        <NavLink
-                        className={classes['track-nav']}
-                          to="/single"
-                          onClick={() => {
-                            dispatch({
-                              type: "SET_SINGLE_TRACK",
-                              singleTrack: track,
-                            });
-                          }}
-                        >
-                          {track.track.name}
-                        </NavLink>
-                        <div>
-                          {" "}
-                          {track.track.artists.map((artist, index) => {
-                            return (
-                              <NavLink
-                              
-                              className={classes['track-navName']}
-                                to="/artist"
-                                key={index}
-                                onClick={() => {
-                                  dispatch({
-                                    type: "SET_ARTIST_ID",
-                                    artistId: artist.id,
-                                  });
-                                }}
-                              >
-                                {(index ? "," : "") + artist.name}
-                              </NavLink>
-                            );
-                          })}{" "}
-                        </div>
-                      </div>
-                    </div>
-                    <div className={classes["album-info"]}>
-                      <div>{track.track.album.name}</div>
-                    </div>
-                    <div className={classes["album-date"]}>
-                      {track.track.album.release_date}
-                    </div>{" "}
-                    <div className={classes["track-duration"]}>
-                      {msToTime(track.track.duration_ms)[1]}
-                    </div>
-                  </div>
-                );
-              })}
+          <div translate="no">
+            <div className={style["popular_track"]}>
+              <p>Popular Tracks by</p>
+              <h3>{artistInfo.name}</h3>
             </div>
+            {popularTrack && (
+              <TracksMap
+                target={trackArr}
+                picture={true}
+                artists={true}
+                album={true}
+                release={true}
+                info={true}
+              />
+            )}
+            {popularTrack?.tracks.length > 5 && (
+              <button
+                onClick={() => setShowMore(!showMore)}
+                className={style["show_btn"]}
+              >
+                {showMore ? "SHOW LESS" : "SEE MORE"}
+              </button>
+            )}
+          </div>
+          <div className={classes.moreInfo} translate="no">
+            <h2>{artistInfo.name}'s Albums</h2>
+            <PopularAlbums artistId={artistInfo.id} />
+          </div>
+
+          <div className={classes.moreInfo} translate="no">
+            <h2>{artistInfo.name} Related Artists</h2>
+            <RelatedArtists artistId={artistInfo.id} />
           </div>
         </div>
       )}
