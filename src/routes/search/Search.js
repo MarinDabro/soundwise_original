@@ -82,7 +82,10 @@ export default function Search() {
       {catPlaylist ? (
         <CategoryList />
       ) : (
-        <div className={`${classes.main} ${searchInput && classes.mainScroll}`}>
+        <div
+          className={`${classes.main} ${searchInput && classes.mainScroll}`}
+          translate="no"
+        >
           <div className={classes.searchBar}>
             <input
               placeholder="&#xF002; What do you want to listen to"

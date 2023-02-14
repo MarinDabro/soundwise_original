@@ -21,11 +21,11 @@ export default function ActiveAlbum() {
   const searchParams = useToken();
 
   useEffect(() => {
-    const routes = document.getElementById('routes')
+    const routes = document.getElementById("routes");
     routes.scrollTo({
       top: 0,
-      behavior: 'smooth'
-    })
+      behavior: "smooth",
+    });
     if (album) {
       getDetails(album.type, album.id, searchParams).then(res =>
         setAlbumInfo(res)
@@ -37,7 +37,7 @@ export default function ActiveAlbum() {
   }, [album]);
 
   return (
-    <div className={classes.main}>
+    <div className={classes.main} translate="no">
       {albumInfo && artistInfo && (
         <div>
           <Bouncer dependencies={["album", album]} />

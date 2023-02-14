@@ -33,15 +33,14 @@ export default function Artist() {
   }
 
   useEffect(() => {
-    const routes = document.getElementById('routes')
+    const routes = document.getElementById("routes");
     routes.scrollTo({
       top: 0,
-      behavior: 'smooth'
-    })
+      behavior: "smooth",
+    });
     if (artistId) {
       getDetails(artist.type, artist.id, searchParams).then(res => {
         setArtistInfo(res);
-        
       });
 
       getDetails(
@@ -54,10 +53,10 @@ export default function Artist() {
   }, [state]);
 
   return (
-    <div className={classes.main}>
+    <div className={classes.main} translate="no">
       <Bouncer dependencies={[artist]} />
       {state && artistInfo && (
-        <div>
+        <div translate="no">
           <div className={classes.headerNav}>The ARTIST page</div>
           <Header target={artistInfo} />
           <div>

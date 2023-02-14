@@ -1,19 +1,23 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from "react-router-dom";
 
-import msToTime from '../../../functions/timer.js';
-import style from '../../MusicBox.module.css';
+import msToTime from "../../../functions/timer.js";
+import style from "../../MusicBox.module.css";
 
 const PlaylistResults = ({ playlists }) => {
   const returnDuration = playlist => {
     return `${playlist.release_date
       .slice(0, 7)
-      .split('-')
+      .split("-")
       .reverse()
-      .join(' ')} - ${msToTime(playlist.duration_ms)[0]}`;
+      .join(" ")} - ${msToTime(playlist.duration_ms)[0]}`;
   };
 
   return (
-    <div className={style.main} style={{marginTop: 0, marginBottom: 0, paddingBottom: 0}}>
+    <div
+      className={style.main}
+      style={{ marginTop: 0, marginBottom: 0, paddingBottom: 0 }}
+      translate="no"
+    >
       <div>
         {playlists && (
           <div>
@@ -22,12 +26,12 @@ const PlaylistResults = ({ playlists }) => {
                 return (
                   <NavLink
                     to={
-                      playlist.type === 'playlist'
-                        ? '/activePlaylist'
-                        : '/album'
+                      playlist.type === "playlist"
+                        ? "/activePlaylist"
+                        : "/album"
                     }
                     state={
-                      playlist.type === 'playlist'
+                      playlist.type === "playlist"
                         ? {
                             playlist: playlist,
                           }
@@ -49,11 +53,11 @@ const PlaylistResults = ({ playlists }) => {
                         ? playlist.owner.display_name
                         : playlist.artists
                         ? playlist?.artists?.map(
-                            (artist, i) => `${i > 0 ? ', ' : ''}${artist.name}`
+                            (artist, i) => `${i > 0 ? ", " : ""}${artist.name}`
                           )
                         : playlist.authors
                         ? playlist?.authors?.map(
-                            (author, i) => `${i > 0 ? ', ' : ''}${author.name}`
+                            (author, i) => `${i > 0 ? ", " : ""}${author.name}`
                           )
                         : returnDuration(playlist)}
                     </div>

@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
-import DisplayContext from '../../../context/DisplayContext.js';
-import style from '../../MusicBox.module.css';
+import React, { useContext } from "react";
+import { NavLink, Outlet } from "react-router-dom";
+import DisplayContext from "../../../context/DisplayContext.js";
+import style from "../../MusicBox.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
@@ -9,7 +9,11 @@ const ArtistsResults = ({ artists }) => {
   const [state, dispatch] = useContext(DisplayContext);
 
   return (
-    <div className={style.main} style={{marginTop: 0, marginBottom: 0, paddingBottom: 0}}>
+    <div
+      className={style.main}
+      style={{ marginTop: 0, marginBottom: 0, paddingBottom: 0 }}
+      translate="no"
+    >
       <div>
         {artists && (
           <div>
@@ -18,15 +22,12 @@ const ArtistsResults = ({ artists }) => {
                 return (
                   <NavLink
                     to="/artist"
-                    state={{artist}}
+                    state={{ artist }}
                     key={index}
                     className={style.albumBox}
                   >
                     <div className={`${style.albumImage} ${style.artistImage}`}>
-                      <img
-                        src={artist?.images[0]?.url}
-                        alt="/artist_image"
-                      />
+                      <img src={artist?.images[0]?.url} alt="/artist_image" />
                     </div>
                     <div className={style.albumName} title={`${artist.name}`}>
                       {artist.name}

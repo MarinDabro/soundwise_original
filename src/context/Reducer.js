@@ -10,6 +10,7 @@ export const initialState = {
   login: false,
   catPlaylist: false,
   hashToken: null,
+  firstLoad: true,
 };
 
 export const mainReducer = (state, action) => {
@@ -74,7 +75,12 @@ export const mainReducer = (state, action) => {
         catPlaylist: action.catPlaylist,
       };
     }
-
+    case "SET_FIRST_LOAD": {
+      return {
+        ...state,
+        firstLoad: action.firstLoad,
+      };
+    }
     default: {
       return state;
     }

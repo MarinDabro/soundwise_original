@@ -28,7 +28,11 @@ export default function RelatedArtists({ artistId }) {
   }, [artistId]);
 
   return (
-    <div className={style.main} style={{marginTop: 0, marginBottom: 0, paddingBottom: 0}}>
+    <div
+      className={style.main}
+      style={{ marginTop: 0, marginBottom: 0, paddingBottom: 0 }}
+      translate="no"
+    >
       <div>
         {relatedArtist && (
           <div>

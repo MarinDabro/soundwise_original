@@ -29,14 +29,18 @@ export default function PopularAlbums({ artistId }) {
   }, [artistId]);
 
   return (
-    <div className={style.main} style={{marginTop: 0, marginBottom: 0, paddingBottom: 0}}>
-        {albums && (
-          <div>
-            <div className={style.albumContainer}>
-              <PlaylistResults playlists={albums}/>
-            </div>
+    <div
+      className={style.main}
+      style={{ marginTop: 0, marginBottom: 0, paddingBottom: 0 }}
+      translate="no"
+    >
+      {albums && (
+        <div translate="no">
+          <div className={style.albumContainer}>
+            <PlaylistResults playlists={albums} />
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 }

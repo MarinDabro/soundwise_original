@@ -1,13 +1,13 @@
-import React, { useEffect, useContext } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import DisplayContext from '../../context/DisplayContext.js';
-import MainContext from '../../context/MainContext';
-import PlayerContext from '../../context/PlayerContext.js';
-import style from '../MusicBox.module.css';
-import classes from '../../components/player/PlayerButton.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import React, { useEffect, useContext } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import DisplayContext from "../../context/DisplayContext.js";
+import MainContext from "../../context/MainContext";
+import PlayerContext from "../../context/PlayerContext.js";
+import style from "../MusicBox.module.css";
+import classes from "../../components/player/PlayerButton.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 //import Bouncer from "../../functions/bouncer.js";
 
 export default function NewRelease(props) {
@@ -17,21 +17,21 @@ export default function NewRelease(props) {
   const navigate = useNavigate();
   useEffect(() => {
     async function getNewRelease() {
-      await fetch('https://api.spotify.com/v1/browse/new-releases?&limit=12', {
-        method: 'GET',
-        accept: 'application/json',
+      await fetch("https://api.spotify.com/v1/browse/new-releases?&limit=12", {
+        method: "GET",
+        accept: "application/json",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       })
         .then(res => res.json())
         .then(res => {
           if (res.error) {
-            navigate('/');
+            navigate("/");
           } else {
             DISPATCH({
-              type: 'SET_NEW_RELEASE',
+              type: "SET_NEW_RELEASE",
               newRelease: res,
             });
           }
@@ -41,7 +41,7 @@ export default function NewRelease(props) {
   }, []);
 
   const changeState = async () => {
-    const state = playerState ? 'pause' : 'play';
+    const state = playerState ? "pause" : "play";
     if (hashToken) {
       /* const deviceRes = await axios.get(
         "https://api.spotify.com/v1/me/player/devices ",
@@ -62,20 +62,20 @@ export default function NewRelease(props) {
       );
     }
     playerDispatch({
-      type: 'SET_PLAYER_STATE',
+      type: "SET_PLAYER_STATE",
       playerState: !playerState,
     });
   };
   const headersParam = {
-    'Content-Type': 'application/json',
-    Authorization: 'Bearer ' + hashToken,
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + hashToken,
   };
 
   return (
-    <div className={style.main}>
+    <div className={style.main} translate="no">
       <h2>New Releases</h2>
       {newRelease && (
-        <div className={style.albumContainer}>
+        <div className={style.albumContainer} translate="no">
           {newRelease?.albums?.items.map((album, index) => {
             /*             console.log("album for reminder", album);
              */ return (
@@ -87,7 +87,6 @@ export default function NewRelease(props) {
                 >
                   <div className={style.albumImage}>
                     <img src={album.images[1].url} alt="/artist_image" />
-                   
                   </div>
                   <div className={style.albumName}>{album.name}</div>
                   <div className={style.artistName}>

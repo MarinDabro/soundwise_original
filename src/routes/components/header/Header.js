@@ -35,13 +35,14 @@ const Header = ({ target, artistInfo, songInfo }) => {
               colors ? colors[3] : "black"
             },  ${colors ? colors[4] : "black"})`,
           }}
+          translate="no"
         >
           <img
             className={classes["album_cover"]}
             src={target?.images[0]?.url}
             alt="track_image"
           />
-          <div>
+          <div translate="no">
             <h2>{songInfo && songInfo.name ? songInfo.name : target.name}</h2>
             {songInfo ? <h4> - {target.name}</h4> : ""}
             <div className={classes.headerInfo}>

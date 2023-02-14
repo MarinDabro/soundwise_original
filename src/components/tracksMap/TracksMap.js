@@ -6,6 +6,8 @@ import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ArtistsMap from "../../routes/components/artistsMap/ArtistsMap.js";
 
+import Bouncer from "../../functions/bouncer.js";
+
 import MainContext from "../../context/MainContext.js";
 import PlayerContext from "../../context/PlayerContext.js";
 import DisplayContext from "../../context/DisplayContext.js";
@@ -48,9 +50,10 @@ const TracksMap = ({ target, picture, artists, album, release, info }) => {
     <Songs songName={context.name} />
   ) : (
     <div>
-      <div className={classes.mainContainer}>
+      <div className={classes.mainContainer} translate="no">
         {info ? (
-          <div className={classes["song-info"]}>
+          <div className={classes["song-info"]} translate="no">
+            <Bouncer dependencies={["trackmap", info]} />
             <div className={classes["song-title"]}>
               <div>#</div>
               <div>TITLE</div>
@@ -103,9 +106,9 @@ const TracksMap = ({ target, picture, artists, album, release, info }) => {
                     type: "SET_TRACK_PLAYER",
                     trackPlayer: true,
                   });
-                  dispatch({
-                    type: "SET_SONG_REMINDER",
-                    songReminder: false,
+                  DISPATCH({
+                    type: "SET_FIRST_LOAD",
+                    firstLoad: false,
                   });
                 }
               }}

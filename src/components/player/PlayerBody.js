@@ -22,8 +22,6 @@ export default function PlayerBody() {
   const location = useLocation();
   const selectedPlaylistId = location.state.id;
 
-  console.log("selectedPlaylistId:", selectedPlaylistId);
-
   const headerParams = {
     Authorization: "Bearer " + hashToken,
     "Content-Type": "application/json",
@@ -91,7 +89,6 @@ export default function PlayerBody() {
         artists,
         image,
       };
-      console.log("player body currentPlaying");
       playerDispatch({ type: "SET_PLAYING", currentPlaying });
       playerDispatch({ type: "SET_PLAYER_STATE", playerState: true });
     } else {
@@ -123,7 +120,7 @@ export default function PlayerBody() {
             {seeLyrics ? (
               <Songs songName={songName} />
             ) : (
-              <div>
+              <div translate="no">
                 <div className={classes.playlist}>
                   <div className={classes.image}>
                     <img src={selectedPlaylist.image} alt="selected playlist" />

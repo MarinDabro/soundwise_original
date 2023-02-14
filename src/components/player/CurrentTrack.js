@@ -1,17 +1,21 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import PlayerContext from "../../context/PlayerContext";
 import MainContext from "../../context/MainContext.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-/* import classes from "./CurrentTrack.module.css";
- */ import classes from "./Player.module.css";
+
+import Bouncer from "../../functions/bouncer.js";
+import classes from "./Player.module.css";
+
 export default function CurrentTrack() {
   const [{ hashToken }, DISPATCH] = useContext(MainContext);
   const [{ currentPlaying, context, trackPlayer }, playerDispatch] =
     useContext(PlayerContext);
   const [trackInfo, setTrackInfo] = useState(null);
+
+  const navigate = useNavigate();
 
   const headerParams = {
     Authorization: "Bearer " + hashToken,
@@ -33,6 +37,8 @@ export default function CurrentTrack() {
           image: response.data.album.images[2].url,
         };
         setTrackInfo(currentTrack);
+      } else {
+        navigate("/");
       }
     }
   };
@@ -70,7 +76,8 @@ export default function CurrentTrack() {
     hashToken && (
       <div>
         {currentPlaying && (
-          <div className={classes["track-container"]}>
+          <div className={classes["track-container"]} translate="no">
+            <Bouncer dependencies={["currentPlaying", currentPlaying]} />
             <div className={classes["track-info"]}>
               <div className={classes["track-image"]}>
                 {trackPlayer ? (
@@ -99,19 +106,3 @@ export default function CurrentTrack() {
     )
   );
 }
-
-/*  <div className={classes['track-container']}>
-            <div className={classes['track__info']}>
-              <div className={classes['track__image']}>
-                <img src={currentPlaying.image} alt="currentPlaying" />
-              </div>
-            </div>
-            <div className={classes['track-description']}>
-              <div className={classes['track__name']}>
-                {currentPlaying.name}
-              </div>
-              <div className={classes['track__artists']}>
-                {currentPlaying.artists.join(', ')}
-              </div>
-            </div>
-          </div> */

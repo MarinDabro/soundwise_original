@@ -1,15 +1,15 @@
-import React from 'react';
-import PlaylistResults from './PlaylistResults';
-import general from './GeneralStyle.module.css';
-import classes from './AllResults.module.css';
-import ArtistsResults from './ArtistsResults';
-import { NavLink } from 'react-router-dom';
-import TracksMap from '../../../components/tracksMap/TracksMap';
+import React from "react";
+import PlaylistResults from "./PlaylistResults";
+import general from "./GeneralStyle.module.css";
+import classes from "./AllResults.module.css";
+import ArtistsResults from "./ArtistsResults";
+import { NavLink } from "react-router-dom";
+import TracksMap from "../../../components/tracksMap/TracksMap";
 export default function AllResults({ categories }) {
   console.log(categories);
 
   return (
-    <div className={general.main}>
+    <div className={general.main} translate="no">
       <div className={classes["artist-container"]}>
         <div className={classes["artist-info"]}>
           <h2>Top Results</h2>
@@ -32,7 +32,17 @@ export default function AllResults({ categories }) {
 
         <div className={classes["artist-songs"]}>
           <h2>Songs</h2>
-            {categories.tracks ? <TracksMap target={categories?.tracks?.items?.slice(0, 4)} picture={true} artists={true} album={true} info={false} /> : '' }
+          {categories.tracks ? (
+            <TracksMap
+              target={categories?.tracks?.items?.slice(0, 4)}
+              picture={true}
+              artists={true}
+              album={true}
+              info={false}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div>

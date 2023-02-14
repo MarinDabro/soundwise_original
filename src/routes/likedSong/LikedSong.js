@@ -22,7 +22,7 @@ export default function MyPlaylist() {
   }, [user]);
   return (
     user && (
-      <div className={classes.main}>
+      <div className={classes.main} translate="no">
         {colors && (
           <div>
             <div translate="no" className={classes.headerNav}>

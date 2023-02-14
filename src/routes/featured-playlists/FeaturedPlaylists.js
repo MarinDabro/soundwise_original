@@ -43,17 +43,17 @@ export default function FeaturedPlaylists() {
   }, []);
 
   return (
-    <div className={classes.main}>
+    <div className={classes.main} translate="no">
       {featuredPlaylists && (
         <div>
           <h3> {featuredPlaylists.message} </h3>
-          <div className={classes.albumContainer}>
+          <div className={classes.albumContainer} translate="no">
             {featuredPlaylists?.playlists?.items?.map((playlist, index) => {
               return (
-                <div key={index} className={classes.albumBox}>
+                <div key={index} className={classes.albumBox} translate="no">
                   <NavLink
                     to="/activePlaylist"
-                    state={{playlist: playlist}}
+                    state={{ playlist: playlist }}
                     key={index}
                     className={style.albumBox}
                   >

@@ -104,7 +104,7 @@ export default function Single() {
                 alt="artist_image"
                 className={style["artist_profile_image"]}
               />
-              <div>
+              <div translate="no">
                 <h5 style={{ padding: "0.5rem 0" }}>ARTIST</h5>
                 <h4> {artistInfo.name}</h4>
               </div>

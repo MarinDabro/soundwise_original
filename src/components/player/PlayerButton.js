@@ -21,7 +21,8 @@ import ChangeState from "./player-functions/changeState";
 
 export default function PlayerButton() {
   const [{ hashToken }, DISPATCH] = useContext(MainContext);
-  const [{ playerState }, playerDispatch] = useContext(PlayerContext);
+  const [{ playerState, trackPlayer }, playerDispatch] =
+    useContext(PlayerContext);
   const headersParam = {
     "Content-Type": "application/json",
     Authorization: "Bearer " + hashToken,
@@ -50,16 +51,8 @@ export default function PlayerButton() {
   //to play track - deviceId need to be provided
   const changeState = async () => {
     const state = playerState ? "pause" : "play";
+
     if (hashToken) {
-      /* const deviceRes = await axios.get(
-        "https://api.spotify.com/v1/me/player/devices ",
-        {
-          headers: headersParam,
-        }
-      );
-      const deviceId = deviceRes.data.devices[0].id; */
-      /* /volume?volume_percent=55&device_id="${deviceId}" 
-      deviceId &&*/
       await axios.put(
         `https://api.spotify.com/v1/me/player/${state}`,
 
@@ -72,6 +65,10 @@ export default function PlayerButton() {
     playerDispatch({
       type: "SET_PLAYER_STATE",
       playerState: !playerState,
+    });
+    playerDispatch({
+      type: "SET_TRACK_PLAYER",
+      trackPlayer: false,
     });
   };
 
@@ -122,18 +119,28 @@ export default function PlayerButton() {
         />
       </div>
       <div className={classes["play-button"]}>
-        {playerState ? (
+        {trackPlayer ? (
           <FontAwesomeIcon
             className={classes["player-icon"]}
             icon={faPause}
             onClick={changeState}
           />
         ) : (
-          <FontAwesomeIcon
-            className={classes["player-icon"]}
-            icon={faPlay}
-            onClick={changeState}
-          />
+          <div>
+            {playerState ? (
+              <FontAwesomeIcon
+                className={classes["player-icon"]}
+                icon={faPause}
+                onClick={changeState}
+              />
+            ) : (
+              <FontAwesomeIcon
+                className={classes["player-icon"]}
+                icon={faPlay}
+                onClick={changeState}
+              />
+            )}
+          </div>
         )}
       </div>
       <div className={classes["forward-button"]}>

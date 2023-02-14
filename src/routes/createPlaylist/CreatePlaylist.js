@@ -25,7 +25,7 @@ export default function Single() {
   }, []);
 
   return (
-    <div className={classes.main}>
+    <div className={classes.main} translate="no">
       {colors && (
         <div>
           <div translate="no" style={{ color: "wheat" }}>

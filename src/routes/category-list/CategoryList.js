@@ -1,12 +1,12 @@
-import React, { useContext, useEffect } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { useToken } from '../../spotify.js';
-import DisplayContext from '../../context/DisplayContext.js';
-import PlayerContext from '../../context/PlayerContext.js';
-import classes from './CategoryList.module.css';
-import style from '../MusicBox.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
+import React, { useContext, useEffect } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useToken } from "../../spotify.js";
+import DisplayContext from "../../context/DisplayContext.js";
+import PlayerContext from "../../context/PlayerContext.js";
+import classes from "./CategoryList.module.css";
+import style from "../MusicBox.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
 //import Bouncer from "../../functions/bouncer.js";
 
 export default function CategoryList() {
@@ -26,10 +26,10 @@ export default function CategoryList() {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          navigate('/');
+          navigate("/");
         } else {
           dispatch({
-            type: 'SET_PLAYLISTS',
+            type: "SET_PLAYLISTS",
             playLists: res,
           });
         }
@@ -41,7 +41,7 @@ export default function CategoryList() {
   }, []);
 
   return (
-    <div className={style.main}>
+    <div className={style.main} translate="no">
       <div>
         {playLists && (
           <div>
@@ -61,15 +61,15 @@ export default function CategoryList() {
                           src={playlist.images[0].url}
                           alt="/ playlist_image"
                         />
-                        <div className={classes['play-button']}>
+                        <div className={classes["play-button"]}>
                           {playerState ? (
                             <FontAwesomeIcon
-                              className={classes['player-icon']}
+                              className={classes["player-icon"]}
                               icon={faPause}
                             />
                           ) : (
                             <FontAwesomeIcon
-                              className={classes['player-icon']}
+                              className={classes["player-icon"]}
                               icon={faPlay}
                             />
                           )}
