@@ -23,11 +23,10 @@ import Single from "./routes/single/Single";
 import ActiveAlbum from "./routes/activeAlbum/ActiveAlbum";
 import LikedSong from "./routes/likedSong/LikedSong";
 import CurrentTrack from "./components/player/CurrentTrack";
-
+import Footer from "./components/footer/Footer";
 import classes from "./App.module.css";
-
 import UserPlayList from "./routes/user_playList/UserPlayList";
-import PlayerBody from "./components/player/PlayerBody";
+
 
 function App() {
   const [{ songReminder }, dispatch] = useContext(DisplayContext);
@@ -101,6 +100,7 @@ function App() {
               {<Route path="likedSong" element={<LikedSong />} />}
               <Route path="currentTrack" element={<CurrentTrack />} />
             </Routes>
+          <Footer />
           </div>
           {/*  {playerState && hashToken && <PlayerBody />} */}
           {hashToken && <Player />}

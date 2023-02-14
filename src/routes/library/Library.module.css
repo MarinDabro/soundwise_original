@@ -4,9 +4,10 @@
   padding-bottom: 5rem;
   font-family: Helvetica, sans-serif;
 }
-.main h1 {
+.screen-container h1 {
   color: white;
   padding-bottom: 2rem;
+  margin-left: 3rem;
   font-family: Helvetica, sans-serif;
 }
 
@@ -15,13 +16,7 @@
   flex-wrap: wrap;
   gap: 1.5rem;
 }
-.main h2,
-h5 {
-  color: white;
-}
-.main h2 {
-  padding-bottom: 1rem;
-}
+
 .screen-container {
   margin-top: 3rem;
 }
@@ -53,16 +48,7 @@ h5 {
 .player-icon:hover {
   opacity: 10;
 }
-.play-button {
-  width: 2.3rem;
-  height: 2.3rem;
-  border-radius: 50%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+
 .playlist-body {
   width: 94%;
   height: 90%;
@@ -74,13 +60,12 @@ h5 {
 }
 
 .playlist-card {
+  text-decoration: none;
   position: relative;
-  width: 15rem;
-  height: 20rem;
-  border-radius: 20px;
+  width: 20rem;
+  height: 25rem;
+  border-radius: 10px;
   background-color: rgb(30, 42, 62);
-  border: 1px solid rgba(54, 69, 98, 0.18);
-  padding: 1%;
   margin-bottom: 2rem;
   background: rgb(30, 42, 62);
   background: linear-gradient(
@@ -101,16 +86,17 @@ h5 {
 }
 
 .playlist-image {
-  width: 100%;
+  width: 16rem;
+  height: 16rem;
+  margin: 2rem 2rem 0 2rem ;
   aspect-ratio: 1;
-  border-radius: 15px;
+  border-radius: 10px;
 }
 
 .playlist-title {
   font-weight: 800;
   font-size: 16px;
   color: #c4d0e3;
-  margin: 10px 0px 10px;
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -121,10 +107,14 @@ h5 {
 
 .playlist-subtitle {
   font-weight: 400;
-  font-size: 12px;
-  margin: 0px;
+  font-size: .8rem;
   color: #c4d0e37c;
 }
+
+.playlist-title, .playlist-subtitle{
+  margin: 1rem 0 1rem 2rem;
+}
+
 
 .playlist-fade {
   position: absolute;

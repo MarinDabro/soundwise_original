@@ -12,3 +12,8 @@
   text-decoration: none;
   color: var(--color-green);
 }
+
+.navLink:hover, .active{
+  color: white;
+}
+

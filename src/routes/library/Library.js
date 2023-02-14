@@ -23,18 +23,18 @@ export default function Library() {
       });
   }, [hashToken]);
 
-  const navigate = useNavigate();
+
 
   return (
     hashToken && (
       <div className={classes["screen-container"]} translate="no">
-        <h1 style={{ color: "white" }}>My Playlist</h1>
+        <h1>My Playlist</h1>
         <div className={classes["playlist-body"]}>
           {playlists?.map((playlist, id) => (
             <NavLink
               key={id}
-              to="/myPlayer"
-              state={{ id: playlist.id }}
+              to="/activePlaylist"
+              state={{ playlist: playlist }}
               className={classes["playlist-card"]}
             >
               <img

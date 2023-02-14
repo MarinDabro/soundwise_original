@@ -13,11 +13,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  text-align: center; 
 }
 
 .player-icon {
   color: black;
+ margin-top: .6rem ;
 }
 .forward-button,
 .backward-button,

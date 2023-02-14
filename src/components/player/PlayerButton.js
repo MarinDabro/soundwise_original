@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useContext, useState, useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlay,
   faBackwardStep,
@@ -7,14 +7,14 @@ import {
   faShuffle,
   faRepeat,
   faPause,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
-import axios from "axios";
+import axios from 'axios';
 //import SpotifyPlayer from "react-spotify-web-playback";
 
-import PlayerContext from "../../context/PlayerContext";
-import MainContext from "../../context/MainContext.js";
-import classes from "./PlayerButton.module.css";
+import PlayerContext from '../../context/PlayerContext';
+import MainContext from '../../context/MainContext.js';
+import classes from './PlayerButton.module.css';
 /* import ChangeTrack from "./player-functions/changeTrack";
 import ChangeState from "./player-functions/changeState";
  */
@@ -24,8 +24,8 @@ export default function PlayerButton() {
   const [{ playerState, trackPlayer }, playerDispatch] =
     useContext(PlayerContext);
   const headersParam = {
-    "Content-Type": "application/json",
-    Authorization: "Bearer " + hashToken,
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + hashToken,
   };
 
   //get play - pause state
@@ -33,13 +33,13 @@ export default function PlayerButton() {
     if (hashToken) {
       const getPlaybackState = async () => {
         const { data } = await axios.get(
-          "https://api.spotify.com/v1/me/player",
+          'https://api.spotify.com/v1/me/player',
           {
             headers: headersParam,
           }
         );
         playerDispatch({
-          type: "SET_PLAYER_STATE",
+          type: 'SET_PLAYER_STATE',
           playerState: data.is_playing,
         });
       };
@@ -50,7 +50,7 @@ export default function PlayerButton() {
 
   //to play track - deviceId need to be provided
   const changeState = async () => {
-    const state = playerState ? "pause" : "play";
+    const state = playerState ? 'pause' : 'play';
 
     if (hashToken) {
       await axios.put(
@@ -63,11 +63,11 @@ export default function PlayerButton() {
       );
     }
     playerDispatch({
-      type: "SET_PLAYER_STATE",
+      type: 'SET_PLAYER_STATE',
       playerState: !playerState,
     });
     playerDispatch({
-      type: "SET_TRACK_PLAYER",
+      type: 'SET_TRACK_PLAYER',
       trackPlayer: false,
     });
   };
@@ -80,81 +80,73 @@ export default function PlayerButton() {
         headers: headersParam,
       }
     );
-    playerDispatch({ type: "SET_PLAYER_STATE", playerState: true });
+    playerDispatch({ type: 'SET_PLAYER_STATE', playerState: true });
     playerDispatch({
-      type: "SET_TRACK_PLAYER",
+      type: 'SET_TRACK_PLAYER',
       trackPlayer: false,
     });
     const response1 = await axios.get(
-      "https://api.spotify.com/v1/me/player/currently-playing",
+      'https://api.spotify.com/v1/me/player/currently-playing',
       {
         headers: headersParam,
       }
     );
-    if (response1.data !== "") {
+    if (response1.data !== '') {
       const currentPlaying = {
         id: response1.data.item.id,
         name: response1.data.item.name,
         artists: response1.data.item.artists.map(artist => artist.name),
         image: response1.data.item.album.images[2].url,
       };
-      playerDispatch({ type: "SET_PLAYING", currentPlaying });
+      playerDispatch({ type: 'SET_PLAYING', currentPlaying });
     } else {
-      playerDispatch({ type: "SET_PLAYING", currentPlaying: null });
+      playerDispatch({ type: 'SET_PLAYING', currentPlaying: null });
     }
   };
 
   return (
     <div className={classes.player}>
-      <div className={classes["shuffle-button"]}>
+      <div className={classes['shuffle-button']}>
         <FontAwesomeIcon
           icon={faShuffle}
-          onClick={() => changeTrack("shuffle")}
+          onClick={() => changeTrack('shuffle')}
         />
       </div>
-      <div className={classes["backward-button"]}>
+      <div className={classes['backward-button']}>
         <FontAwesomeIcon
           icon={faBackwardStep}
-          onClick={() => changeTrack("previous")}
+          onClick={() => changeTrack('previous')}
         />
       </div>
-      <div className={classes["play-button"]}>
-        {trackPlayer ? (
-          <FontAwesomeIcon
-            className={classes["player-icon"]}
-            icon={faPause}
-            onClick={changeState}
-          />
-        ) : (
-          <div>
-            {playerState ? (
-              <FontAwesomeIcon
-                className={classes["player-icon"]}
-                icon={faPause}
-                onClick={changeState}
-              />
-            ) : (
-              <FontAwesomeIcon
-                className={classes["player-icon"]}
-                icon={faPlay}
-                onClick={changeState}
-              />
-            )}
-          </div>
-        )}
+      <div className={classes['play-button']}>
+        <div>
+          {playerState ? (
+            <FontAwesomeIcon
+              className={classes['player-icon']}
+              icon={faPause}
+              onClick={changeState}
+            />
+          ) : (
+            <FontAwesomeIcon
+              className={classes['player-icon']}
+              icon={faPlay}
+              onClick={changeState}
+            />
+          )}
+        </div>
       </div>
-      <div className={classes["forward-button"]}>
+      <div className={classes['forward-button']}>
         <FontAwesomeIcon
           icon={faForwardStep}
           onClick={() => {
-            changeTrack("next");
+            changeTrack('next');
           }}
         />
       </div>
-      <div className={classes["repeat-button"]}>
+      <div className={classes['repeat-button']}>
         <FontAwesomeIcon
           icon={faRepeat}
-          onClick={() => changeTrack("repeat")}
+          onClick={() => changeTrack('repeat')}
         />
       </div>
     </div>
