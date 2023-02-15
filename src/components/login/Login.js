@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import MainContext from '../../context/MainContext';
-
+import logo from "../../media/headphones-gradient.png";
 import { loginUrl } from '../../spotify';
 import classes from './Login.module.css';
 
@@ -38,11 +38,15 @@ function Login() {
         </div>
       ) : (
         <div className={classes['login-button']}>
-          <img
-            className={classes.userImg}
-            src={user?.images[0].url}
-            alt="user_image"
-          />
+         {user.images.length === 0 ? (
+            <img className={classes.logoImg} src={logo} alt="user_image" />
+          ) : (
+            <img
+              className={classes.userImg}
+              src={user?.images[0].url}
+              alt="user_image"
+            />
+          )}
 
           <a href="#">{user?.display_name} </a>
         </div>

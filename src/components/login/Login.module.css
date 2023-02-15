@@ -1,6 +1,5 @@
 .main  {
   color: white;
-  
    background-color:white;
  
 }
@@ -10,7 +9,7 @@
   justify-content: center;
   align-items: center;
   height: 2.3rem;
-  width: 8.5rem;
+  
   z-index: 1000;
   text-align: center;
   border-radius: 1.5rem;
@@ -42,6 +41,12 @@
   height: 2.7rem;
   border-radius: 50%;
  
+}
+.logoImg{
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background-color: black;
 }
 
 .login-button > a {
