@@ -81,9 +81,6 @@ export default function Single() {
       {track && colors && artistInfo && (
         <div>
           <Bouncer dependencies={["single", track]} />
-          <div translate="no" className={classes.headerNav}>
-            The SINGLE page
-          </div>
           <Header
             target={albumInfo}
             artistInfo={artistInfo}

@@ -14,7 +14,7 @@
   font-family: "Roboto Condensed", sans-serif;
 }
 
-.header h2 {
+/* .header h2 {
   letter-spacing: 1;
   margin-left: 1rem;
   margin-top: 0.5rem;
@@ -25,7 +25,7 @@
   margin-left: 1rem;
   margin-top: 2.5rem;
 }
-
+ */
 .header album_cover {
   width: 15rem;
   height: 15rem;

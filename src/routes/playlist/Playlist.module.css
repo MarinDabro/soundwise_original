@@ -12,13 +12,13 @@
   padding: 2rem;
   color: var(--color-album-backGround);
 }
-
+/* 
 .header h2 {
   letter-spacing: 1;
   margin-left: 1rem;
   margin-top: 0.5rem;
   font-size: calc(5rem + 2vw);
-}
+} */
 
 .header .album_cover {
   width: 12rem;
@@ -27,12 +27,12 @@
 }
 
 .banner_text h1,
-h4,
+/* h4,
 h5 {
   color: var(--color-album-backGround);
   padding-left: 2rem;
   line-height: 3rem;
-}
+} */
 .banner_text h1 {
   font-size: calc(3rem + 2vw);
 }
