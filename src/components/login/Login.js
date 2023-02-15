@@ -8,7 +8,7 @@ import classes from './Login.module.css';
 function Login() {
   const [STATE, DISPATCH] = useContext(MainContext);
   const { user, hashToken } = STATE;
-  console.log('This is the login', user);
+
   const getUser = async () => {
     await fetch('https://api.spotify.com/v1/me', {
       headers: {
