@@ -8,7 +8,7 @@ const authEndpoint = "https://accounts.spotify.com/authorize";
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 
 /* const  CLIENT_SECRET= process.env.ClientSecret*/
-const redirectUrl = "https://soundwise-532b.onrender.com/";
+const redirectUrl = "https://soundwise-wcnl.onrender.com/";
 
 //values for scope to work with player
 const scope = [
