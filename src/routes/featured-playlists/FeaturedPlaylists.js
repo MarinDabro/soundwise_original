@@ -46,7 +46,7 @@ export default function FeaturedPlaylists() {
     <div className={classes.main} translate="no">
       {featuredPlaylists && (
         <div>
-          <h3> {featuredPlaylists.message} </h3>
+          <h2>{featuredPlaylists.message}</h2>
           <div className={classes.albumContainer} translate="no">
             {featuredPlaylists?.playlists?.items?.map((playlist, index) => {
               return (

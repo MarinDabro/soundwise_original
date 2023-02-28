@@ -100,7 +100,6 @@ export default function NewRelease(props) {
       )}
       <Outlet />
 
-      <h2>Featured Playlists</h2>
     </div>
   );
 }
